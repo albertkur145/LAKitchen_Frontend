@@ -6,4 +6,14 @@
 
 <style lang="scss">
 
+  body {
+    padding: 0;
+    margin: 0;
+    background-color: #FCFCFC;
+
+    #app {
+      font-family: 'Roboto';
+    }
+  }
+
 </style>

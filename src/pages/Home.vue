@@ -1,5 +1,21 @@
 <template>
   <div id="app">
-    <h1>Hello</h1>
+    <Header/>
   </div>
 </template>
+
+<style lang="scss" scoped>
+
+</style>
+
+<script>
+
+import Header from '@/components/user/Header.vue';
+
+export default {
+  components: {
+    Header,
+  },
+};
+
+</script>
