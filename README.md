@@ -1,4 +1,4 @@
-# frontend
+# LA Kitchen - Frontend (Vue.js)
 
 ## Project setup
 ```
