@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="root">
     <router-view />
   </div>
 </template>
@@ -17,7 +17,7 @@
       outline: 0 !important;
     }
 
-    #app {
+    #root {
       font-family: 'Roboto';
       background-color: #FCFCFC;
       min-height: 100vh;

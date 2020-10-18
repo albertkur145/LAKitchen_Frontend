@@ -7,6 +7,7 @@ import {
   faBars,
   faChevronDown,
   faQuestionCircle,
+  faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
@@ -19,7 +20,7 @@ Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 
-library.add(faSearch, faShoppingCart, faBars, faChevronDown, faQuestionCircle);
+library.add(faSearch, faShoppingCart, faBars, faChevronDown, faQuestionCircle, faChevronRight);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
