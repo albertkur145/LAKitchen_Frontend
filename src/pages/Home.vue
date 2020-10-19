@@ -6,6 +6,10 @@
 
 <style lang="scss" scoped>
 
+  #app {
+    min-height: 200vh;
+  }
+
 </style>
 
 <script>
