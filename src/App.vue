@@ -20,7 +20,6 @@
     #root {
       font-family: 'Roboto';
       background-color: #FCFCFC;
-      min-height: 100vh;
     }
   }
 

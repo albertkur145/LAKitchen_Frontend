@@ -16,14 +16,27 @@
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
-        <div class="sign">
+        <div class="sign d-none">
           <button class="btn-login">Masuk</button>
           <button class="btn-register">Daftar</button>
         </div>
 
-        <div class="profile d-none">
+        <div @mouseover="showBackground" @mouseleave="hideBackground"
+        class="profile">
           <b-avatar class="avatar">AK</b-avatar>
           <span class="username ml-3">Hi, Albert Kurniawan</span>
+
+          <div class="profile-path">
+            <div class="container-path">
+              <div v-for="(value, index) in profilePath" :key="index"
+              class="text-path">
+                <b-row>
+                  <b-col cols="1"><font-awesome-icon :icon="value.icon"/></b-col>
+                  <b-col cols="10"><span class="ml-1">{{ value.name }}</span></b-col>
+                </b-row>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -35,7 +48,8 @@
           <span class="text">Kategori</span>
           <font-awesome-icon icon="chevron-down" class="chevdown-icon"/>
 
-          <Categories/>
+          <Categories v-if="windowWidth >= 769"/>
+          <CategoriesMobile v-else/>
         </div>
 
         <div class="line-spacer">|</div>
@@ -53,7 +67,7 @@
       </div>
     </div>
 
-    <div class="mt-4 text-center text-danger">{{ width }}</div>
+    <div class="mt-4 text-center text-danger">{{ windowWidth }}</div>
   </div>
 </template>
 
@@ -62,6 +76,7 @@
   // global css
   #app {
     position: fixed;
+    z-index: 999;
     top: 0;
     left: 0;
     right: 0;
@@ -125,7 +140,76 @@
     }
 
     .bottom {
-      display: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #FFF;
+      color: #555;
+      position: relative;
+      box-shadow: 0 0.25rem 0.25rem rgba($color: #333, $alpha: 0.1);
+      font-size: 0.8125em;
+      padding: 0.5rem 0.875rem;
+
+      .left {
+        display: flex;
+
+        .categories {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          margin-right: 1.5rem;
+
+          .bars-icon {
+            margin-right: 0.875rem;
+            font-size: 0.875em;
+          }
+
+          .chevdown-icon {
+            color: #999;
+            font-size: 0.75em;
+          }
+
+          .text {
+            margin-right: 0.875rem;
+          }
+
+          &:hover, &:hover .chevdown-icon {
+            color: #333;
+          }
+
+          &:hover .menu-list-container {
+            transform: scaleY(1);
+          }
+        }
+
+        .line-spacer {
+          display: none;
+          color: #BDBDBD;
+          margin-right: 1.5rem;
+        }
+
+        .sort-text {
+          display: none;
+          cursor: pointer;
+          margin-right: 1.5rem;
+
+          &:hover {
+            color: #333;
+          }
+        }
+      }
+
+      .right {
+        display: none;
+
+        .help {
+          cursor: pointer;
+
+          &:hover {
+            color: #333;
+          }
+        }
+      }
     }
   }
   // global css
@@ -157,6 +241,14 @@
             padding: 0.4375rem 1.125rem;
             font-size: 0.75em;
           }
+        }
+      }
+
+      .bottom {
+        padding: 0.5rem 0.875rem;
+
+        .right {
+          display: block;
         }
       }
     }
@@ -200,6 +292,14 @@
             padding: 0.3125rem 1.125rem;
             font-size: 0.75em;
           }
+        }
+      }
+
+      .bottom {
+        padding: 0.5rem 1rem;
+
+        .right {
+          display: flex;
         }
       }
     }
@@ -247,23 +347,12 @@
       }
 
       .bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #FFF;
-        color: #555;
-        position: relative;
-        box-shadow: 0 0.25rem 0.25rem rgba($color: #333, $alpha: 0.1);
         font-size: 0.8125em;
         padding: 0.5rem 1.5rem;
 
         .left {
-          display: flex;
 
           .categories {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
             margin-right: 1.5rem;
 
             .bars-icon {
@@ -272,48 +361,27 @@
             }
 
             .chevdown-icon {
-              color: #999;
               font-size: 0.75em;
             }
 
             .text {
               margin-right: 0.875rem;
             }
-
-            &:hover, &:hover .chevdown-icon {
-              color: #333;
-            }
-
-            &:hover .menu-list-container {
-              transform: scaleY(1);
-            }
           }
 
           .line-spacer {
-            color: #BDBDBD;
+            display: block;
             margin-right: 1.5rem;
           }
 
           .sort-text {
-            cursor: pointer;
+            display: block;
             margin-right: 1.5rem;
-
-            &:hover {
-              color: #333;
-            }
           }
         }
 
         .right {
           display: flex;
-
-          .help {
-            cursor: pointer;
-
-            &:hover {
-              color: #333;
-            }
-          }
         }
       }
     }
@@ -408,6 +476,7 @@
             display: flex;
             align-items: center;
             cursor: pointer;
+            position: relative;
             margin-left: 4rem;
 
             .avatar {
@@ -420,28 +489,52 @@
               color: #6A6A6A;
               font-size: 0.9375em;
             }
+
+            .profile-path {
+              position: absolute;
+              opacity: 0;
+              transform: scaleY(0);
+              transform-origin: top;
+              transition: opacity .3s linear;
+              z-index: 1;
+              right: 0;
+              top: 2.5rem;
+              width: 15rem;
+              padding: 0.5rem 0;
+
+              .container-path {
+                border: 0.0625rem solid #DADADA;
+                background-color: #FFF;
+                border-radius: 0.625rem;
+                padding: 0.5rem 0;
+
+                .text-path {
+                  color: #404040;
+                  font-size: 0.875em;
+                  padding: 0.75rem 1.375rem;
+
+                  &:hover {
+                    background-color: #F1F1F1;
+                  }
+                }
+              }
+            }
+
+            &:hover .profile-path {
+              opacity: 1;
+              transform: scaleY(1);
+            }
           }
         }
       }
 
       .bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #FFF;
-        color: #555;
-        position: relative;
         font-size: 0.875em;
-        box-shadow: 0 0.25rem 0.25rem rgba($color: #333, $alpha: 0.1);
         padding: 0.5rem 1.875rem;
 
         .left {
-          display: flex;
 
           .categories {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
             margin-right: 1.75rem;
 
             .bars-icon {
@@ -450,48 +543,27 @@
             }
 
             .chevdown-icon {
-              color: #999;
               font-size: 0.8125em;
             }
 
             .text {
               margin-right: 0.875rem;
             }
-
-            &:hover, &:hover .chevdown-icon {
-              color: #333;
-            }
-
-            &:hover .menu-list-container {
-              transform: scaleY(1);
-            }
           }
 
           .line-spacer {
-            color: #BDBDBD;
+            display: block;
             margin-right: 1.75rem;
           }
 
           .sort-text {
-            cursor: pointer;
+            display: block;
             margin-right: 1.75rem;
-
-            &:hover {
-              color: #333;
-            }
           }
         }
 
         .right {
           display: flex;
-
-          .help {
-            cursor: pointer;
-
-            &:hover {
-              color: #333;
-            }
-          }
         }
       }
     }
@@ -503,31 +575,63 @@
 <script>
 
 import Categories from './Categories.vue';
+import CategoriesMobile from './CategoriesMobile.vue';
 
 export default {
 
   components: {
     Categories,
+    CategoriesMobile,
   },
 
   data() {
     return {
-      width: null,
+      profilePath: [
+        {
+          icon: 'id-card-alt',
+          name: 'Profil',
+        },
+        {
+          icon: 'heart',
+          name: 'Wishlist',
+        },
+        {
+          icon: 'box-tissue',
+          name: 'Daftar Pesanan',
+        },
+        {
+          icon: 'cogs',
+          name: 'Ganti Password',
+        },
+        {
+          icon: 'sign-out-alt',
+          name: 'Keluar',
+        },
+      ],
+      windowWidth: null,
     };
   },
 
   mounted() {
-    window.addEventListener('resize', this.windowWidth);
+    window.addEventListener('resize', this.getWindowWidth);
   },
 
   methods: {
-    windowWidth() {
-      this.width = window.innerWidth;
+    getWindowWidth() {
+      this.windowWidth = window.innerWidth;
+    },
+
+    showBackground() {
+      this.$emit('show');
+    },
+
+    hideBackground() {
+      this.$emit('hide');
     },
   },
 
   created() {
-    this.windowWidth();
+    this.getWindowWidth();
   },
 
 };

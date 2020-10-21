@@ -1,33 +1,20 @@
 <template>
   <div class="menu-list-container">
     <div class="menu-list">
-      <b-row>
-        <b-col lg="3" md="4" class="left d-block">
-          <div v-for="(category) in categories" :key="category.id"
-          :class="`category-text category-${category.id}
-          ${category.id == 1 ? 'active-color' : ''}`"
-          @mouseover="showSubCategories(`${category.id}`)">
-            <span>{{ category.name }}</span>
-            <font-awesome-icon icon="chevron-right"
-            :class="`chev-icon ${category.id == 1 ? 'active-color active-icon' : ''}`"/>
-          </div>
-        </b-col>
+      <div v-for="(category) in categories" :key="category.id"
+      :class="`category category-${category.id}`">
+        <div class="category-text" @click="showSubCategories(category.id)">
+          <span>{{ category.name }}</span>
+          <font-awesome-icon icon="chevron-down" class="chev-icon"/>
+        </div>
 
-        <b-col lg="9" md="8" class="right">
-          <div v-for="(category) in categories" :key="category.id"
-          :class="`sub-category category-${category.id}
-          ${category.id == 1 ? '' : 'd-none'}`">
-            <div class="title">{{ category.name }}</div>
-            <b-row class="sub-category-text mt-0">
-              <b-col v-for="(sub) in category.subCategories" :key="sub.id"
-              lg="4" md="6" class="text mt-4">
-                <font-awesome-icon icon="chevron-right" class="chev-icon mr-2"/>
-                {{ sub.name }}
-              </b-col>
-            </b-row>
+        <div :class="`d-none sub-category sub-category-${category.id}`">
+          <div v-for="(sub) in category.subCategories" :key="sub.id"
+          class="sub-category-text">
+            <div>{{ sub.name }}</div>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -39,8 +26,13 @@
     color: #FF6C2D !important;
   }
 
-  .active-icon {
-    margin-right: 0 !important;
+  @keyframes scaleDown {
+    0% {
+      transform: scaleY(0);
+    }
+    100% {
+      transform: scaleY(1);
+    }
   }
 
   .menu-list-container {
@@ -49,66 +41,51 @@
     overflow: hidden;
     transform: scaleY(0);
     transform-origin: top;
+    background-color: #FFF;
     transition: transform .2s ease-out;
-    top: 1.75rem;
+    top: 1.625rem;
     left: 0;
-    padding-top: 1rem;
-    font-size: 0.9375em;
+    padding-top: 0.75rem;
+    font-size: 0.875em;
 
     .menu-list {
-      overflow-x: hidden;
-      background-color: #FFF;
+      max-height: 75vh;
+      overflow-y: auto;
       border: 0.0625rem solid #DDD;
 
-      .left {
-        max-height: 75vh;
-        overflow-y: auto;
+      .category {
+        padding: 0.75rem 0.875rem;
 
         .category-text {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem 1.875rem;
+          position: relative;
 
           span {
             font-weight: 500;
           }
 
           .chev-icon {
+            position: absolute;
             color: #999;
             font-weight: 500;
-            transition: margin-right .1s linear;
-            margin-right: 0.25rem;
-            font-size: 0.8125em;
+            top: 0.25rem;
+            right: 0.25rem;
+            font-size: 0.75em;
+          }
+
+          &:hover, &:hover .chev-icon {
+            color: #FF6C2D;
           }
         }
-      }
-
-      .right {
-        max-height: 75vh;
-        overflow-y: auto;
 
         .sub-category {
-          width: 100%;
-          padding: 1.5rem 0 1.5rem 4rem;
-          margin-left: -2rem;
-
-          .title {
-            font-weight: 500;
-            border-bottom: 0.0625rem solid #CCC;
-            padding-bottom: 1rem;
-            font-size: 1.75em;
-
-            &:hover {
-              color: #FF6C2D;
-            }
-          }
+          transform-origin: top;
+          animation: scaleDown .2s ease-out;
 
           .sub-category-text {
-            .text {
-              .chev-icon {
-                font-size: 0.8125em;
-              }
+            padding: 0.8125rem 0 0 0.8125rem;
+
+            div {
+              font-weight: 400;
 
               &:hover {
                 color: #FF6C2D;
@@ -123,57 +100,77 @@
 
   // Mobile devices
   @media (min-width: 320px) and (max-width: 480px) {
+    .menu-list-container {
+      padding-top: 0.75rem;
+      font-size: 0.875em;
 
+      .menu-list {
+
+        .category {
+          padding: 0.75rem 1rem;
+
+          .category-text {
+
+            .chev-icon {
+              top: 0.25rem;
+              right: 0.25rem;
+              font-size: 0.75em;
+            }
+          }
+
+          .sub-category {
+
+            .sub-category-text {
+              padding: 0.8125rem 0 0 0.8125rem;
+            }
+          }
+        }
+      }
+    }
   }
   // Mobile devices
 
   // iPads, Tablets
   @media (min-width: 481px) and (max-width: 768px) {
+    .menu-list-container {
+      padding-top: 0.875rem;
+      font-size: 0.9375em;
 
+      .menu-list {
+
+        .category {
+          padding: 0.75rem 1rem;
+
+          .category-text {
+
+            .chev-icon {
+              top: 0.25rem;
+              right: 0.25rem;
+              font-size: 0.8125em;
+            }
+          }
+
+          .sub-category {
+
+            .sub-category-text {
+              padding: 0.875rem 0 0 0.875rem;
+            }
+          }
+        }
+      }
+    }
   }
   // iPads, Tablets
 
   // Small screen laptops
   @media (min-width: 769px) and (max-width: 1024px) {
-    .menu-list-container {
 
-      .menu-list {
-
-        .left {
-          .category-text {
-            padding: 1rem 1.5rem;
-          }
-        }
-
-        .right {
-          .sub-category {
-            padding: 1.25rem 0 1.25rem 3.5rem;
-          }
-        }
-      }
-    }
   }
   // Small screen laptops
 
   // Desktops, Other large screens
   @media (min-width: 1025px) {
-    .menu-list-container {
 
-      .menu-list {
-
-        .left {
-          .category-text {
-            padding: 1rem 1.875rem;
-          }
-        }
-
-        .right {
-          .sub-category {
-            padding: 1.5rem 0 1.5rem 4rem;
-          }
-        }
-      }
-    }
   }
   // Desktops, Other large screens
 
@@ -346,44 +343,8 @@ export default {
 
   methods: {
     showSubCategories(id) {
-      // reset display sub categories
-      this.resetActiveElement();
-
-      // reset active path color
-      this.resetActivePath();
-
-      // set active category and display sub category
-      this.setActiveElement(id);
-    },
-
-    resetActiveElement() {
-      const allSubCategory = Array.from(document.querySelectorAll('.sub-category'));
-      const activeSub = allSubCategory.find((e) => !e.classList.contains('d-none'));
-
-      activeSub.classList.add('d-none');
-    },
-
-    resetActivePath() {
-      const allCategory = Array.from(document.querySelectorAll('.category-text'));
-      const activeColor = allCategory.find((e) => e.classList.contains('active-color'));
-      const activeIcon = activeColor.querySelector('.chev-icon');
-
-      activeColor.classList.remove('active-color');
-      activeIcon.classList.remove('active-color');
-      activeIcon.classList.remove('active-icon');
-    },
-
-    setActiveElement(id) {
-      const menu = document.querySelector('.menu-list');
-      const category = menu.querySelector(`.category-text.category-${id}`);
-      const chevIcon = category.querySelector('.chev-icon');
-
-      category.classList.add('active-color');
-      chevIcon.classList.add('active-color');
-      chevIcon.classList.add('active-icon');
-
-      const subCategory = menu.querySelector(`.sub-category.category-${id}`);
-      subCategory.classList.remove('d-none');
+      const subCategories = document.querySelector(`.sub-category-${id}`);
+      subCategories.classList.toggle('d-none');
     },
   },
 

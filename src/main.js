@@ -8,6 +8,12 @@ import {
   faChevronDown,
   faQuestionCircle,
   faChevronRight,
+  faIdCardAlt,
+  faHeart,
+  faBoxTissue,
+  faSignOutAlt,
+  faCogs,
+  faDotCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
@@ -20,7 +26,10 @@ Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
 
-library.add(faSearch, faShoppingCart, faBars, faChevronDown, faQuestionCircle, faChevronRight);
+library.add(faSearch, faShoppingCart, faBars, faCogs,
+  faChevronDown, faQuestionCircle, faChevronRight,
+  faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
+  faDotCircle);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
