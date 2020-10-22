@@ -2,7 +2,6 @@
   <div id="app">
     <Header @show="showBackground" @hide="hideBackground"/>
     <div class="bg-all"></div>
-    <div class="text text-center">a</div>
   </div>
 </template>
 

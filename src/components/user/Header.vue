@@ -44,12 +44,17 @@
     <div class="bottom">
       <div class="left">
         <div class="categories">
-          <font-awesome-icon icon="bars" class="bars-icon"/>
-          <span class="text">Kategori</span>
-          <font-awesome-icon icon="chevron-down" class="chevdown-icon"/>
+          <section @click="toggleCategories">
+            <font-awesome-icon icon="bars" class="bars-icon"/>
+            <span class="text">Kategori</span>
+            <font-awesome-icon icon="chevron-down" class="chevdown-icon"/>
+          </section>
 
-          <Categories v-if="windowWidth >= 769"/>
-          <CategoriesMobile v-else/>
+          <template v-if="windowWidth < 769">
+            <CategoriesMobile/>
+          </template>
+
+          <Categories v-else/>
         </div>
 
         <div class="line-spacer">|</div>
@@ -66,6 +71,12 @@
         </div>
       </div>
     </div>
+
+    <div class="sidebar-icon" @click="showSidebar">
+      <font-awesome-icon icon="bars"/>
+    </div>
+
+    <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
 
     <div class="mt-4 text-center text-danger">{{ windowWidth }}</div>
   </div>
@@ -210,6 +221,22 @@
           }
         }
       }
+    }
+
+    .transform-scale {
+      transform: scaleY(0) !important;
+    }
+
+    .sidebar-icon {
+      position: absolute;
+      cursor: pointer;
+      color: #FFF;
+      border-radius: 100rem 0 0 100rem;
+      background-color: #FF6C2D;
+      box-shadow: 0 0 0.25rem rgba($color: #000000, $alpha: 0.4);
+      top: 7.5rem;
+      right: 0;
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
     }
   }
   // global css
@@ -576,12 +603,14 @@
 
 import Categories from './Categories.vue';
 import CategoriesMobile from './CategoriesMobile.vue';
+import SidebarMobile from './SidebarMobile.vue';
 
 export default {
 
   components: {
     Categories,
     CategoriesMobile,
+    SidebarMobile,
   },
 
   data() {
@@ -609,6 +638,7 @@ export default {
         },
       ],
       windowWidth: null,
+      isShowSide: false,
     };
   },
 
@@ -627,6 +657,21 @@ export default {
 
     hideBackground() {
       this.$emit('hide');
+    },
+
+    toggleCategories() {
+      const el = document.querySelector('.bottom .left .menu-list-container');
+      el.classList.toggle('transform-scale');
+    },
+
+    showSidebar() {
+      this.isShowSide = true;
+      this.showBackground();
+    },
+
+    hideSidebar() {
+      this.isShowSide = false;
+      this.hideBackground();
     },
   },
 

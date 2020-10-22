@@ -14,6 +14,7 @@ import {
   faSignOutAlt,
   faCogs,
   faDotCircle,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
@@ -29,7 +30,7 @@ Vue.use(BootstrapVue);
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
-  faDotCircle);
+  faDotCircle, faTimes);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
