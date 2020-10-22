@@ -72,11 +72,13 @@
       </div>
     </div>
 
-    <div class="sidebar-icon" @click="showSidebar">
-      <font-awesome-icon icon="bars"/>
-    </div>
+    <template v-if="windowWidth < 1025">
+      <div class="sidebar-icon" @click="showSidebar">
+        <font-awesome-icon icon="bars"/>
+      </div>
 
-    <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
+      <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
+    </template>
 
     <div class="mt-4 text-center text-danger">{{ windowWidth }}</div>
   </div>

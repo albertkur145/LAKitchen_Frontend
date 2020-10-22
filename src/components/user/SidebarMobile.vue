@@ -5,112 +5,76 @@
     </span>
 
     <div class="path">
-      <div class="brand">
-        <img src="@/assets/images/logo.png" alt="Logo LA' Kitchen">
-      </div>
+      <section v-if="!isLogin">
+        <div class="brand">
+          <img src="@/assets/images/logo.png" alt="Logo LA' Kitchen">
+        </div>
 
-      <div class="sign-in">
-        <b-row class="input-group-la">
-          <b-col cols="12"><label for="email">Email</label></b-col>
-          <b-col cols="12">
-            <input id="email" type="text" autocomplete="off">
-          </b-col>
-        </b-row>
+        <LoginForm/>
+      </section>
 
-        <b-row class="input-group-la">
-          <b-col cols="12"><label for="password">Password</label></b-col>
-          <b-col cols="12">
-            <input id="password" type="password" autocomplete="off">
-          </b-col>
-        </b-row>
+      <section v-else>
+        <div class="account">
+          Akun Saya
+        </div>
 
-        <button class="btn-login">Masuk</button>
-      </div>
+        <ProfilePath/>
+      </section>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 
+  // global css
   #sidebar {
     position: fixed;
     right: 0;
     top: 0;
     bottom: 0;
-    width: 85%;
     transform: scaleX(1);
     transform-origin: right;
     transition: transform .2s ease-out;
     background-color: #FFF;
     border-left: 0.1875rem solid #FF6C2D;
     box-shadow: -0.0625rem 0 0.25rem rgba($color: #000000, $alpha: 0.4);
+    width: 100%;
 
     .times-icon {
       position: absolute;
       cursor: pointer;
       top: 7.5rem;
-      left: -1.25rem;
+      left: 0.25rem;
       color: #FFF;
       background-color: #FF6C2D;
       border-radius: 100rem;
+      transition: left .4s ease-in-out;
       padding: 0.5rem 0.875rem;
     }
 
     .path {
-      padding: 2rem 4rem;
+      padding: 3rem 2rem 3rem 4rem;
 
       .brand {
         text-align: center;
-        display: block;
-        margin-bottom: 4rem;
+        margin-bottom: 6rem;
 
         img {
-          width: 9rem;
-          max-width: 9rem;
+          width: 8.5rem;
+          max-width: 8.5rem;
         }
       }
 
-      .sign-in {
-        padding-right: 0 !important;
-
-        .input-group-la {
-          margin-bottom: 1.5rem;
-
-          label {
-            color: #333;
-            font-weight: 500;
-            font-size: 0.875em;
-          }
-
-          input {
-            width: 100%;
-            height: 2.25rem;
-            border-radius: 0.25rem;
-            border: 0.0625rem solid #BBB;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.9375em;
-
-            &:focus {
-              outline: none;
-              border: 0.0625rem solid #FF6C2D;
-              box-shadow: 0 0 0.0625rem 0.125rem #FFC6AE;
-            }
-          }
-        }
-
-        .btn-login {
-          width: 100%;
-          border-radius: 0.3125rem;
-          font-weight: 500;
-          color: #FFF;
-          background-image: linear-gradient(to left, #FF8F1E, #FF6C00);
-          margin-top: 0.5rem;
-          padding: 0.5875rem;
-          font-size: 0.875em;
-        }
+      .account {
+        text-align: center;
+        color: #FF6C2D;
+        font-weight: 500;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
       }
     }
   }
+  // global css
 
   .scale-transform {
     transform: scaleX(0) !important;
@@ -119,7 +83,24 @@
   // Mobile devices
   @media (min-width: 320px) and (max-width: 480px) {
     #sidebar {
-      width: 70%;
+      width: 100%;
+
+      .path {
+        padding: 3rem 2rem 3rem 4rem;
+
+        .brand {
+          margin-bottom: 6rem;
+
+          img {
+            width: 9rem;
+            max-width: 9rem;
+          }
+        }
+
+        .account {
+          font-size: 1.25rem;
+        }
+      }
     }
   }
   // Mobile devices
@@ -127,7 +108,28 @@
   // iPads, Tablets
   @media (min-width: 481px) and (max-width: 768px) {
     #sidebar {
-      width: 65%;
+      width: 80%;
+
+      .times-icon {
+        left: -1.25rem;
+      }
+
+      .path {
+        padding: 3rem;
+
+        .brand {
+          margin-bottom: 5rem;
+
+          img {
+            width: 9.5rem;
+            max-width: 9.5rem;
+          }
+        }
+
+        .account {
+          font-size: 1.375rem;
+        }
+      }
     }
   }
   // iPads, Tablets
@@ -135,7 +137,28 @@
   // Small screen laptops
   @media (min-width: 769px) and (max-width: 1024px) {
     #sidebar {
-      width: 50%;
+      width: 60%;
+
+      .times-icon {
+        left: -1.25rem;
+      }
+
+      .path {
+        padding: 3rem;
+
+        .brand {
+          margin-bottom: 5rem;
+
+          img {
+            width: 10rem;
+            max-width: 10rem;
+          }
+        }
+
+        .account {
+          font-size: 1.5rem;
+        }
+      }
     }
   }
   // Small screen laptops
@@ -150,6 +173,9 @@
 
 <script>
 
+import LoginForm from './LoginForm.vue';
+import ProfilePath from './ProfilePath.vue';
+
 export default {
 
   props: {
@@ -158,6 +184,17 @@ export default {
       required: true,
       default: false,
     },
+  },
+
+  components: {
+    LoginForm,
+    ProfilePath,
+  },
+
+  data() {
+    return {
+      isLogin: true,
+    };
   },
 
 };

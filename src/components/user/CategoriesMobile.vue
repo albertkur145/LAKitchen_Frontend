@@ -43,6 +43,7 @@
     transform-origin: top;
     background-color: #FFF;
     transition: transform .2s ease-out;
+    z-index: 1;
     top: 1.625rem;
     left: 0;
     padding-top: 0.75rem;
