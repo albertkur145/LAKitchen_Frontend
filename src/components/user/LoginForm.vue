@@ -92,29 +92,29 @@
   }
   // global css
 
-  // Mobile devices
+  // #Device = Mobiles
   @media (min-width: 320px) and (max-width: 480px) {
 
   }
-  // Mobile devices
+  // #Device = Mobiles
 
-  // iPads, Tablets
-  @media (min-width: 481px) and (max-width: 768px) {
-
-  }
-  // iPads, Tablets
-
-  // Small screen laptops
-  @media (min-width: 769px) and (max-width: 1024px) {
+  // #Device = Low Resolution Tablets
+  @media (min-width: 481px) and (max-width: 767px) {
 
   }
-  // Small screen laptops
+  // #Device = Low Resolution Tablets
 
-  // Desktops, Other large screens
+  // #Device = Tablets, Ipads
+  @media (min-width: 768px) and (max-width: 1024px) {
+
+  }
+  // #Device = Tablets, Ipads
+
+  // #Device = Laptops, Desktops
   @media (min-width: 1025px) {
 
   }
-  // Desktops, Other large screens
+  // #Device = Laptops, Desktops
 
 </style>
 

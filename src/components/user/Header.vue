@@ -79,8 +79,7 @@
 
       <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
     </template>
-
-    <div class="mt-4 text-center text-danger">{{ windowWidth }}</div>
+    <div class="text-center mt-5">{{ windowWidth }}</div>
   </div>
 </template>
 
@@ -243,7 +242,7 @@
   }
   // global css
 
-  // Mobile devices
+  // #Device = Mobiles
   @media (min-width: 320px) and (max-width: 480px) {
     #app {
 
@@ -282,10 +281,10 @@
       }
     }
   }
-  // Mobile devices
+  // #Device = Mobiles
 
-  // iPads, Tablets
-  @media (min-width: 481px) and (max-width: 768px) {
+  // #Device = Low Resolution Tablets
+  @media (min-width: 481px) and (max-width: 767px) {
     #app {
 
       .top {
@@ -333,10 +332,10 @@
       }
     }
   }
-  // iPads, Tablets
+  // #Device = Low Resolution Tablets
 
-  // Small screen laptops
-  @media (min-width: 769px) and (max-width: 1024px) {
+  // #Device = Tablets, Ipads
+  @media (min-width: 768px) and (max-width: 1024px) {
     #app {
 
       .top {
@@ -415,9 +414,9 @@
       }
     }
   }
-  // Small screen laptops
+  // #Device = Tablets, Ipads
 
-  // Desktops, Other large screens
+  // #Device = Laptops, Desktops
   @media (min-width: 1025px) {
     #app {
 
@@ -597,7 +596,7 @@
       }
     }
   }
-  // Desktops, Other large screens
+  // #Device = Laptops, Desktops
 
 </style>
 

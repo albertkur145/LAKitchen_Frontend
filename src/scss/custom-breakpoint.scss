@@ -1,0 +1,9 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 481px,
+  md: 768px,
+  lg: 1025px,
+);
+
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
