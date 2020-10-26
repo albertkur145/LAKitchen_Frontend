@@ -5,6 +5,12 @@
 
     <div class="content">
       <Premier/>
+
+      <b-row>
+        <b-col cols="12" class="mt-5">
+          <InsideSlider title="Dimsum"/>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
@@ -83,12 +89,14 @@
 
 import Header from '@/components/user/Header.vue';
 import Premier from '@/components/user/Premier.vue';
+import InsideSlider from '@/components/user/InsideSlider.vue';
 
 export default {
 
   components: {
     Header,
     Premier,
+    InsideSlider,
   },
 
   data() {

@@ -1,31 +1,44 @@
 <template>
-  <b-row class="advertisement">
-    <b-col md="8" sm="12" cols="12" class="carousel-banner">
-      <swiper class="swiper" :options="swiperOption">
-        <swiper-slide v-for="i in 5" :key="i" class="slider-container">
-          <img :src="require(`@/assets/banner/${i}.webp`)" alt="banner" class="swiper-lazy">
-          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-        </swiper-slide>
+  <div>
+    <b-row class="advertisement">
+      <b-col md="8" sm="12" cols="12" class="carousel-banner">
+        <swiper class="swiper" :options="bannerOption">
+          <swiper-slide v-for="i in 5" :key="i" class="slider-container">
+            <img :src="require(`@/assets/banner/${i}.webp`)" alt="banner" class="swiper-lazy">
+            <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+          </swiper-slide>
 
-        <div class="swiper-pagination" slot="pagination"></div>
-        <div class="swiper-button-prev swiper-button-la swiper-button-la-left"
-        slot="button-prev"></div>
-        <div class="swiper-button-next swiper-button-la swiper-button-la-right"
-        slot="button-next"></div>
-      </swiper>
-    </b-col>
+          <div class="swiper-pagination" slot="pagination"></div>
+          <div class="swiper-button-prev swiper-button-la swiper-button-la-left"
+          slot="button-prev"></div>
+          <div class="swiper-button-next swiper-button-la swiper-button-la-right"
+          slot="button-next"></div>
+        </swiper>
+      </b-col>
 
-    <b-col md="4" sm="12" class="static-banner">
-      <b-row>
-        <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
-          <img src="@/assets/banner/6.webp">
-        </b-col>
-        <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
-          <img src="@/assets/banner/7.webp">
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
+      <b-col md="4" sm="12" class="static-banner">
+        <b-row>
+          <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
+            <img src="@/assets/banner/6.webp">
+          </b-col>
+          <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
+            <img src="@/assets/banner/7.webp">
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
+
+    <div class="categories">
+      <div class="title">Kategori Pilihan</div>
+
+      <div class="item-container">
+        <div class="item" v-for="(item) in categories" :key="item.id">
+          <img :src="require(`@/assets/icons/${item.icon}.svg`)" alt="icon" class="icon">
+          <span class="text">{{ item.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -49,10 +62,15 @@
 
         .swiper-button-la {
           background-color: rgba($color: #000000, $alpha: 0.4);
+          transition: background-color .1s linear;
           color: #FFF;
           top: 40%;
           padding: 1.5rem 0.75rem;
           --swiper-navigation-size: 0.75rem;
+
+          &:hover {
+            background-color: rgba($color: #000000, $alpha: 0.6);
+          }
         }
 
         .swiper-button-la-right {
@@ -76,6 +94,68 @@
       }
     }
   }
+
+  .categories {
+    display: block;
+    margin-top: 1.125rem;
+
+    .title {
+      text-transform: uppercase;
+      color: #444;
+      font-weight: 500;
+      font-size: 0.8125em;
+    }
+
+    .item-container {
+      max-width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding: 0.375rem 0 0.625rem;
+
+      &::-webkit-scrollbar {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+
+      &::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 0.125rem #AAA;
+        border-radius: 100rem;
+        background-color: #FFF;
+      }
+
+      &::-webkit-scrollbar-thumb:horizontal {
+        background-color: #FF8652;
+        border: 0.25rem solid transparent;
+        border-radius: 100rem;
+        background-clip: padding-box;
+      }
+
+      .item {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #FFF;
+        border: 0.0625rem solid #CCC;
+        color: #555;
+        border-radius: 0.625rem;
+        margin-right: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.6875em;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .icon {
+          width: 0.875rem;
+        }
+
+        .text {
+          margin-left: 0.5rem;
+        }
+      }
+    }
+  }
   // global css
 
   // #Device = Mobiles
@@ -89,6 +169,27 @@
           .swiper-button-la {
             padding: 1.75rem 0.875rem;
             --swiper-navigation-size: 0.875rem;
+          }
+        }
+      }
+    }
+
+    .categories {
+      margin-top: 1.25rem;
+
+      .title {
+        font-size: 0.875em;
+      }
+
+      .item-container {
+        padding: 0.5rem 0 0.75rem;
+
+        .item {
+          padding: 0.375rem 0.625rem;
+          font-size: 0.75em;
+
+          .icon {
+            width: 1rem;
           }
         }
       }
@@ -121,6 +222,27 @@
 
           &:last-child {
             padding-left: 0.25rem;
+          }
+        }
+      }
+    }
+
+    .categories {
+      margin-top: 1.5rem;
+
+      .title {
+        font-size: 0.9375em;
+      }
+
+      .item-container {
+        padding: 0.75rem 0;
+
+        .item {
+          padding: 0.5rem 0.75rem;
+          font-size: 0.8125em;
+
+          .icon {
+            width: 1.25rem;
           }
         }
       }
@@ -164,6 +286,10 @@
         }
       }
     }
+
+    .categories {
+      display: none;
+    }
   }
   // #Device = Tablets, Ipads
 
@@ -203,6 +329,10 @@
         }
       }
     }
+
+    .categories {
+      display: none;
+    }
   }
   // #Device = Laptops, Desktops
 
@@ -222,7 +352,7 @@ export default {
 
   data() {
     return {
-      swiperOption: {
+      bannerOption: {
         slidesPerView: 1,
         spaceBetween: 15,
         grabCursor: true,
@@ -241,6 +371,54 @@ export default {
           prevEl: '.swiper-button-prev',
         },
       },
+
+      categories: [
+        {
+          id: 1,
+          name: 'Makanan Ringan',
+          icon: 'snack',
+        },
+        {
+          id: 2,
+          name: 'Kue',
+          icon: 'cookie',
+        },
+        {
+          id: 3,
+          name: 'Bolu',
+          icon: 'cupcake',
+        },
+        {
+          id: 4,
+          name: 'Susu',
+          icon: 'milk',
+        },
+        {
+          id: 5,
+          name: 'Sayur & Buah',
+          icon: 'harvest',
+        },
+        {
+          id: 6,
+          name: 'Tepung',
+          icon: 'flour',
+        },
+        {
+          id: 7,
+          name: 'Mie & Pasta',
+          icon: 'ramen',
+        },
+        {
+          id: 8,
+          name: 'Makanan Beku',
+          icon: 'steak',
+        },
+        {
+          id: 9,
+          name: 'Makanan Instan',
+          icon: 'french-fries',
+        },
+      ],
     };
   },
 

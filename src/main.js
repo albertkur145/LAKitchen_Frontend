@@ -17,8 +17,10 @@ import {
   faTimes,
   faLock,
   faMailBulk,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import VueCurrencyFilter from 'vue-currency-filter';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -29,11 +31,16 @@ import './scss/custom-breakpoint.scss';
 Vue.config.productionTip = false;
 
 Vue.use(BootstrapVue);
+Vue.use(VueCurrencyFilter, {
+  symbol: 'Rp.',
+  thousandsSeparator: '.',
+  symbolPosition: 'front',
+});
 
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
-  faDotCircle, faTimes, faLock, faMailBulk);
+  faDotCircle, faTimes, faLock, faMailBulk, faStar);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

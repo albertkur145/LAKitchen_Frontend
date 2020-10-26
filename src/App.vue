@@ -7,6 +7,7 @@
 <style lang="scss">
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500&display=swap');
 
   body {
     padding: 0;
@@ -19,7 +20,7 @@
 
     #root {
       font-family: 'Roboto';
-      background-color: #FCFCFC;
+      background-color: #FAFAFA;
     }
   }
 
