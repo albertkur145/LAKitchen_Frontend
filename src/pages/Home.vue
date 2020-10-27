@@ -7,7 +7,7 @@
       <Premier/>
 
       <b-row>
-        <b-col cols="12" class="mt-5">
+        <b-col cols="12" class="mt-4">
           <InsideSlider title="Dimsum"/>
         </b-col>
       </b-row>

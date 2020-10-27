@@ -64,6 +64,7 @@
           background-color: rgba($color: #000000, $alpha: 0.4);
           transition: background-color .1s linear;
           color: #FFF;
+          outline: none;
           top: 40%;
           padding: 1.5rem 0.75rem;
           --swiper-navigation-size: 0.75rem;
