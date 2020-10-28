@@ -6,9 +6,19 @@
     <div class="content">
       <Premier/>
 
-      <b-row>
-        <b-col cols="12" class="mt-4">
+      <b-row class="mt-md-5 mt-4">
+        <b-col cols="12">
           <InsideSlider title="Dimsum"/>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col class="mt-md-5 mt-4" md="6" sm="12">
+          <OutsideSlider title="Kue Kering"/>
+        </b-col>
+
+        <b-col class="mt-md-5 mt-4" md="6" sm="12">
+          <OutsideSlider title="Kue Basah"/>
         </b-col>
       </b-row>
     </div>
@@ -90,6 +100,7 @@
 import Header from '@/components/user/Header.vue';
 import Premier from '@/components/user/Premier.vue';
 import InsideSlider from '@/components/user/InsideSlider.vue';
+import OutsideSlider from '@/components/user/OutsideSlider.vue';
 
 export default {
 
@@ -97,6 +108,7 @@ export default {
     Header,
     Premier,
     InsideSlider,
+    OutsideSlider,
   },
 
   data() {
