@@ -21,6 +21,12 @@
           <OutsideSlider title="Kue Basah"/>
         </b-col>
       </b-row>
+
+      <b-row class="mt-md-5 mt-4">
+        <b-col cols="12">
+          <ProductsContainer/>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
@@ -101,6 +107,7 @@ import Header from '@/components/user/Header.vue';
 import Premier from '@/components/user/Premier.vue';
 import InsideSlider from '@/components/user/InsideSlider.vue';
 import OutsideSlider from '@/components/user/OutsideSlider.vue';
+import ProductsContainer from '@/components/user/ProductsContainer.vue';
 
 export default {
 
@@ -109,6 +116,7 @@ export default {
     Premier,
     InsideSlider,
     OutsideSlider,
+    ProductsContainer,
   },
 
   data() {
