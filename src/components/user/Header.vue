@@ -6,8 +6,9 @@
       </div>
 
       <div class="search">
+        <label for="search-input"></label>
         <font-awesome-icon icon="search" class="search-icon"/>
-        <input type="text" placeholder="Kamu sedang cari apa...">
+        <input id="search-input" type="text" placeholder="Kamu sedang cari apa...">
         <button class="btn-search">Cari</button>
       </div>
 

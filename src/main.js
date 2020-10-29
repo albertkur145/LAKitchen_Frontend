@@ -18,6 +18,8 @@ import {
   faLock,
   faMailBulk,
   faStar,
+  faEnvelope,
+  faTty,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
@@ -40,7 +42,8 @@ Vue.use(VueCurrencyFilter, {
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
-  faDotCircle, faTimes, faLock, faMailBulk, faStar);
+  faDotCircle, faTimes, faLock, faMailBulk, faStar,
+  faEnvelope, faTty);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

@@ -19,10 +19,10 @@
       <b-col md="4" sm="12" class="static-banner">
         <b-row>
           <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
-            <img src="@/assets/banner/6.webp">
+            <img src="@/assets/banner/6.webp" alt="banner">
           </b-col>
           <b-col md="12" sm="6" cols="12" class="img-container" style="max-height: 23.5rem">
-            <img src="@/assets/banner/7.webp">
+            <img src="@/assets/banner/7.webp" alt="banner">
           </b-col>
         </b-row>
       </b-col>

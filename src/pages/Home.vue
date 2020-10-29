@@ -28,10 +28,14 @@
         </b-col>
       </b-row>
     </div>
+
+    <Footer/>
   </div>
 </template>
 
 <style lang="scss" scoped>
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@500&display=swap');
 
   // global css
   #app {
@@ -108,6 +112,7 @@ import Premier from '@/components/user/Premier.vue';
 import InsideSlider from '@/components/user/InsideSlider.vue';
 import OutsideSlider from '@/components/user/OutsideSlider.vue';
 import ProductsContainer from '@/components/user/ProductsContainer.vue';
+import Footer from '@/components/user/Footer.vue';
 
 export default {
 
@@ -117,12 +122,7 @@ export default {
     InsideSlider,
     OutsideSlider,
     ProductsContainer,
-  },
-
-  data() {
-    return {
-
-    };
+    Footer,
   },
 
   methods: {

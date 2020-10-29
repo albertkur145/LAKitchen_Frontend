@@ -3,7 +3,11 @@
     <div class="title">Makanan Instan</div>
     <div class="products-container">
       <Product class="product" :product="temp" v-for="i in 15" :key="i"/>
-      <div class="empty-fill" v-for="i in 5" :key="i"></div>
+      <div class="empty-fill"></div>
+      <div class="empty-fill"></div>
+      <div class="empty-fill"></div>
+      <div class="empty-fill"></div>
+      <div class="empty-fill"></div>
     </div>
   </div>
 </template>

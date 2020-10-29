@@ -1,7 +1,7 @@
 <template>
   <div class="product-container">
     <div class="img-container">
-      <img :src="require(`@/assets/images/${product.photo_link}.jpg`)" alt="product">
+      <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
     </div>
 
     <div class="description">
