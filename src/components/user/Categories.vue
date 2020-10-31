@@ -106,7 +106,10 @@
 
           .sub-category-text {
             .text {
+              font-size: 1.0625em;
+
               .chev-icon {
+                color: #999;
                 font-size: 0.8125em;
               }
 
@@ -183,165 +186,11 @@
 
 export default {
 
-  data() {
-    return {
-      categories: [
-        {
-          id: 1,
-          name: 'Bahan Kue',
-          subCategories: [
-            {
-              id: 1,
-              name: 'Bahan Puding & Agar - Agar',
-            },
-            {
-              id: 2,
-              name: 'Baking Powder',
-            },
-            {
-              id: 3,
-              name: 'Baking Soda',
-            },
-            {
-              id: 4,
-              name: 'Coklat Bubuk',
-            },
-            {
-              id: 5,
-              name: 'Coklat Masak',
-            },
-            {
-              id: 6,
-              name: 'Perisa Makanan',
-            },
-            {
-              id: 7,
-              name: 'Pewarna Makanan',
-            },
-            {
-              id: 8,
-              name: 'Ragi',
-            },
-            {
-              id: 9,
-              name: 'Topping & Penghias Kue',
-            },
-          ],
-        },
-        {
-          id: 2,
-          name: 'Beras',
-          subCategories: [
-            {
-              id: 10,
-              name: 'Beras Hitam',
-            },
-            {
-              id: 11,
-              name: 'Beras Ketan',
-            },
-            {
-              id: 12,
-              name: 'Beras Merah',
-            },
-            {
-              id: 13,
-              name: 'Beras Putih',
-            },
-          ],
-        },
-        {
-          id: 3,
-          name: 'Kopi',
-          subCategories: [
-            {
-              id: 14,
-              name: 'Biji Kopi',
-            },
-            {
-              id: 15,
-              name: 'Kopi Bubuk',
-            },
-            {
-              id: 16,
-              name: 'Kopi Kemasan',
-            },
-            {
-              id: 17,
-              name: 'Krimer',
-            },
-          ],
-        },
-        {
-          id: 4,
-          name: 'Kue',
-          subCategories: [
-            {
-              id: 18,
-              name: 'Kue Basah',
-            },
-            {
-              id: 19,
-              name: 'Kue Kering',
-            },
-            {
-              id: 20,
-              name: 'Kue Ulang Tahun',
-            },
-          ],
-        },
-        {
-          id: 5,
-          name: 'Makanan Beku',
-          subCategories: [
-            {
-              id: 21,
-              name: 'Bakso',
-            },
-            {
-              id: 22,
-              name: 'Buah Beku',
-            },
-            {
-              id: 23,
-              name: 'Camilan Beku',
-            },
-            {
-              id: 24,
-              name: 'Daging Olahan Lainnya',
-            },
-            {
-              id: 25,
-              name: 'Dessert',
-            },
-            {
-              id: 26,
-              name: 'Kentang Beku',
-            },
-            {
-              id: 27,
-              name: 'Nugget',
-            },
-            {
-              id: 28,
-              name: 'Pastry & Olahan Tepung',
-            },
-            {
-              id: 29,
-              name: 'Sayuran Beku',
-            },
-            {
-              id: 30,
-              name: 'Siomay',
-            },
-            {
-              id: 31,
-              name: 'Sosis',
-            },
-          ],
-        },
-      ],
-    };
+  props: {
+    categories: {
+      type: Array,
+      required: true,
+    },
   },
 
   methods: {

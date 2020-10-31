@@ -23,6 +23,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
+import func from '@/function';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -31,6 +32,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import './scss/custom-breakpoint.scss';
 
 Vue.config.productionTip = false;
+Vue.prototype.$func = func;
 
 Vue.use(BootstrapVue);
 Vue.use(VueCurrencyFilter, {

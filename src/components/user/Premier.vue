@@ -33,7 +33,7 @@
 
       <div class="item-container">
         <div class="item" v-for="(item) in categories" :key="item.id">
-          <img :src="require(`@/assets/icons/${item.icon}.svg`)" alt="icon" class="icon">
+          <img :src="require(`@/assets/icons/${item.photo_link}.svg`)" alt="icon" class="icon">
           <span class="text">{{ item.name }}</span>
         </div>
       </div>
@@ -341,6 +341,7 @@
 
 <script>
 
+import { mapGetters, mapActions } from 'vuex';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 
@@ -373,54 +374,33 @@ export default {
         },
       },
 
-      categories: [
-        {
-          id: 1,
-          name: 'Makanan Ringan',
-          icon: 'snack',
-        },
-        {
-          id: 2,
-          name: 'Kue',
-          icon: 'cookie',
-        },
-        {
-          id: 3,
-          name: 'Bolu',
-          icon: 'cupcake',
-        },
-        {
-          id: 4,
-          name: 'Susu',
-          icon: 'milk',
-        },
-        {
-          id: 5,
-          name: 'Sayur & Buah',
-          icon: 'harvest',
-        },
-        {
-          id: 6,
-          name: 'Tepung',
-          icon: 'flour',
-        },
-        {
-          id: 7,
-          name: 'Mie & Pasta',
-          icon: 'ramen',
-        },
-        {
-          id: 8,
-          name: 'Makanan Beku',
-          icon: 'steak',
-        },
-        {
-          id: 9,
-          name: 'Makanan Instan',
-          icon: 'french-fries',
-        },
-      ],
+      categories: [],
     };
+  },
+
+  computed: {
+    ...mapGetters('categories', [
+      'generalCategoryList',
+    ]),
+  },
+
+  methods: {
+    ...mapActions('categories', [
+      'getGeneralCategory',
+    ]),
+
+    async getGeneralCategoryList() {
+      // req api
+      const promise = await this.$func.promiseAPI(this.getGeneralCategory);
+
+      if (promise >= 200 || promise < 300) {
+        this.categories = this.generalCategoryList.categories;
+      }
+    },
+  },
+
+  created() {
+    this.getGeneralCategoryList();
   },
 
 };

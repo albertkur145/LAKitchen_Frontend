@@ -17,13 +17,13 @@
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
-        <div class="sign d-none">
+        <div class="sign">
           <button class="btn-login">Masuk</button>
           <button class="btn-register">Daftar</button>
         </div>
 
         <div @mouseover="showBackground" @mouseleave="hideBackground"
-        class="profile">
+        class="profile d-none">
           <b-avatar class="avatar">AK</b-avatar>
           <span class="username ml-3">Hi, Albert Kurniawan</span>
 
@@ -52,10 +52,10 @@
           </section>
 
           <template v-if="windowWidth < 769">
-            <CategoriesMobile/>
+            <CategoriesMobile :categories="categories"/>
           </template>
 
-          <Categories v-else/>
+          <Categories v-else :categories="categories"/>
         </div>
 
         <div class="line-spacer">|</div>
@@ -157,7 +157,7 @@
       justify-content: space-between;
       align-items: center;
       background-color: #FFF;
-      color: #555;
+      color: #444;
       position: relative;
       box-shadow: 0 0.25rem 0.25rem rgba($color: #333, $alpha: 0.1);
       font-size: 0.8125em;
@@ -603,6 +603,7 @@
 
 <script>
 
+import { mapGetters, mapActions } from 'vuex';
 import Categories from './Categories.vue';
 import CategoriesMobile from './CategoriesMobile.vue';
 import SidebarMobile from './SidebarMobile.vue';
@@ -641,7 +642,14 @@ export default {
       ],
       windowWidth: null,
       isShowSide: false,
+      categories: [],
     };
+  },
+
+  computed: {
+    ...mapGetters('categories', [
+      'categoryList',
+    ]),
   },
 
   mounted() {
@@ -649,6 +657,19 @@ export default {
   },
 
   methods: {
+    ...mapActions('categories', [
+      'getCategories',
+    ]),
+
+    async getCategoryList() {
+      // req api
+      const promise = await this.$func.promiseAPI(this.getCategories);
+
+      if (promise >= 200 || promise < 300) {
+        this.categories = this.categoryList.categories;
+      }
+    },
+
     getWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
@@ -679,6 +700,7 @@ export default {
 
   created() {
     this.getWindowWidth();
+    this.getCategoryList();
   },
 
 };

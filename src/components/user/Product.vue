@@ -49,7 +49,7 @@
       padding: 0.1875rem 0.3125rem;
 
       .name {
-        color: #444;
+        color: #2A2A2A;
         font-size: 0.75em;
       }
 
