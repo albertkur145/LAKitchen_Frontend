@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="title">Makanan Instan</div>
+    <div class="title">{{ title }}</div>
     <div class="products-container">
-      <Product class="product" :product="temp" v-for="i in 15" :key="i"/>
+      <Product class="product" :product="val" v-for="val in products" :key="val.id"/>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
@@ -277,14 +277,19 @@
 
 <script>
 
+import { mapActions } from 'vuex';
 import Product from './Product.vue';
 
 export default {
 
-  props: [
-    'parameter',
-    'type',
-  ],
+  props: {
+    type: {
+      required: true,
+    },
+    params: {
+      required: true,
+    },
+  },
 
   components: {
     Product,
@@ -292,31 +297,55 @@ export default {
 
   data() {
     return {
-      temp: {
-        id: 1,
-        name: 'Indomie Goreng Rasa Rendang',
-        price: 30000,
-        rating: 4.94,
-        evaluators: 427,
-        photo_link: 'indomie_goreng_rasa_rendang',
-      },
-
+      title: '',
+      products: [],
       windowWidth: null,
     };
   },
 
-  mounted() {
-    window.addEventListener('resize', this.getWindowWidth);
-  },
-
   methods: {
-    getWindowWidth() {
-      this.windowWidth = window.innerWidth;
+    ...mapActions('products', [
+      'getByCategory',
+      'getBySubCategory',
+    ]),
+
+    async getProducts(action, params) {
+      // req api
+      const { code, data } = await this.$func.promiseAPI(action, params);
+
+      if (code >= 200 || code < 300) {
+        this.products = data.products;
+        this.title = data.title;
+      }
+    },
+
+    selection() {
+      let params = null;
+      let action = null;
+
+      switch (this.type) {
+        case 'category': {
+          params = { categoryId: this.params };
+          action = this.getByCategory;
+          break;
+        }
+
+        case 'subCategory': {
+          params = { subCategoryId: this.params };
+          action = this.getBySubCategory;
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      this.getProducts(action, params);
     },
   },
 
   created() {
-    this.getWindowWidth();
+    this.selection();
   },
 
 };

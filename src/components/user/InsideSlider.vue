@@ -174,13 +174,16 @@
 
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import { mapActions } from 'vuex';
 import Product from './Product.vue';
 
 export default {
 
   props: {
-    title: {
-      type: String,
+    type: {
+      required: true,
+    },
+    params: {
       required: true,
     },
   },
@@ -193,82 +196,6 @@ export default {
 
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          name: 'Kaki Naga',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'kaki_naga',
-        },
-        {
-          id: 2,
-          name: 'Hakau Udang',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'hakau',
-        },
-        {
-          id: 3,
-          name: 'Siomay Ayam',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'siomay',
-        },
-        {
-          id: 4,
-          name: 'Tofu Skin Roll',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'tofu_skin_roll',
-        },
-        {
-          id: 5,
-          name: 'Mantau',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'mantau',
-        },
-        {
-          id: 6,
-          name: 'Kaki Naga',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'kaki_naga',
-        },
-        {
-          id: 7,
-          name: 'Kaki Naga',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'kaki_naga',
-        },
-        {
-          id: 8,
-          name: 'Kaki Naga',
-          price: 45000,
-          rating: 4.73,
-          evaluators: 127,
-          photo_link: 'kaki_naga',
-        },
-      ],
-
-      tempProduct: {
-        id: 0,
-        name: '',
-        price: 0,
-        rating: 0,
-        evaluators: 0,
-        photo_link: 'hakau',
-      },
-
       swiperOption: {
         grabCursor: true,
         lazy: true,
@@ -371,7 +298,64 @@ export default {
           },
         },
       },
+
+      title: '',
+      products: [],
+
+      tempProduct: {
+        id: 0,
+        name: '',
+        price: 0,
+        rating: 0,
+        evaluators: 0,
+        photo_link: 'hakau',
+      },
     };
+  },
+
+  methods: {
+    ...mapActions('products', [
+      'getByCategory',
+      'getBySubCategory',
+    ]),
+
+    async getProducts(action, params) {
+      // req api
+      const { code, data } = await this.$func.promiseAPI(action, params);
+
+      if (code >= 200 || code < 300) {
+        this.products = data.products;
+        this.title = data.title;
+      }
+    },
+
+    selection() {
+      let params = null;
+      let action = null;
+
+      switch (this.type) {
+        case 'category': {
+          params = { categoryId: this.params };
+          action = this.getByCategory;
+          break;
+        }
+
+        case 'subCategory': {
+          params = { subCategoryId: this.params };
+          action = this.getBySubCategory;
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      this.getProducts(action, params);
+    },
+  },
+
+  created() {
+    this.selection();
   },
 
 };

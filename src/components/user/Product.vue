@@ -275,8 +275,16 @@ export default {
     },
 
     productName() {
-      if (this.product.name.length > 30) {
-        return `${this.product.name.slice(0, 30)}...`;
+      if (this.windowWidth >= 768) {
+        if (this.product.name.length > 18) {
+          return `${this.product.name.slice(0, 18)}...`;
+        }
+      }
+
+      if (this.windowWidth < 768) {
+        if (this.product.name.length > 14) {
+          return `${this.product.name.slice(0, 14)}...`;
+        }
       }
 
       return this.product.name;

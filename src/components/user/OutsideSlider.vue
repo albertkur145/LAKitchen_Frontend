@@ -168,13 +168,16 @@
 
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import { mapActions } from 'vuex';
 import Product from './Product.vue';
 
 export default {
 
   props: {
-    title: {
-      type: String,
+    type: {
+      required: true,
+    },
+    params: {
       required: true,
     },
   },
@@ -187,74 +190,6 @@ export default {
 
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          name: 'Nastar',
-          price: 90000,
-          rating: 4.73,
-          evaluators: 233,
-          photo_link: 'nastar',
-        },
-        {
-          id: 2,
-          name: 'Semprit Dahlia',
-          price: 75000,
-          rating: 4.73,
-          evaluators: 164,
-          photo_link: 'semprit_dahlia',
-        },
-        {
-          id: 3,
-          name: 'Kastengel Keju',
-          price: 60000,
-          rating: 4.73,
-          evaluators: 95,
-          photo_link: 'kastengel',
-        },
-        {
-          id: 4,
-          name: 'Talan Pandan',
-          price: 50000,
-          rating: 4.73,
-          evaluators: 142,
-          photo_link: 'talan_pandan',
-        },
-        {
-          id: 5,
-          name: 'Wingko',
-          price: 65000,
-          rating: 4.73,
-          evaluators: 78,
-          photo_link: 'wingko',
-        },
-        {
-          id: 6,
-          name: 'Lapis Legit Pandan',
-          price: 60000,
-          rating: 4.73,
-          evaluators: 95,
-          photo_link: 'nastar',
-        },
-        {
-          id: 7,
-          name: 'Nastar',
-          price: 60000,
-          rating: 4.73,
-          evaluators: 95,
-          photo_link: 'nastar',
-        },
-      ],
-
-      tempProduct: {
-        id: 0,
-        name: '',
-        price: 0,
-        rating: 0,
-        evaluators: 0,
-        photo_link: 'hakau',
-      },
-
       swiperOption: {
         grabCursor: true,
         lazy: true,
@@ -349,7 +284,64 @@ export default {
           },
         },
       },
+
+      title: '',
+      products: [],
+
+      tempProduct: {
+        id: 0,
+        name: '',
+        price: 0,
+        rating: 0,
+        evaluators: 0,
+        photo_link: 'hakau',
+      },
     };
+  },
+
+  methods: {
+    ...mapActions('products', [
+      'getByCategory',
+      'getBySubCategory',
+    ]),
+
+    async getProducts(action, params) {
+      // req api
+      const { code, data } = await this.$func.promiseAPI(action, params);
+
+      if (code >= 200 || code < 300) {
+        this.products = data.products;
+        this.title = data.title;
+      }
+    },
+
+    selection() {
+      let params = null;
+      let action = null;
+
+      switch (this.type) {
+        case 'category': {
+          params = { categoryId: this.params };
+          action = this.getByCategory;
+          break;
+        }
+
+        case 'subCategory': {
+          params = { subCategoryId: this.params };
+          action = this.getBySubCategory;
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      this.getProducts(action, params);
+    },
+  },
+
+  created() {
+    this.selection();
   },
 
 };

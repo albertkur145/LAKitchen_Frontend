@@ -8,23 +8,23 @@
 
       <b-row class="mt-md-5 mt-4">
         <b-col cols="12">
-          <InsideSlider title="Dimsum"/>
+          <InsideSlider type="subCategory" :params="1"/>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col class="mt-md-5 mt-4" md="6" sm="12">
-          <OutsideSlider title="Kue Kering"/>
+          <OutsideSlider type="subCategory" :params="2"/>
         </b-col>
 
         <b-col class="mt-md-5 mt-4" md="6" sm="12">
-          <OutsideSlider title="Kue Basah"/>
+          <OutsideSlider type="subCategory" :params="3"/>
         </b-col>
       </b-row>
 
       <b-row class="mt-md-5 mt-4">
         <b-col cols="12">
-          <ProductsContainer/>
+          <ProductsContainer type="subCategory" :params="1"/>
         </b-col>
       </b-row>
     </div>
