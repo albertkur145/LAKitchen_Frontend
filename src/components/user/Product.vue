@@ -1,5 +1,5 @@
 <template>
-  <div class="product-container">
+  <router-link :to="`/product/${product.id}`" class="product-container">
     <div class="img-container">
       <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
     </div>
@@ -14,7 +14,7 @@
         <span class="evaluator">({{ product.evaluators }})</span>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
@@ -22,6 +22,7 @@
   // global css
   .product-container {
     display: inline-block;
+    text-decoration: none;
     background-color: #FFF;
     cursor: pointer;
     border-radius: 0.75rem;

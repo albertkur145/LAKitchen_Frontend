@@ -3,7 +3,8 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const Home = () => import(/* webpackChunkName: "HomePages" */ '../pages/Home.vue');
+const Home = () => import(/* webpackChunkName: "p-home" */ '../pages/user/Home.vue');
+const DetailProduct = () => import(/* webpackChunkName: "p-detailProduct" */ '../pages/user/DetailProduct.vue');
 
 const routes = [
   {
@@ -11,12 +12,23 @@ const routes = [
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/product/:id',
+    name: 'DetailProduct',
+    component: DetailProduct,
+  },
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    return { x: 0, y: 0 };
+  },
 });
 
 export default router;

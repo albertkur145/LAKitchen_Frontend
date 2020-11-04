@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div class="top">
-      <div class="brand">
+      <router-link to="/" class="brand">
         <img src="@/assets/images/logo.png" alt="Logo LA' Kitchen">
-      </div>
+      </router-link>
 
       <div class="search">
         <label for="search-input"></label>
@@ -17,13 +17,13 @@
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
-        <div class="sign">
+        <div class="sign d-none">
           <button class="btn-login">Masuk</button>
           <button class="btn-register">Daftar</button>
         </div>
 
         <div @mouseover="showBackground" @mouseleave="hideBackground"
-        class="profile d-none">
+        class="profile">
           <b-avatar class="avatar">AK</b-avatar>
           <span class="username ml-3">Hi, Albert Kurniawan</span>
 
@@ -80,7 +80,7 @@
 
       <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
     </template>
-    <div class="text-center mt-5">{{ windowWidth }}</div>
+    <!-- <div class="text-center mt-5">{{ windowWidth }}</div> -->
   </div>
 </template>
 

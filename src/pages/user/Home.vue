@@ -108,21 +108,21 @@
 <script>
 
 import Header from '@/components/user/Header.vue';
+import Footer from '@/components/user/Footer.vue';
 import Premier from '@/components/user/Premier.vue';
 import InsideSlider from '@/components/user/InsideSlider.vue';
 import OutsideSlider from '@/components/user/OutsideSlider.vue';
 import ProductsContainer from '@/components/user/ProductsContainer.vue';
-import Footer from '@/components/user/Footer.vue';
 
 export default {
 
   components: {
     Header,
+    Footer,
     Premier,
     InsideSlider,
     OutsideSlider,
     ProductsContainer,
-    Footer,
   },
 
   methods: {
