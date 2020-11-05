@@ -24,6 +24,7 @@ import {
   faPlus,
   faCartPlus,
   faArrowLeft,
+  faUserAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -51,7 +52,7 @@ library.add(faSearch, faShoppingCart, faBars, faCogs,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
   faDotCircle, faTimes, faLock, faMailBulk, faStar,
   faEnvelope, faTty, faPlus, faMinus, farHeart, faCartPlus,
-  faArrowLeft);
+  faArrowLeft, faUserAlt);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
