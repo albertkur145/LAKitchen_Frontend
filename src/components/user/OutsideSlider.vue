@@ -306,7 +306,6 @@ export default {
     ]),
 
     async getProducts(action, params) {
-      // req api
       const { code, data } = await this.$func.promiseAPI(action, params);
 
       if (code >= 200 || code < 300) {

@@ -1,16 +1,13 @@
-import axios from 'axios';
-import config from '@/config';
-
-const { API } = config;
+import axios from '@/config/axios';
 
 const data = {
   temp: {},
-  products: {},
+  product: {},
 };
 
 const getters = {
-  productList(state) {
-    return state.products;
+  productDetail(state) {
+    return state.product;
   },
 };
 
@@ -19,8 +16,8 @@ const mutations = {
     state.temp = value;
   },
 
-  setProducts(state, value) {
-    state.products = value;
+  setProduct(state, value) {
+    state.product = value;
   },
 };
 
@@ -28,12 +25,8 @@ const actions = {
   getByCategory({ commit }, payload) {
     return axios({
       method: 'get',
-      url: `${API}/product/category`,
-      responseType: 'json',
+      url: '/product/category',
       params: payload.params,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data: {},
     })
       .then((res) => {
@@ -51,12 +44,8 @@ const actions = {
   getBySubCategory({ commit }, payload) {
     return axios({
       method: 'get',
-      url: `${API}/product/subcategory`,
-      responseType: 'json',
+      url: '/product/subcategory',
       params: payload.params,
-      headers: {
-        'Content-Type': 'application/json',
-      },
       data: {},
     })
       .then((res) => {
@@ -65,6 +54,37 @@ const actions = {
           code: res.data.code,
           data: res.data.data,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+
+  getById({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/id',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setProduct', res.data.data);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+
+  incrementSeen({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/product/seen',
+      data: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
         console.log(err);

@@ -1,4 +1,4 @@
-const API = 'http://localhost:88/api';
+const API = 'http://localhost:8081/api';
 
 export default [
   {
@@ -955,6 +955,98 @@ export default [
           },
         ],
       },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/product/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        productId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        path: {
+          category: {
+            id: 2,
+            name: 'Mie & Pasta',
+          },
+          subCategory: {
+            id: 4,
+            name: 'Mie Instan',
+          },
+        },
+        product: {
+          id: 1,
+          name: 'Indome Goreng Rasa Rendang 10 Pcs',
+          price: 25000,
+          description: 'Indomie goreng rasa rendang terbaru, baru keluar di tahun 2020. Sangat cocok dinikmati bersama keluarga dimusim panas ataupun dingin, dengan khas rasa rendang yang bikin kamu jadi nendang. Stok terbatas, siapa cepat dia dapat',
+          seen: 52,
+          rating: 4.82,
+          evaluators: 43,
+          photo_links: [
+            {
+              id: 1,
+              link: 'bakpao',
+            },
+            {
+              id: 2,
+              link: 'bolu_gulung',
+            },
+            {
+              id: 3,
+              link: 'cendol_cake',
+            },
+            {
+              id: 4,
+              link: 'ekado',
+            },
+          ],
+          assessment: [
+            {
+              id: 1,
+              user: {
+                id: 4,
+                name: 'Budi Utama',
+              },
+              rate: 5,
+              comment: 'Produk datang tepat waktu, kemasan double safety, setelah dimasak rasanya nendang sekali... Mantap sekali sangat recommended!',
+              date: '04/01/2021',
+            },
+            {
+              id: 2,
+              user: {
+                id: 6,
+                name: 'Rio Martin',
+              },
+              rate: 4,
+              comment: 'Mantap, rasanya enak sekali. Tetapi saya masih suka indomie goreng biasa, jadi saya kasih 4 saja dulu ya hehe',
+              date: '22/12/2020',
+            },
+          ],
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/product/seen`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      productId: 1,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
       paging: null,
       errors: null,
     },

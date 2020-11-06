@@ -1,7 +1,4 @@
-import axios from 'axios';
-import config from '@/config';
-
-const { API } = config;
+import axios from '@/config/axios';
 
 const data = {
   categories: {},
@@ -32,16 +29,12 @@ const actions = {
   getCategories({ commit }, payload) {
     return axios({
       method: 'get',
-      url: `${API}/categoriesandsub`,
-      responseType: 'json',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      url: '/categoriesandsub',
       data: {},
     })
       .then((res) => {
         commit('setCategories', res.data.data);
-        payload.resolve(res.data.code);
+        payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
         console.log(err);
@@ -51,16 +44,12 @@ const actions = {
   getGeneralCategory({ commit }, payload) {
     return axios({
       method: 'get',
-      url: `${API}/categories`,
-      responseType: 'json',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      url: '/categories',
       data: {},
     })
       .then((res) => {
         commit('setGeneralCategory', res.data.data);
-        payload.resolve(res.data.code);
+        payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
         console.log(err);

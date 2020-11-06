@@ -663,9 +663,9 @@ export default {
 
     async getCategoryList() {
       // req api
-      const promise = await this.$func.promiseAPI(this.getCategories);
+      const { code } = await this.$func.promiseAPI(this.getCategories);
 
-      if (promise >= 200 || promise < 300) {
+      if (code >= 200 || code < 300) {
         this.categories = this.categoryList.categories;
       }
     },

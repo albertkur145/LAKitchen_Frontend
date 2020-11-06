@@ -119,31 +119,7 @@
         </b-col>
 
         <b-col cols="12">
-          <b-row class="user-rating" v-for="val in product.assessment" :key="val.id">
-            <b-col md="1" cols="2" class="avatar">
-              <span><font-awesome-icon icon="user-alt" class="user-icon"/></span>
-            </b-col>
-
-            <b-col md="11" cols="10" class="desc-assest">
-              <b-row>
-                <b-col md="2" cols="12">
-                  <div class="username">{{ getUsername(val.user.name) }}</div>
-                  <div class="date">{{ val.date }}</div>
-                </b-col>
-
-                <b-col md="10" cols="12">
-                  <div class="rate">
-                    <font-awesome-icon v-for="i in 5" :key="i" icon="star"
-                    :class="`star-icon${ i <= val.rate ? ' fill-color' : '' }`"/>
-                  </div>
-
-                  <div class="comment">{{ val.comment }}</div>
-                </b-col>
-              </b-row>
-            </b-col>
-
-            <b-col cols="12" class="line"></b-col>
-          </b-row>
+          <AssesmentUser :assessment="val" v-for="val in product.assessment" :key="val.id"/>
         </b-col>
       </b-row>
 
@@ -455,60 +431,6 @@
             font-size: 0.625em;
           }
         }
-
-        .user-rating {
-          padding: 0;
-
-          .avatar {
-            margin-top: 1.25rem;
-
-            span {
-              display: inline-block;
-              border-radius: 100rem;
-              background-color: #AAA;
-              padding: 0 0.4375rem 0.0625rem;
-
-              .user-icon {
-                color: #FFF;
-                font-size: 0.625em;
-              }
-            }
-          }
-
-          .desc-assest {
-            margin-top: 1.25rem;
-
-            .username {
-              color: #444;
-              font-weight: 500;
-              font-size: 0.8125em;
-            }
-
-            .date {
-              color: #888;
-              margin-top: 0;
-              margin-top: 0.125rem;
-              font-size: 0.6875em;
-            }
-
-            .rate {
-              color: #BBB;
-              margin-top: 0.25rem;
-              font-size: 0.75em;
-            }
-
-            .comment {
-              color: #333;
-              margin-top: 0.75rem;
-              font-size: 0.6875em;
-            }
-          }
-        }
-
-        .line {
-          border-top: 0.0625rem solid #CCC;
-          margin-top: 1.25rem;
-        }
       }
 
       .fixed-button-act {
@@ -678,46 +600,6 @@
               font-size: 0.6875em;
             }
           }
-
-          .user-rating {
-            padding: 0;
-
-            .avatar {
-              margin-top: 1.25rem;
-
-              span {
-                padding: 0 0.4375rem 0.0625rem;
-
-                .user-icon {
-                  font-size: 0.625em;
-                }
-              }
-            }
-
-            .desc-assest {
-              margin-top: 1.25rem;
-
-              .username {
-                font-size: 0.875em;
-              }
-
-              .date {
-                font-size: 0.75em;
-              }
-
-              .rate {
-                font-size: 0.8125em;
-              }
-
-              .comment {
-                font-size: 0.75em;
-              }
-            }
-          }
-
-          .line {
-            margin-top: 1.25rem;
-          }
         }
 
         .fixed-button-act {
@@ -851,48 +733,6 @@
             .more {
               font-size: 0.8125em;
             }
-          }
-
-          .user-rating {
-            padding: 0;
-
-            .avatar {
-              margin-top: 1.5rem;
-
-              span {
-                padding: 0.3125rem 0.625rem;
-
-                .user-icon {
-                  font-size: 0.8125em;
-                }
-              }
-            }
-
-            .desc-assest {
-              margin-top: 1.5rem;
-
-              .username {
-                font-size: 0.9375em;
-              }
-
-              .date {
-                font-size: 0.8125em;
-              }
-
-              .rate {
-                margin-top: 0.25rem;
-                font-size: 0.875em;
-              }
-
-              .comment {
-                margin-top: 0.75rem;
-                font-size: 0.8125em;
-              }
-            }
-          }
-
-          .line {
-            margin-top: 1.5rem;
           }
         }
 
@@ -1084,48 +924,6 @@
               font-size: 0.875em;
             }
           }
-
-          .user-rating {
-            padding: 0;
-
-            .avatar {
-              margin-top: 2rem;
-
-              span {
-                padding: 0.5rem 0.75rem;
-
-                .user-icon {
-                  font-size: 0.875em;
-                }
-              }
-            }
-
-            .desc-assest {
-              margin-top: 2rem;
-
-              .username {
-                font-size: 1em;
-              }
-
-              .date {
-                font-size: 0.8125em;
-              }
-
-              .rate {
-                margin-top: 0;
-                font-size: 0.9375em;
-              }
-
-              .comment {
-                margin-top: 0.75rem;
-                font-size: 0.9375em;
-              }
-            }
-          }
-
-          .line {
-            margin-top: 2rem;
-          }
         }
 
         .fixed-button-act {
@@ -1301,49 +1099,6 @@
               font-size: 0.9375em;
             }
           }
-
-          .user-rating {
-            padding: 0.5rem 0;
-
-            .avatar {
-              margin-top: 2rem;
-
-              span {
-                padding: 0.625rem 0.875rem;
-
-                .user-icon {
-                  font-size: 1em;
-                }
-              }
-            }
-
-            .desc-assest {
-              margin-top: 2rem;
-
-              .username {
-                font-size: 1.0625em;
-              }
-
-              .date {
-                font-size: 0.875em;
-                margin-top: 0.125rem;
-              }
-
-              .rate {
-                margin-top: 0;
-                font-size: 1em;
-              }
-
-              .comment {
-                margin-top: 0.75rem;
-                font-size: 1em;
-              }
-            }
-          }
-
-          .line {
-            margin-top: 2rem;
-          }
         }
 
         .fixed-button-act {
@@ -1360,8 +1115,10 @@
 
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
+import AssesmentUser from '@/components/user/AssessmentUser.vue';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
@@ -1370,6 +1127,7 @@ export default {
     Footer,
     Swiper,
     SwiperSlide,
+    AssesmentUser,
   },
 
   data() {
@@ -1386,67 +1144,9 @@ export default {
         },
       },
 
-      path: {
-        category: {
-          id: '1',
-          name: 'Mie & Pasta',
-        },
-        subCategory: {
-          id: '1',
-          name: 'Mie Instan',
-        },
-      },
-
-      product: {
-        id: 1,
-        name: 'Indomie Goreng Rasa Rendang 10 Pcs',
-        price: 25000,
-        description: 'Indomie goreng rasa rendang terbaru, baru keluar di tahun 2020. Sangat cocok dinikmati bersama keluarga dimusim panas ataupun dingin, dengan khas rasa rendang yang bikin kamu jadi nendang. Stok terbatas, siapa cepat dia dapat.',
-        seen: 126,
-        rating: 4.82,
-        evaluators: 43,
-        photo_links: [
-          {
-            id: 1,
-            link: 'bakpao',
-          },
-          {
-            id: 2,
-            link: 'bolu_gulung',
-          },
-          {
-            id: 3,
-            link: 'cendol_cake',
-          },
-          {
-            id: 4,
-            link: 'ekado',
-          },
-        ],
-        assessment: [
-          {
-            id: 1,
-            user: {
-              id: 1,
-              name: 'Budi Utama Wijaya',
-            },
-            rate: 5,
-            comment: 'Produk datang tepat waktu, kemasan double safety, setelah dimasak rasanya nendang sekali... Mantap sekali sangat recommended!',
-            date: '20/12/2020',
-          },
-          {
-            id: 2,
-            user: {
-              id: 5,
-              name: 'Rio Martin',
-            },
-            rate: 4,
-            comment: 'Mantap, rasanya enak sekali. Tetapi saya masih suka indomie goreng biasa, jadi saya kasih 4 saja dulu ya hehe',
-            date: '05/01/2021',
-          },
-        ],
-      },
-
+      paramId: null,
+      path: {},
+      product: {},
       windowWidth: null,
       imgBinding: '',
       quantity: 1,
@@ -1455,6 +1155,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters('products', [
+      'productDetail',
+    ]),
+
     rating() {
       return Math.round(this.product.rating);
     },
@@ -1465,8 +1169,28 @@ export default {
   },
 
   methods: {
-    getWindowWidth() {
-      this.windowWidth = window.innerWidth;
+    ...mapActions('products', [
+      'getById',
+      'incrementSeen',
+    ]),
+
+    async getProductDetail() {
+      const { code } = await this.$func.promiseAPI(this.getById, {
+        productId: this.paramId,
+      });
+
+      if (code >= 200 || code < 300) {
+        this.path = this.productDetail.path;
+        this.product = this.productDetail.product;
+        [this.imgBinding] = this.product.photo_links;
+        this.imgBinding = this.imgBinding.link;
+      }
+    },
+
+    async postIncrementSeen() {
+      await this.$func.promiseAPI(this.incrementSeen, {
+        productId: this.paramId,
+      });
     },
 
     showBackground() {
@@ -1503,28 +1227,12 @@ export default {
           break;
       }
     },
-
-    getUsername(str) {
-      if (this.windowWidth >= 768) {
-        const name = str.split(' ');
-        let fullname = name[0];
-
-        name.shift();
-        name.forEach((val) => {
-          fullname += ` ${val[0]}`;
-        });
-
-        return fullname;
-      }
-
-      return str;
-    },
   },
 
   created() {
-    this.getWindowWidth();
-    [this.imgBinding] = this.product.photo_links;
-    this.imgBinding = this.imgBinding.link;
+    this.paramId = parseInt(this.$route.params.id, 10);
+    this.postIncrementSeen();
+    this.getProductDetail();
   },
 
 };
