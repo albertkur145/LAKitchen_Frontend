@@ -1051,4 +1051,44 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/assessment`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        productId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        assessment: [
+          {
+            id: 1,
+            user: {
+              id: 4,
+              name: 'Budi Utama',
+            },
+            rate: 5,
+            comment: 'Produk datang tepat waktu, kemasan double safety, setelah dimasak rasanya nendang sekali... Mantap sekali sangat recommended!',
+            date: '04/01/2021',
+          },
+          {
+            id: 2,
+            user: {
+              id: 6,
+              name: 'Rio Martin',
+            },
+            rate: 4,
+            comment: 'Mantap, rasanya enak sekali. Tetapi saya masih suka indomie goreng biasa, jadi saya kasih 4 saja dulu ya hehe',
+            date: '22/12/2020',
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

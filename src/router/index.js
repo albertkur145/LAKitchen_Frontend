@@ -5,6 +5,7 @@ Vue.use(VueRouter);
 
 const Home = () => import(/* webpackChunkName: "p-home" */ '../pages/user/Home.vue');
 const DetailProduct = () => import(/* webpackChunkName: "p-detailProduct" */ '../pages/user/DetailProduct.vue');
+const Assessment = () => import(/* webpackChunkName: "p-assessment" */ '../pages/user/Assessment.vue');
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     path: '/product/:id',
     name: 'DetailProduct',
     component: DetailProduct,
+  },
+  {
+    path: '/product/assessment/:id',
+    name: 'Assessment',
+    component: Assessment,
   },
 ];
 

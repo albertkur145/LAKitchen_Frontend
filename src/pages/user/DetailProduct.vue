@@ -115,11 +115,11 @@
       <b-row class="assessment">
         <b-col class="head" cols="12">
           <span class="title">Penilaian Produk ({{ product.evaluators }})</span>
-          <span class="more">Lihat Semua</span>
+          <span @click="redirectAssessment()" class="more">Lihat Semua</span>
         </b-col>
 
         <b-col cols="12">
-          <AssesmentUser :assessment="val" v-for="val in product.assessment" :key="val.id"/>
+          <UserAssessment :assessment="val" v-for="val in product.assessment" :key="val.id"/>
         </b-col>
       </b-row>
 
@@ -1086,7 +1086,6 @@
         }
 
         .assessment {
-          margin-top: 1.5rem;
           padding: 2rem 1.25rem;
 
           .head {
@@ -1115,7 +1114,7 @@
 
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
-import AssesmentUser from '@/components/user/AssessmentUser.vue';
+import UserAssessment from '@/components/user/UserAssessment.vue';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 import { mapGetters, mapActions } from 'vuex';
@@ -1127,7 +1126,7 @@ export default {
     Footer,
     Swiper,
     SwiperSlide,
-    AssesmentUser,
+    UserAssessment,
   },
 
   data() {
@@ -1226,6 +1225,15 @@ export default {
         default:
           break;
       }
+    },
+
+    redirectAssessment() {
+      this.$router.push({
+        name: 'Assessment',
+        params: {
+          id: this.paramId,
+        },
+      });
     },
   },
 
