@@ -29,7 +29,7 @@ const actions = {
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
-        console.log(err);
+        payload.resolve({ code: err.response.status });
       });
   },
 };

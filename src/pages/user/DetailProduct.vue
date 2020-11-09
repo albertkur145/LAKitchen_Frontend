@@ -18,10 +18,10 @@
       </div>
 
       <div class="path-link-mobile">
-        <router-link to="/">
+        <span @click="back" class="back">
           <font-awesome-icon icon="arrow-left" class="arr-icon"/>
           <span class="link">Beranda</span>
-        </router-link>
+        </span>
       </div>
 
       <b-row class="product-detail">
@@ -185,6 +185,14 @@
         display: block;
         color: #0085FF;
         padding-bottom: 0.5rem;
+
+        .back {
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
 
         .arr-icon {
           font-size: 0.75em;
@@ -1178,7 +1186,7 @@ export default {
         productId: this.paramId,
       });
 
-      if (code >= 200 || code < 300) {
+      if (code >= 200 && code < 300) {
         this.path = this.productDetail.path;
         this.product = this.productDetail.product;
         [this.imgBinding] = this.product.photo_links;
@@ -1228,12 +1236,16 @@ export default {
     },
 
     redirectAssessment() {
-      this.$router.push({
+      this.$router.replace({
         name: 'Assessment',
         params: {
           id: this.paramId,
         },
       });
+    },
+
+    back() {
+      this.$router.go(-1);
     },
   },
 

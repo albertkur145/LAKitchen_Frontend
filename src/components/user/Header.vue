@@ -8,8 +8,9 @@
       <div class="search">
         <label for="search-input"></label>
         <font-awesome-icon icon="search" class="search-icon"/>
-        <input id="search-input" type="text" placeholder="Kamu sedang cari apa...">
-        <button class="btn-search">Cari</button>
+        <input id="search-input" v-model="searchText" @keyup.enter="redirectSearch"
+        type="text" placeholder="Kamu sedang cari apa...">
+        <button class="btn-search" @click="redirectSearch">Cari</button>
       </div>
 
       <div class="info">
@@ -643,6 +644,7 @@ export default {
       windowWidth: null,
       isShowSide: false,
       categories: [],
+      searchText: '',
     };
   },
 
@@ -665,7 +667,7 @@ export default {
       // req api
       const { code } = await this.$func.promiseAPI(this.getCategories);
 
-      if (code >= 200 || code < 300) {
+      if (code >= 200 && code < 300) {
         this.categories = this.categoryList.categories;
       }
     },
@@ -695,6 +697,16 @@ export default {
     hideSidebar() {
       this.isShowSide = false;
       this.hideBackground();
+    },
+
+    redirectSearch() {
+      this.$router.push({
+        name: 'ProductSearch',
+        params: {
+          type: 'search',
+          value: this.searchText,
+        },
+      });
     },
   },
 

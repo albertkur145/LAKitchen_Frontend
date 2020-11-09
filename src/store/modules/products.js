@@ -37,7 +37,7 @@ const actions = {
         });
       })
       .catch((err) => {
-        console.log(err);
+        payload.resolve({ code: err.response.status });
       });
   },
 
@@ -56,7 +56,7 @@ const actions = {
         });
       })
       .catch((err) => {
-        console.log(err);
+        payload.resolve({ code: err.response.status });
       });
   },
 
@@ -72,7 +72,26 @@ const actions = {
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
-        console.log(err);
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getByName({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/name',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
       });
   },
 
@@ -87,7 +106,7 @@ const actions = {
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
-        console.log(err);
+        payload.resolve({ code: err.response.status });
       });
   },
 };

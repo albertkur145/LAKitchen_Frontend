@@ -7,7 +7,7 @@
       <span @click="back" class="path-back">Kembali</span>
       <b-row class="assessment">
         <b-col class="head" cols="12">
-          <span class="title">Penilaian Produk</span>
+          <span class="title">Penilaian Produk ({{ assessment.length }})</span>
         </b-col>
 
         <b-col cols="12">
@@ -217,7 +217,7 @@ export default {
         productId: this.paramId,
       });
 
-      if (code >= 200 || code < 300) {
+      if (code >= 200 && code < 300) {
         this.assessment = this.assessmentList.assessment;
       }
     },
@@ -235,7 +235,7 @@ export default {
     },
 
     back() {
-      this.$router.push({
+      this.$router.replace({
         name: 'DetailProduct',
         params: {
           id: this.paramId,

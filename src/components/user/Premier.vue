@@ -393,7 +393,7 @@ export default {
       // req api
       const { code } = await this.$func.promiseAPI(this.getGeneralCategory);
 
-      if (code >= 200 || code < 300) {
+      if (code >= 200 && code < 300) {
         this.categories = this.generalCategoryList.categories;
       }
     },

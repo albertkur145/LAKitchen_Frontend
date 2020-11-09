@@ -2,7 +2,7 @@
   <div class="container-la">
     <div class="title">
       <span class="txt-title">{{ title }}</span>
-      <span class="txt-more">Lihat Semua</span>
+      <span class="txt-more" @click="redirectSearch">Lihat Semua</span>
     </div>
 
     <swiper class="swiper" :options="swiperOption">
@@ -308,7 +308,7 @@ export default {
     async getProducts(action, params) {
       const { code, data } = await this.$func.promiseAPI(action, params);
 
-      if (code >= 200 || code < 300) {
+      if (code >= 200 && code < 300) {
         this.products = data.products;
         this.title = data.title;
       }
@@ -336,6 +336,16 @@ export default {
       }
 
       this.getProducts(action, params);
+    },
+
+    redirectSearch() {
+      this.$router.push({
+        name: 'ProductSearch',
+        params: {
+          type: this.type,
+          value: this.params,
+        },
+      });
     },
   },
 
