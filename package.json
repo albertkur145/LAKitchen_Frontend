@@ -19,9 +19,11 @@
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
+    "sweetalert2": "^10.9.1",
     "swiper": "^5.4.5",
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-cookies": "^1.7.4",
     "vue-currency-filter": "^5.2.0",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"

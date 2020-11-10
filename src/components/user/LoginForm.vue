@@ -2,22 +2,26 @@
   <div class="sign-in">
     <b-row class="input-group-la">
       <b-col cols="12">
-        <input id="email" type="text" autocomplete="off" placeholder="Masukkan email">
+        <input type="text" v-model="form.email" @keyup.enter="validate"
+        autocomplete="off" placeholder="Masukkan email">
         <font-awesome-icon icon="mail-bulk" class="input-icon"></font-awesome-icon>
       </b-col>
     </b-row>
 
     <b-row class="input-group-la">
       <b-col cols="12">
-        <input id="password" type="password" autocomplete="off" placeholder="Masukkan kata sandi">
-        <font-awesome-icon icon="lock" class="input-icon"></font-awesome-icon>
+        <input :type="typePassword" v-model="form.password" @keyup.enter="validate"
+        autocomplete="off" placeholder="Masukkan kata sandi">
+        <font-awesome-icon icon="lock" class="input-icon"/>
+        <font-awesome-icon :icon="typeIcon" class="show-icon" @click="toggleType"/>
       </b-col>
     </b-row>
 
-    <button class="btn-login">Masuk</button>
+    <button class="btn-login" @click="validate">Masuk</button>
 
-    <div class="register-text">
-      Belum punya akun? <router-link to="/">Daftar disini</router-link>
+    <div class="register-text" @click="$emit('close')">
+      Belum punya akun? <router-link to="/register"
+      >Daftar disini</router-link>
     </div>
   </div>
 </template>
@@ -36,6 +40,15 @@
         color: #AAA;
         top: 0.5rem;
         left: 1rem;
+        font-size: 1em;
+      }
+
+      .show-icon {
+        color: #777;
+        cursor: pointer;
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
         font-size: 1em;
       }
 
@@ -120,7 +133,86 @@
 
 <script>
 
+import { mapGetters, mapActions } from 'vuex';
+import Swal from 'sweetalert2';
+
 export default {
+
+  data() {
+    return {
+      typePassword: 'password',
+      typeIcon: 'eye',
+      form: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+
+  computed: {
+    ...mapGetters('auth', [
+      'userData',
+    ]),
+  },
+
+  methods: {
+    ...mapActions('auth', [
+      'login',
+    ]),
+
+    toggleType() {
+      const type = this.checkPasswordType();
+
+      this.typePassword = type.typePassword;
+      this.typeIcon = type.typeIcon;
+    },
+
+    checkPasswordType() {
+      if (this.typePassword === 'password') {
+        return {
+          typePassword: 'text',
+          typeIcon: 'eye-slash',
+        };
+      }
+
+      return {
+        typePassword: 'password',
+        typeIcon: 'eye',
+      };
+    },
+
+    async validate() {
+      const { code } = await this.$func.promiseAPI(this.login, {
+        email: this.form.email,
+        password: this.form.password,
+      });
+
+      if (code >= 200 && code < 300) {
+        this.checkRole();
+      } else {
+        this.warningAlert();
+      }
+    },
+
+    warningAlert() {
+      Swal.fire({
+        icon: 'error',
+        text: 'Email / password salah!',
+        showCloseButton: true,
+        confirmButtonText: 'Coba lagi',
+      });
+    },
+
+    checkRole() {
+      if (this.userData.user.role !== 'ROLE_USER') {
+        this.warningAlert();
+      } else {
+        this.$cookies.set('token', this.userData.token);
+        this.$cookies.set('user', this.userData.user);
+        window.location.reload();
+      }
+    },
+  },
 
 };
 

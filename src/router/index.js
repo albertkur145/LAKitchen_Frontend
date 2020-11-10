@@ -7,6 +7,8 @@ const Home = () => import(/* webpackChunkName: "p-home" */ '../pages/user/Home.v
 const DetailProduct = () => import(/* webpackChunkName: "p-detailProduct" */ '../pages/user/DetailProduct.vue');
 const Assessment = () => import(/* webpackChunkName: "p-assessment" */ '../pages/user/Assessment.vue');
 const ProductSearch = () => import(/* webpackChunkName: "p-productSearch" */ '../pages/user/ProductSearch.vue');
+const Login = () => import(/* webpackChunkName: "p-login" */ '../pages/user/Login.vue');
+const Register = () => import(/* webpackChunkName: "p-register" */ '../pages/user/Register.vue');
 
 const routes = [
   {
@@ -28,6 +30,16 @@ const routes = [
     path: '/product/:type/:value',
     name: 'ProductSearch',
     component: ProductSearch,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
 ];
 

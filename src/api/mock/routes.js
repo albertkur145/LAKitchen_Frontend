@@ -1207,4 +1207,50 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/auth/login`,
+    method: 'POST',
+    status: 200,
+    params: {
+      email: 'albert@gmail.com',
+      password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        token: 'eJhbGciJIzUxMiJ9yJyb2xlIjpbIlJPTEfVVNFUiJdLCJIi',
+        user: {
+          name: 'Albert Kurniawan',
+          email: 'albertkur@gmail.com',
+          phoneNumber: '081297541232',
+          address: 'Jalan Ribawa Yunsudiro No 4E',
+          province: 'Sumatra Selatan',
+          city: 'Palembang',
+          region: 'Ilir Barat II',
+          status: 'Active',
+          role: 'ROLE_USER',
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/auth/register`,
+    method: 'POST',
+    status: 200,
+    params: {
+      email: 'albert@gmail.com',
+      phoneNumber: '081392290882',
+      password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

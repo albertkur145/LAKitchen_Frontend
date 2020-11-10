@@ -10,7 +10,7 @@
           <img src="@/assets/images/logo.png" alt="Logo LA' Kitchen">
         </div>
 
-        <LoginForm/>
+        <LoginForm @close="$emit('close')"/>
       </section>
 
       <section v-else>
@@ -195,6 +195,12 @@ export default {
     return {
       isLogin: false,
     };
+  },
+
+  mounted() {
+    if (this.$cookies.get('token')) {
+      this.isLogin = true;
+    }
   },
 
 };

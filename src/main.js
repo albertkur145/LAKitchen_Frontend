@@ -25,11 +25,14 @@ import {
   faCartPlus,
   faArrowLeft,
   faUserAlt,
+  faEye,
+  faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
 import func from '@/function';
+import cookies from 'vue-cookies';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -46,13 +49,14 @@ Vue.use(VueCurrencyFilter, {
   thousandsSeparator: '.',
   symbolPosition: 'front',
 });
+Vue.use(cookies);
 
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
   faDotCircle, faTimes, faLock, faMailBulk, faStar,
   faEnvelope, faTty, faPlus, faMinus, farHeart, faCartPlus,
-  faArrowLeft, faUserAlt);
+  faArrowLeft, faUserAlt, faEye, faEyeSlash);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

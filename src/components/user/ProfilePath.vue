@@ -24,6 +24,13 @@
           <font-awesome-icon class="chev-icon" icon="chevron-right"/>
         </b-row>
       </div>
+      <div class="path">
+        <b-row class="text-path" @click="logout">
+          <b-col cols="1"><font-awesome-icon icon="sign-out-alt"/></b-col>
+          <b-col cols="9"><span class="ml-1">Keluar</span></b-col>
+          <font-awesome-icon class="chev-icon" icon="chevron-right"/>
+        </b-row>
+      </div>
     </div>
   </div>
 </template>
@@ -293,12 +300,16 @@ export default {
           icon: 'cogs',
           name: 'Ganti Password',
         },
-        {
-          icon: 'sign-out-alt',
-          name: 'Keluar',
-        },
       ],
     };
+  },
+
+  methods: {
+    logout() {
+      this.$cookies.remove('token');
+      this.$cookies.remove('user');
+      window.location.reload();
+    },
   },
 
 };
