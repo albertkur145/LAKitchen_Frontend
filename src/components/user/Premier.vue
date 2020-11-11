@@ -38,6 +38,8 @@
         </div>
       </div>
     </div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -344,12 +346,14 @@
 import { mapGetters, mapActions } from 'vuex';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import Loader from '../Loader.vue';
 
 export default {
 
   components: {
     Swiper,
     SwiperSlide,
+    Loader,
   },
 
   data() {
@@ -375,6 +379,7 @@ export default {
       },
 
       categories: [],
+      loader: false,
     };
   },
 
@@ -390,11 +395,14 @@ export default {
     ]),
 
     async getGeneralCategoryList() {
-      // req api
+      this.loader = true;
       const { code } = await this.$func.promiseAPI(this.getGeneralCategory);
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.categories = this.generalCategoryList.categories;
+      } else {
+        this.$func.popupConnectionError();
       }
     },
   },

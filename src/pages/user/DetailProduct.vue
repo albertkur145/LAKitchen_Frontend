@@ -136,6 +136,7 @@
       </div>
     </div>
 
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
     <Footer/>
   </div>
 </template>
@@ -1120,6 +1121,7 @@
 
 <script>
 
+import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import UserAssessment from '@/components/user/UserAssessment.vue';
@@ -1135,6 +1137,7 @@ export default {
     Swiper,
     SwiperSlide,
     UserAssessment,
+    Loader,
   },
 
   data() {
@@ -1158,6 +1161,7 @@ export default {
       imgBinding: '',
       quantity: 1,
       maxQuantity: 20,
+      loader: false,
     };
   },
 
@@ -1182,15 +1186,21 @@ export default {
     ]),
 
     async getProductDetail() {
+      this.loader = true;
+
       const { code } = await this.$func.promiseAPI(this.getById, {
         productId: this.paramId,
       });
+
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.path = this.productDetail.path;
         this.product = this.productDetail.product;
         [this.imgBinding] = this.product.photo_links;
         this.imgBinding = this.imgBinding.link;
+      } else {
+        this.$func.popupConnectionError();
       }
     },
 

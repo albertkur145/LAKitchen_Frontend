@@ -51,6 +51,8 @@
     <div class="login-text">
       Sudah punya akun? <router-link to="/login">Masuk disini</router-link>
     </div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -170,8 +172,13 @@
 
 import { mapActions } from 'vuex';
 import Swal from 'sweetalert2';
+import Loader from '../Loader.vue';
 
 export default {
+
+  components: {
+    Loader,
+  },
 
   data() {
     return {
@@ -179,6 +186,8 @@ export default {
       typeIcon: 'eye',
       typeConfirmPassword: 'password',
       typeConfirmIcon: 'eye',
+      loader: false,
+
       form: {
         email: '',
         hp: '',
@@ -200,11 +209,13 @@ export default {
     ]),
 
     async registerUser() {
+      this.loader = true;
       const { code } = await this.$func.promiseAPI(this.register, {
         email: this.form.email,
         phoneNumber: this.form.hp,
         password: this.form.password,
       });
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         Swal.fire({
@@ -215,6 +226,8 @@ export default {
         }).then(() => {
           this.$router.push('/');
         });
+      } else {
+        this.$func.popupConnectionError();
       }
     },
 

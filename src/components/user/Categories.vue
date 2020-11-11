@@ -17,10 +17,12 @@
           <div v-for="(category) in categories" :key="category.id"
           :class="`sub-category category-${category.id}
           ${category.id == 1 ? '' : 'd-none'}`">
-            <div class="title">{{ category.name }}</div>
+            <div class="title" @click="redirectProductSearch('category', category.id)">
+              {{ category.name }}
+            </div>
             <b-row class="sub-category-text mt-0">
               <b-col v-for="(sub) in category.subCategories" :key="sub.id"
-              lg="4" md="6" class="text mt-4">
+              lg="4" md="6" class="text mt-4" @click="redirectProductSearch('subCategory', sub.id)">
                 <font-awesome-icon icon="chevron-right" class="chev-icon mr-2"/>
                 {{ sub.name }}
               </b-col>
@@ -233,6 +235,16 @@ export default {
 
       const subCategory = menu.querySelector(`.sub-category.category-${id}`);
       subCategory.classList.remove('d-none');
+    },
+
+    redirectProductSearch(type, value) {
+      this.$router.push({
+        name: 'ProductSearch',
+        params: {
+          type,
+          value,
+        },
+      });
     },
   },
 

@@ -23,6 +23,8 @@
       Belum punya akun? <router-link to="/register"
       >Daftar disini</router-link>
     </div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -134,9 +136,13 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex';
-import Swal from 'sweetalert2';
+import Loader from '../Loader.vue';
 
 export default {
+
+  components: {
+    Loader,
+  },
 
   data() {
     return {
@@ -146,6 +152,7 @@ export default {
         email: '',
         password: '',
       },
+      loader: false,
     };
   },
 
@@ -182,30 +189,25 @@ export default {
     },
 
     async validate() {
+      this.loader = true;
+
       const { code } = await this.$func.promiseAPI(this.login, {
         email: this.form.email,
         password: this.form.password,
       });
 
+      this.loader = false;
+
       if (code >= 200 && code < 300) {
         this.checkRole();
       } else {
-        this.warningAlert();
+        this.$func.popupError('Email / password salah!', 'Coba lagi');
       }
-    },
-
-    warningAlert() {
-      Swal.fire({
-        icon: 'error',
-        text: 'Email / password salah!',
-        showCloseButton: true,
-        confirmButtonText: 'Coba lagi',
-      });
     },
 
     checkRole() {
       if (this.userData.user.role !== 'ROLE_USER') {
-        this.warningAlert();
+        this.$func.popupError('Email / password salah!', 'Coba lagi');
       } else {
         this.$cookies.set('token', this.userData.token);
         this.$cookies.set('user', this.userData.user);

@@ -16,14 +16,23 @@
     </div>
 
     <div class="other-path">
+      <div class="path">
+        <b-row class="text-path">
+          <b-col cols="1"><font-awesome-icon icon="shopping-cart"/></b-col>
+          <b-col cols="9"><span class="ml-1">Keranjang</span></b-col>
+          <font-awesome-icon class="chev-icon" icon="chevron-right"/>
+        </b-row>
+      </div>
+
       <div v-for="(value, index) in profilePath" :key="index"
-      class="path">
+      class="path" @click="redirect(value.route)">
         <b-row class="text-path">
           <b-col cols="1"><font-awesome-icon :icon="value.icon"/></b-col>
           <b-col cols="9"><span class="ml-1">{{ value.name }}</span></b-col>
           <font-awesome-icon class="chev-icon" icon="chevron-right"/>
         </b-row>
       </div>
+
       <div class="path">
         <b-row class="text-path" @click="logout">
           <b-col cols="1"><font-awesome-icon icon="sign-out-alt"/></b-col>
@@ -277,31 +286,10 @@
 
 export default {
 
-  data() {
-    return {
-      profilePath: [
-        {
-          icon: 'id-card-alt',
-          name: 'Profil',
-        },
-        {
-          icon: 'shopping-cart',
-          name: 'Keranjang',
-        },
-        {
-          icon: 'heart',
-          name: 'Wishlist',
-        },
-        {
-          icon: 'box-tissue',
-          name: 'Daftar Pesanan',
-        },
-        {
-          icon: 'cogs',
-          name: 'Ganti Password',
-        },
-      ],
-    };
+  computed: {
+    profilePath() {
+      return this.$func.pathUser();
+    },
   },
 
   methods: {
@@ -309,6 +297,10 @@ export default {
       this.$cookies.remove('token');
       this.$cookies.remove('user');
       window.location.reload();
+    },
+
+    redirect(route) {
+      this.$router.push(route);
     },
   },
 

@@ -19,6 +19,8 @@
       <div class="swiper-button-next swiper-button-la swiper-button-la-right"
       slot="button-next"></div>
     </swiper>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -169,6 +171,7 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 import { mapActions } from 'vuex';
+import Loader from '../Loader.vue';
 import Product from './Product.vue';
 
 export default {
@@ -186,6 +189,7 @@ export default {
     Swiper,
     SwiperSlide,
     Product,
+    Loader,
   },
 
   data() {
@@ -287,6 +291,7 @@ export default {
 
       title: '',
       products: [],
+      loader: false,
 
       tempProduct: {
         id: 0,
@@ -306,11 +311,15 @@ export default {
     ]),
 
     async getProducts(action, params) {
+      this.loader = true;
       const { code, data } = await this.$func.promiseAPI(action, params);
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.products = data.products;
         this.title = data.title;
+      } else {
+        this.$func.popupConnectionError();
       }
     },
 

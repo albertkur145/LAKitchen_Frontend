@@ -31,7 +31,7 @@
           <div class="profile-path">
             <div class="container-path">
               <div v-for="(value, index) in profilePath" :key="index"
-              class="text-path">
+              class="text-path" @click="redirect(value.route)">
                 <b-row>
                   <b-col cols="1"><font-awesome-icon :icon="value.icon"/></b-col>
                   <b-col cols="10"><span class="ml-1">{{ value.name }}</span></b-col>
@@ -88,6 +88,8 @@
       <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
     </template>
     <div class="text-center mt-5">{{ windowWidth }}</div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -613,6 +615,7 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex';
+import Loader from '../Loader.vue';
 import Categories from './Categories.vue';
 import CategoriesMobile from './CategoriesMobile.vue';
 import SidebarMobile from './SidebarMobile.vue';
@@ -623,33 +626,17 @@ export default {
     Categories,
     CategoriesMobile,
     SidebarMobile,
+    Loader,
   },
 
   data() {
     return {
-      profilePath: [
-        {
-          icon: 'id-card-alt',
-          name: 'Profil',
-        },
-        {
-          icon: 'heart',
-          name: 'Wishlist',
-        },
-        {
-          icon: 'box-tissue',
-          name: 'Daftar Pesanan',
-        },
-        {
-          icon: 'cogs',
-          name: 'Ganti Password',
-        },
-      ],
       windowWidth: null,
       isShowSide: false,
       categories: [],
       searchText: '',
       isLogin: false,
+      loader: false,
     };
   },
 
@@ -657,6 +644,10 @@ export default {
     ...mapGetters('categories', [
       'categoryList',
     ]),
+
+    profilePath() {
+      return this.$func.pathUser();
+    },
   },
 
   mounted() {
@@ -673,10 +664,14 @@ export default {
     ]),
 
     async getCategoryList() {
+      this.loader = true;
       const { code } = await this.$func.promiseAPI(this.getCategories);
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.categories = this.categoryList.categories;
+      } else {
+        this.popupConnectionError();
       }
     },
 
@@ -721,6 +716,10 @@ export default {
       this.$cookies.remove('token');
       this.$cookies.remove('user');
       window.location.reload();
+    },
+
+    redirect(route) {
+      this.$router.push(route);
     },
   },
 

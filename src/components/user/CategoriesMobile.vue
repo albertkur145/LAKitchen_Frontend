@@ -11,7 +11,7 @@
         <div :class="`d-none sub-category sub-category-${category.id}`">
           <div v-for="(sub) in category.subCategories" :key="sub.id"
           class="sub-category-text">
-            <div>{{ sub.name }}</div>
+            <div @click="redirectProductSearch('subCategory', sub.id)">{{ sub.name }}</div>
           </div>
         </div>
       </div>
@@ -192,6 +192,16 @@ export default {
     showSubCategories(id) {
       const subCategories = document.querySelector(`.sub-category-${id}`);
       subCategories.classList.toggle('d-none');
+    },
+
+    redirectProductSearch(type, value) {
+      this.$router.push({
+        name: 'ProductSearch',
+        params: {
+          type,
+          value,
+        },
+      });
     },
   },
 

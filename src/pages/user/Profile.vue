@@ -4,10 +4,15 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <div class="login-container">
-        <div class="title">Masuk ke akun kamu</div>
-        <LoginForm/>
-      </div>
+      <b-row>
+        <b-col cols="3" class="path">
+          <SidePath/>
+        </b-col>
+
+        <b-col cols="9" class="body-frame">
+          halo
+        </b-col>
+      </b-row>
     </div>
 
     <Footer/>
@@ -34,22 +39,6 @@
 
     .content {
       padding: 7.25rem 0.875rem;
-
-      .login-container {
-        margin: 2rem auto 0;
-        background-color: #FFF;
-        box-shadow: 0 0 0.0625rem 0.0625rem rgba($color: #000000, $alpha: 0.2);
-        padding: 1.5rem;
-        width: 100%;
-
-        .title {
-          font-weight: 500;
-          color: #FF6B00;
-          text-align: center;
-          margin-bottom: 2.5rem;
-          font-size: 1.125em;
-        }
-      }
     }
   }
   // global css
@@ -60,14 +49,6 @@
 
       .content {
         padding: 7.5rem 1rem;
-
-        .login-container {
-          padding: 1.75rem;
-
-          .title {
-            font-size: 1.25em;
-          }
-        }
       }
     }
   }
@@ -79,15 +60,6 @@
 
       .content {
         padding: 7.5rem 1rem;
-
-        .login-container {
-          padding: 1.5rem 2rem 2rem;
-          width: 22rem;
-
-          .title {
-            font-size: 1.3125em;
-          }
-        }
       }
     }
   }
@@ -99,15 +71,6 @@
 
       .content {
         padding: 7.75rem 1.5rem;
-
-        .login-container {
-          padding: 1.5rem 2.5rem 2.5rem;
-          width: 25rem;
-
-          .title {
-            font-size: 1.375em;
-          }
-        }
       }
     }
   }
@@ -119,15 +82,6 @@
 
       .content {
         padding: 8rem 1.875rem;
-
-        .login-container {
-          padding: 2rem 3rem 3rem;
-          width: 27rem;
-
-          .title {
-            font-size: 1.5em;
-          }
-        }
       }
     }
   }
@@ -139,20 +93,14 @@
 
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
-import LoginForm from '@/components/user/LoginForm.vue';
+import SidePath from '@/components/user/SidePath.vue';
 
 export default {
 
   components: {
     Header,
     Footer,
-    LoginForm,
-  },
-
-  data() {
-    return {
-
-    };
+    SidePath,
   },
 
   methods: {
@@ -167,12 +115,6 @@ export default {
       el.style.opacity = '0';
       el.style.height = '0';
     },
-  },
-
-  created() {
-    if (this.$cookies.get('token')) {
-      this.$router.go(-1);
-    }
   },
 
 };

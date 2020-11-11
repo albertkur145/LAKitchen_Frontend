@@ -17,6 +17,8 @@
       <div class="warning">Maaf, hasil pencarian "{{ title }}" tidak ditemukan</div>
       <div class="message">Yuk coba kata kunci yang lain</div>
     </div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -428,6 +430,7 @@
 
 import { mapActions } from 'vuex';
 import Product from './Product.vue';
+import Loader from '../Loader.vue';
 
 export default {
 
@@ -442,6 +445,7 @@ export default {
 
   components: {
     Product,
+    Loader,
   },
 
   data() {
@@ -449,6 +453,7 @@ export default {
       title: '',
       products: [],
       windowWidth: null,
+      loader: false,
     };
   },
 
@@ -460,7 +465,9 @@ export default {
     ]),
 
     async getProducts(action, params) {
+      this.loader = true;
       const { code, data } = await this.$func.promiseAPI(action, params);
+      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.products = data.products;
@@ -506,7 +513,6 @@ export default {
 
   created() {
     this.selection();
-    this.$emit('is-null', true);
   },
 
 };

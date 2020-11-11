@@ -16,6 +16,7 @@
       </b-row>
     </div>
 
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
     <Footer/>
   </div>
 </template>
@@ -181,6 +182,7 @@
 
 <script>
 
+import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import { mapGetters, mapActions } from 'vuex';
@@ -192,12 +194,14 @@ export default {
     Header,
     Footer,
     UserAssessment,
+    Loader,
   },
 
   data() {
     return {
       paramId: null,
       assessment: [],
+      loader: false,
     };
   },
 
@@ -213,12 +217,18 @@ export default {
     ]),
 
     async getAssessmentList() {
+      this.loader = true;
+
       const { code } = await this.$func.promiseAPI(this.getAssessment, {
         productId: this.paramId,
       });
 
+      this.loader = false;
+
       if (code >= 200 && code < 300) {
         this.assessment = this.assessmentList.assessment;
+      } else {
+        this.$func.popupConnectionError();
       }
     },
 
