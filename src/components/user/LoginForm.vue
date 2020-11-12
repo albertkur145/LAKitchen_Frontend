@@ -209,8 +209,8 @@ export default {
       if (this.userData.user.role !== 'ROLE_USER') {
         this.$func.popupError('Email / password salah!', 'Coba lagi');
       } else {
-        this.$cookies.set('token', this.userData.token);
-        this.$cookies.set('user', this.userData.user);
+        this.$cookies.set('token', this.userData.token, '1y');
+        this.$cookies.set('user', this.userData.user, '1y');
         window.location.reload();
       }
     },

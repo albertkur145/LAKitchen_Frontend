@@ -4,15 +4,11 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <b-row>
-        <b-col cols="3" class="path">
-          <SidePath/>
-        </b-col>
-
-        <b-col cols="9" class="body-frame">
-          halo
-        </b-col>
-      </b-row>
+      <UserPathContainer title="Profil">
+        <template v-slot:content>
+          <ProfileBody/>
+        </template>
+      </UserPathContainer>
     </div>
 
     <Footer/>
@@ -93,14 +89,16 @@
 
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
-import SidePath from '@/components/user/SidePath.vue';
+import UserPathContainer from '@/components/user/UserPathContainer.vue';
+import ProfileBody from '@/components/user/ProfileBody.vue';
 
 export default {
 
   components: {
     Header,
     Footer,
-    SidePath,
+    UserPathContainer,
+    ProfileBody,
   },
 
   methods: {
@@ -115,6 +113,12 @@ export default {
       el.style.opacity = '0';
       el.style.height = '0';
     },
+  },
+
+  created() {
+    if (!this.$cookies.get('token')) {
+      this.$router.push('/');
+    }
   },
 
 };

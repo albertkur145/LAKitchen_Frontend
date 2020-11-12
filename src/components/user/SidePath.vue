@@ -8,9 +8,9 @@
         <font-awesome-icon :icon="val.icon"/>
       </b-col>
 
-      <b-cols cols="9" class="ml-3">
+      <b-col cols="9" class="ml-3">
         {{ val.name }}
-      </b-cols>
+      </b-col>
     </b-row>
 
     <b-row class="text-path" @click="logout">
@@ -18,9 +18,9 @@
         <font-awesome-icon icon="sign-out-alt"/>
       </b-col>
 
-      <b-cols cols="9" class="ml-3">
+      <b-col cols="9" class="ml-3">
         Keluar
-      </b-cols>
+      </b-col>
     </b-row>
   </div>
 </template>
@@ -64,6 +64,30 @@
   }
   // global css
 
+  // #Device = Mobiles
+  @media (min-width: 320px) and (max-width: 480px) {
+
+  }
+  // #Device = Mobiles
+
+  // #Device = Low Resolution Tablets
+  @media (min-width: 481px) and (max-width: 767px) {
+
+  }
+  // #Device = Low Resolution Tablets
+
+  // #Device = Tablets, Ipads
+  @media (min-width: 768px) and (max-width: 1024px) {
+
+  }
+  // #Device = Tablets, Ipads
+
+  // #Device = Laptops, Desktops
+  @media (min-width: 1025px) {
+
+  }
+  // #Device = Laptops, Desktops
+
 </style>
 
 <script>
@@ -79,6 +103,12 @@ export default {
   methods: {
     redirect(route) {
       this.$router.push(route);
+    },
+
+    logout() {
+      this.$cookies.remove('token');
+      this.$cookies.remove('user');
+      window.location.reload();
     },
   },
 
