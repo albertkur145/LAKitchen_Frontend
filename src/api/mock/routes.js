@@ -1221,13 +1221,13 @@ export default [
       data: {
         token: 'eJhbGciJIzUxMiJ9yJyb2xlIjpbIlJPTEfVVNFUiJdLCJIi',
         user: {
+          id: 1,
           name: 'Albert Kurniawan',
           email: 'albertkur@gmail.com',
           phoneNumber: '081297541232',
           address: 'Jalan Ribawa Yunsudiro No 4E',
           province: 'Sumatra Selatan',
-          city: 'Palembang',
-          region: 'Ilir Barat II',
+          city: 'Kota Palembang',
           status: 'Active',
           role: 'ROLE_USER',
         },
@@ -1237,13 +1237,34 @@ export default [
     },
   },
   {
-    url: `${API}/auth/register`,
+    url: `${API}/user`,
     method: 'POST',
     status: 200,
     params: {
       email: 'albert@gmail.com',
       phoneNumber: '081392290882',
       password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'ACCEPTED',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/user`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
+      name: 'Albert',
+      email: 'albertkur@gmail.com',
+      phoneNumber: '081297541232',
+      address: 'Jalan Ribawa Yunsudiro No 4E',
+      province: 'Sumatra Selatan',
+      city: 'Kota Palembang',
     },
     response: {
       code: 200,

@@ -204,7 +204,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('auth', [
+    ...mapActions('user', [
       'register',
     ]),
 

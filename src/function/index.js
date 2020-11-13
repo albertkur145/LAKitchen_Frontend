@@ -54,4 +54,14 @@ export default {
       confirmButtonText,
     });
   },
+
+  popupSuccessNoRoute(text) {
+    Swal.fire({
+      icon: 'success',
+      text,
+      timer: 5000,
+      showCloseButton: true,
+      confirmButtonText: 'OK',
+    });
+  },
 };

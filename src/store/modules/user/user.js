@@ -2,34 +2,42 @@ import axios from '@/config/axios';
 
 const data = {
   temp: {},
-  user: {},
 };
 
 const getters = {
-  userData(state) {
-    return state.user;
-  },
+
 };
 
 const mutations = {
-  setUser(state, value) {
-    state.user = value;
-  },
-
   setTemporary(state, value) {
     state.temp = value;
   },
 };
 
 const actions = {
-  login({ commit }, payload) {
+  register({ commit }, payload) {
     return axios({
       method: 'post',
-      url: '/auth/login',
+      url: '/user',
       data: payload.params,
     })
       .then((res) => {
-        commit('setUser', res.data.data);
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  update({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/user',
+      data: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {

@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col lg="3" class="path">
-      <SidePath/>
+      <SidePath :title="title"/>
     </b-col>
 
     <b-col cols="12" lg="9" class="body-frame">

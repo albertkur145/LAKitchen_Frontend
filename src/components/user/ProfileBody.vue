@@ -12,7 +12,11 @@
 
         <b-col cols="12">
           <input type="text" class="input-text" v-model="form.name"
-          placeholder="Masukkan nama lengkap" autocomplete="off">
+          @keyup="validateName" placeholder="Masukkan nama lengkap" autocomplete="off">
+
+          <b-form-text :class="`warning-text${validateForm.name ? ' d-none' : ''}`">
+            Nama lengkap harus diisi.
+          </b-form-text>
         </b-col>
       </b-row>
 
@@ -23,7 +27,11 @@
 
         <b-col cols="12">
           <input type="text" class="input-text" v-model="form.email"
-          placeholder="Masukkan email" autocomplete="off">
+          @keyup="validateEmail" placeholder="Masukkan email" autocomplete="off">
+
+          <b-form-text :class="`warning-text${validateForm.email ? ' d-none' : ''}`">
+            Email tidak valid.
+          </b-form-text>
         </b-col>
       </b-row>
 
@@ -34,18 +42,26 @@
 
         <b-col cols="12">
           <input type="text" class="input-text" v-model="form.phoneNumber"
-          placeholder="Masukkan nomor hp" autocomplete="off">
+          @keyup="validatePhoneNumber" placeholder="Masukkan nomor hp" autocomplete="off">
+
+          <b-form-text :class="`warning-text${validateForm.phoneNumber ? ' d-none' : ''}`">
+            Contoh: 0813xxxxxxxx
+          </b-form-text>
         </b-col>
       </b-row>
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Alamat <span>*</span></label>
+          <label for="name">Alamat Pengiriman <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
           <textarea class="input-text" v-model="form.address"
-          rows="4" placeholder="Masukkan alamat lengkap"/>
+          @keyup="validateAddress" rows="4" placeholder="Masukkan alamat lengkap"/>
+
+          <b-form-text :class="`warning-text${validateForm.address ? ' d-none' : ''}`">
+            Isilah alamat dengan lengkap.
+          </b-form-text>
         </b-col>
       </b-row>
 
@@ -60,6 +76,10 @@
             <option v-for="val in provinceList" :key="val"
             :value="val">{{ val }}</option>
           </select>
+
+          <b-form-text :class="`warning-text${validateForm.province ? ' d-none' : ''}`">
+            Pilih provinsi dengan benar.
+          </b-form-text>
         </b-col>
       </b-row>
 
@@ -69,16 +89,22 @@
         </b-col>
 
         <b-col cols="12">
-          <select class="input-text" v-model="form.city">
+          <select id="city" class="input-text" v-model="form.city">
             <option value="" disabled>-- PILIH KOTA --</option>
             <option v-for="val in cityList" :key="val"
             :value="val">{{ val }}</option>
           </select>
+
+          <b-form-text :class="`warning-text${validateForm.city ? ' d-none' : ''}`">
+            Pilih kota dengan benar.
+          </b-form-text>
         </b-col>
       </b-row>
 
-      <button class="btn-save">Simpan</button>
+      <button class="btn-save" @click="validationForm">Simpan</button>
     </b-col>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </b-row>
 </template>
 
@@ -132,6 +158,11 @@
           color: #555;
         }
       }
+
+      .warning-text {
+        font-size: 0.75em;
+        color: #FF003D !important;
+      }
     }
 
     .btn-save {
@@ -169,6 +200,10 @@
           padding: 0.625rem 1rem;
           font-size: 0.8125em;
         }
+
+        .warning-text {
+          font-size: 0.8125em;
+        }
       }
 
       .btn-save {
@@ -194,6 +229,10 @@
         .input-text {
           padding: 0.625rem 1rem;
           font-size: 0.875em;
+        }
+
+        .warning-text {
+          font-size: 0.8125em;
         }
       }
 
@@ -230,6 +269,10 @@
           padding: 0.625rem 1rem;
           font-size: 0.875em;
         }
+
+        .warning-text {
+          font-size: 0.8125em;
+        }
       }
 
       .btn-save {
@@ -265,6 +308,10 @@
           padding: 0.625rem 1rem;
           font-size: 0.875em;
         }
+
+        .warning-text {
+          font-size: 0.8125em;
+        }
       }
 
       .btn-save {
@@ -279,10 +326,19 @@
 
 <script>
 
+import { mapActions } from 'vuex';
+import Loader from '../Loader.vue';
+
 export default {
+
+  components: {
+    Loader,
+  },
 
   data() {
     return {
+      loader: false,
+
       form: {
         name: '',
         email: '',
@@ -290,6 +346,15 @@ export default {
         address: '',
         province: '',
         city: '',
+      },
+
+      validateForm: {
+        name: true,
+        email: true,
+        phoneNumber: true,
+        address: true,
+        province: true,
+        city: true,
       },
 
       provinceList: [
@@ -310,6 +375,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('user', [
+      'update',
+    ]),
+
     fillCity({ target }) {
       this.form.city = '';
 
@@ -665,6 +734,123 @@ export default {
           break;
       }
     },
+
+    setForm() {
+      const user = this.$cookies.get('user');
+      this.fillCity({ target: { value: user.province } });
+
+      this.form = {
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
+        province: user.province,
+        city: user.city,
+      };
+    },
+
+    async updateUser() {
+      const params = {
+        id: this.$cookies.get('user').id,
+        name: this.form.name,
+        email: this.form.email,
+        phoneNumber: this.form.phoneNumber,
+        address: this.form.address,
+        province: this.form.province,
+        city: this.form.city,
+      };
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.update, params);
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        params.status = this.$cookies.get('user').status;
+        params.role = this.$cookies.get('user').role;
+        this.$cookies.set('user', params);
+
+        this.$func.popupSuccessNoRoute('Berhasil update profil');
+      } else {
+        this.$func.popupConnectionError();
+      }
+    },
+
+    validationForm() {
+      if (this.validateName() && this.validateEmail()
+      && this.validatePhoneNumber() && this.validateAddress()
+      && this.validateProvince() && this.validateCity()) {
+        this.updateUser();
+      }
+    },
+
+    validateName() {
+      if (this.form.name.length === 0) {
+        this.validateForm.name = false;
+        return 0;
+      }
+
+      this.validateForm.name = true;
+      return 1;
+    },
+
+    validateEmail() {
+      const regEmail = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+
+      if (!regEmail.test(this.form.email)) {
+        this.validateForm.email = false;
+        return 0;
+      }
+
+      this.validateForm.email = true;
+      return 1;
+    },
+
+    validatePhoneNumber() {
+      const regHp = /^08[0-9]{8,11}$/;
+
+      if (!regHp.test(this.form.phoneNumber)) {
+        this.validateForm.phoneNumber = false;
+        return 0;
+      }
+
+      this.validateForm.phoneNumber = true;
+      return 1;
+    },
+
+    validateAddress() {
+      if (this.form.address.length <= 10) {
+        this.validateForm.address = false;
+        return 0;
+      }
+
+      this.validateForm.address = true;
+      return 1;
+    },
+
+    validateProvince() {
+      if (this.form.province.length === 0) {
+        this.validateForm.province = false;
+        return 0;
+      }
+
+      this.validateForm.province = true;
+      return 1;
+    },
+
+    validateCity() {
+      if (this.form.city.length === 0) {
+        this.validateForm.city = false;
+        return 0;
+      }
+
+      this.validateForm.city = true;
+      return 1;
+    },
+  },
+
+  created() {
+    this.setForm();
   },
 
 };
