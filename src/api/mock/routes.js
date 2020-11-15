@@ -1368,4 +1368,60 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/order`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '196324758507',
+            date: '12 September 2020',
+            totalPayment: 127500,
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+          },
+          {
+            orderNumber: '108386152574',
+            date: '25 September 2020',
+            totalPayment: 78500,
+            status: {
+              id: 1,
+              name: 'Menunggu Pembayaran',
+            },
+          },
+          {
+            orderNumber: '125706159125',
+            date: '28 September 2020',
+            totalPayment: 120000,
+            status: {
+              id: 4,
+              name: 'Selesai',
+            },
+          },
+          {
+            orderNumber: '179472667591',
+            date: '06 November 2020',
+            totalPayment: 62500,
+            status: {
+              id: 5,
+              name: 'Dibatalkan',
+            },
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

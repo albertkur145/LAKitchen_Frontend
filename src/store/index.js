@@ -7,6 +7,7 @@ import products from './modules/user/products';
 import assessment from './modules/user/assessment';
 import user from './modules/user/user';
 import wishlist from './modules/user/wishlist';
+import order from './modules/user/order';
 
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     assessment,
     user,
     wishlist,
+    order,
   },
 });
