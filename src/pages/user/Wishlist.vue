@@ -6,11 +6,12 @@
     <div class="content">
       <UserPathContainer title="Wishlist">
         <template v-slot:content>
-          <WishlistBody/>
+          <WishlistBody :products="products" @del="removeProduct"/>
         </template>
       </UserPathContainer>
     </div>
 
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
     <Footer/>
   </div>
 </template>
@@ -87,10 +88,12 @@
 
 <script>
 
+import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import UserPathContainer from '@/components/user/UserPathContainer.vue';
 import WishlistBody from '@/components/user/WishlistBody.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
@@ -99,9 +102,61 @@ export default {
     Footer,
     UserPathContainer,
     WishlistBody,
+    Loader,
+  },
+
+  data() {
+    return {
+      loader: false,
+      products: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters('wishlist', [
+      'wishlist',
+    ]),
   },
 
   methods: {
+    ...mapActions('wishlist', [
+      'getAll',
+      'remove',
+    ]),
+
+    async getWishlist() {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.getAll, {
+        userId: this.$cookies.get('user').id,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.products = this.wishlist.products;
+      } else {
+        this.$func.popupConnectionError();
+      }
+    },
+
+    async removeProduct(productId) {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.remove, {
+        userId: this.$cookies.get('user').id,
+        productId,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.getWishlist();
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
     showBackground() {
       const el = document.querySelector('.bg-all');
       el.style.opacity = '1';
@@ -119,6 +174,8 @@ export default {
     if (!this.$cookies.get('token')) {
       this.$router.push('/');
     }
+
+    this.getWishlist();
   },
 
 };

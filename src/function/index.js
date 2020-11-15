@@ -35,14 +35,16 @@ export default {
     ];
   },
 
-  popupConnectionError() {
+  popupConnectionError(back = true) {
     Swal.fire({
       icon: 'question',
       text: 'Koneksimu masih hidup?',
       showCloseButton: true,
       confirmButtonText: 'Kembali',
     }).then(() => {
-      window.history.back();
+      if (back) {
+        window.history.back();
+      }
     });
   },
 
@@ -55,6 +57,15 @@ export default {
     });
   },
 
+  popupLoginFirst(html) {
+    Swal.fire({
+      icon: 'info',
+      html,
+      showCloseButton: true,
+      confirmButtonText: 'Siap',
+    });
+  },
+
   popupSuccessNoRoute(text) {
     Swal.fire({
       icon: 'success',
@@ -63,5 +74,18 @@ export default {
       showCloseButton: true,
       confirmButtonText: 'OK',
     });
+  },
+
+  popupConfirmAction(text, confirmButtonText, cancelButtonText) {
+    const result = Swal.fire({
+      icon: 'info',
+      html: text,
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText,
+      cancelButtonText,
+    }).then((res) => res.isConfirmed);
+
+    return result;
   },
 };

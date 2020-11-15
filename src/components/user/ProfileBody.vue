@@ -71,7 +71,7 @@
         </b-col>
 
         <b-col cols="12">
-          <select class="input-text" v-model="form.province" @change="fillCity">
+          <select class="input-text bg-white" v-model="form.province" @change="fillCity">
             <option value="" disabled>-- PILIH PROVINSI --</option>
             <option v-for="val in provinceList" :key="val"
             :value="val">{{ val }}</option>
@@ -772,7 +772,7 @@ export default {
 
         this.$func.popupSuccessNoRoute('Berhasil update profil');
       } else {
-        this.$func.popupConnectionError();
+        this.$func.popupConnectionError(false);
       }
     },
 

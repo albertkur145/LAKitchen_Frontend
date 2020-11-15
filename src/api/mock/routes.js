@@ -1274,4 +1274,98 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/wishlist`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        products: [
+          {
+            id: 1,
+            name: 'Skippy',
+            price: 70000,
+            photo_link: 'skippy',
+            rating: 4.79,
+            evaluators: 171,
+          },
+          {
+            id: 2,
+            name: 'Ekado Ayam & Telur Puyuh',
+            price: 50000,
+            rating: 4.64,
+            evaluators: 73,
+            photo_link: 'ekado',
+          },
+          {
+            id: 3,
+            name: 'Chicken Gyoza Kuotie',
+            price: 65000,
+            rating: 3.94,
+            evaluators: 59,
+            photo_link: 'gyoza',
+          },
+          {
+            id: 4,
+            name: 'Thumbprint Strawberry Cookies',
+            price: 45000,
+            photo_link: 'thumbprint_strawberry',
+            rating: 4.40,
+            evaluators: 57,
+          },
+          {
+            id: 5,
+            name: 'Lidah Kucing',
+            price: 65000,
+            photo_link: 'lidah_kucing',
+            rating: 4.75,
+            evaluators: 93,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/wishlist`,
+    method: 'DELETE',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+        productId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/wishlist`,
+    method: 'POST',
+    status: 200,
+    params: {
+      userId: 1,
+      productId: 1,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

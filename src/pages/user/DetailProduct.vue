@@ -104,7 +104,7 @@
               <button class="add-to-cart">Tambah Ke Keranjang</button>
             </div>
 
-            <div class="wishlist">
+            <div class="wishlist" @click="addToWishlist">
               <font-awesome-icon :icon="['far', 'heart']" class="wishlist-icon"/>
               <span class="ml-2">Tambah ke Wishlist</span>
             </div>
@@ -115,7 +115,7 @@
       <b-row class="assessment">
         <b-col class="head" cols="12">
           <span class="title">Penilaian Produk ({{ product.evaluators }})</span>
-          <span @click="redirectAssessment()" class="more">Lihat Semua</span>
+          <span @click="redirectAssessment" class="more">Lihat Semua</span>
         </b-col>
 
         <b-col cols="12">
@@ -125,7 +125,7 @@
 
       <div class="fixed-button-act">
         <div>
-          <div class="add-to-wishlist d-inline-block">
+          <div class="add-to-wishlist d-inline-block" @click="addToWishlist">
             <font-awesome-icon :icon="['far', 'heart']" class="wishlist-icon"/>
           </div>
           <div class="add-to-cart d-inline-block">
@@ -1185,6 +1185,10 @@ export default {
       'incrementSeen',
     ]),
 
+    ...mapActions('wishlist', [
+      'saveProduct',
+    ]),
+
     async getProductDetail() {
       this.loader = true;
 
@@ -1208,6 +1212,35 @@ export default {
       await this.$func.promiseAPI(this.incrementSeen, {
         productId: this.paramId,
       });
+    },
+
+    async addToWishlist() {
+      if (this.checkUser()) {
+        this.loader = true;
+        const { code } = await this.$func.promiseAPI(this.saveProduct, {
+          userId: this.$cookies.get('user').id,
+          productId: this.product.id,
+        });
+        this.loader = false;
+
+        if (code >= 200 && code < 300) {
+          this.$func.popupSuccessNoRoute('Berhasil ditambahkan ke wishlist');
+        } else {
+          this.$func.popupConnectionError(false);
+        }
+      } else {
+        this.$func.popupLoginFirst(
+          'Silahkan login terlebih dahulu <a href="/login">disini</a>',
+        );
+      }
+    },
+
+    checkUser() {
+      if (this.$cookies.get('user') && this.$cookies.get('token')) {
+        return 1;
+      }
+
+      return 0;
     },
 
     showBackground() {

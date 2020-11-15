@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="products-container" v-if="products.length !== 0">
-      <Product class="product" :product="val" v-for="val in products" :key="val.id"/>
+      <Product class="product" :product="val" :remove="true"
+      @del="removeProduct" v-for="val in products" :key="val.id"/>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
@@ -537,7 +538,79 @@
   // #Device = Tablets, Ipads
 
   // #Device = Laptops, Desktops
-  @media (min-width: 1025px) and (max-width: 1235px) {
+  @media (min-width: 1025px) and (max-width: 1129px) {
+    .products-container {
+
+      .product {
+        max-width: 9rem;
+
+        ::v-deep .img-container {
+          max-width: 9rem;
+          max-height: 9.625rem;
+        }
+
+        ::v-deep img {
+          width: 9rem;
+          height: 9.625rem;
+        }
+      }
+
+      .empty-fill {
+        width: 9rem;
+      }
+    }
+
+    .is-empty {
+
+      img {
+        width: 18rem;
+      }
+
+      .message {
+        font-size: 1em;
+      }
+    }
+  }
+  // #Device = Laptops, Desktops
+
+  // #Device = Laptops, Desktops
+  @media (min-width: 1130px) and (max-width: 1234px) {
+    .products-container {
+
+      .product {
+        max-width: 10.25rem;
+
+        ::v-deep .img-container {
+          max-width: 10.25rem;
+          max-height: 11rem;
+        }
+
+        ::v-deep img {
+          width: 10.25rem;
+          height: 11rem;
+        }
+      }
+
+      .empty-fill {
+        width: 10.25rem;
+      }
+    }
+
+    .is-empty {
+
+      img {
+        width: 18rem;
+      }
+
+      .message {
+        font-size: 1em;
+      }
+    }
+  }
+  // #Device = Laptops, Desktops
+
+  // #Device = Laptops, Desktops
+  @media (min-width: 1235px) {
     .products-container {
 
       .product {
@@ -580,63 +653,29 @@ import Product from '@/components/user/Product.vue';
 
 export default {
 
+  props: {
+    products: {
+      type: Array,
+      required: true,
+    },
+  },
+
   components: {
     Product,
   },
 
-  data() {
-    return {
-      products: [
-        {
-          id: 1,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-        {
-          id: 2,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-        {
-          id: 3,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-        {
-          id: 4,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-        {
-          id: 5,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-        {
-          id: 6,
-          name: 'Bakpao Ayam',
-          price: 75000,
-          rating: 3.15,
-          evaluators: 67,
-          photo_link: 'bakpao',
-        },
-      ],
-    };
+  methods: {
+    async removeProduct(id) {
+      const result = await this.$func.popupConfirmAction(
+        'Ingin menghapus produk dari wishlist?',
+        'Ya',
+        'Tidak',
+      );
+
+      if (result) {
+        this.$emit('del', id);
+      }
+    },
   },
 
 };

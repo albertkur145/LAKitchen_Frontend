@@ -1,26 +1,35 @@
 <template>
-  <router-link :to="`/product/${product.id}`" class="product-container">
-    <div class="img-container">
-      <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
-    </div>
-
-    <div class="description">
-      <div class="name">{{ productName }}</div>
-      <div class="price">{{ product.price | currency }}</div>
-
-      <div class="rating">
-        <font-awesome-icon v-for="i in 5" :key="i" icon="star"
-        :class="`star-icon${ i <= rating ? ' fill-color' : '' }`"/>
-        <span class="evaluator">({{ product.evaluators }})</span>
+  <div class="position-relative">
+    <router-link :to="`/product/${product.id}`"
+    class="product-container">
+      <div class="img-container">
+        <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
       </div>
-    </div>
-  </router-link>
+
+      <div class="description">
+        <div class="name">{{ productName }}</div>
+        <div class="price">{{ product.price | currency }}</div>
+
+        <div class="rating">
+          <font-awesome-icon v-for="i in 5" :key="i" icon="star"
+          :class="`star-icon${ i <= rating ? ' fill-color' : '' }`"/>
+          <span class="evaluator">({{ product.evaluators }})</span>
+        </div>
+
+      </div>
+    </router-link>
+
+    <span class="remove" v-if="remove" @click="$emit('del', product.id)">
+      <font-awesome-icon icon="times" class="times-icon"/>
+    </span>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 
   // global css
   .product-container {
+    position: relative;
     display: inline-block;
     text-decoration: none;
     background-color: #FFF;
@@ -79,6 +88,25 @@
           font-size: 0.625em;
         }
       }
+    }
+  }
+
+  .remove {
+    top: 0.25rem;
+    right: 0.5rem;
+    color: #FF3743;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 100rem;
+    background-color: #FFF;
+    padding: 0rem 0.5rem 0.0625rem;
+
+    &:hover {
+      color: #FF0D47;
+    }
+
+    .times-icon {
+      font-size: 0.75em;
     }
   }
   // global css
@@ -261,6 +289,10 @@ export default {
     product: {
       type: Object,
       required: true,
+    },
+    remove: {
+      type: Boolean,
+      default: false,
     },
   },
 
