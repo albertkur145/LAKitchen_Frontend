@@ -4,7 +4,7 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <UserPathContainer title="Profil">
+      <UserPathContainer title="Profil" active="Profil">
         <template v-slot:content>
           <ProfileBody/>
         </template>

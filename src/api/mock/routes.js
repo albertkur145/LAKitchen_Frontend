@@ -1424,4 +1424,111 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/order/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '196324758507',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        order: {
+          orderNumber: '196324758507',
+          date: '12 September 2020',
+          totalPayment: 150000,
+          status: {
+            id: 2,
+            name: 'Sedang Dipersiapkan',
+          },
+          products: [
+            {
+              id: 1,
+              name: 'Indomie Goreng Kari Jepang',
+              price: 30000,
+              quantity: 2,
+              note: 'Minta bonus dong',
+              subTotal: 60000,
+            },
+            {
+              id: 2,
+              name: 'Kue Lapis Pandan',
+              price: 75000,
+              quantity: 1,
+              note: '-',
+              subTotal: 75000,
+            },
+          ],
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/order/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '108386152574',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        order: {
+          orderNumber: '108386152574',
+          date: '25 September 2020',
+          totalPayment: 150000,
+          status: {
+            id: 1,
+            name: 'Menunggu Pembayaran',
+          },
+          products: [
+            {
+              id: 1,
+              name: 'Indomie Goreng Kari Jepang',
+              price: 30000,
+              quantity: 2,
+              note: 'Minta bonus dong',
+              subTotal: 60000,
+            },
+            {
+              id: 2,
+              name: 'Kue Lapis Pandan',
+              price: 75000,
+              quantity: 1,
+              note: '-',
+              subTotal: 75000,
+            },
+          ],
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/order`,
+    method: 'DELETE',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '108386152574',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

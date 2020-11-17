@@ -76,6 +76,18 @@ export default {
     });
   },
 
+  popupSuccess(text, router, path) {
+    Swal.fire({
+      icon: 'success',
+      text,
+      timer: 5000,
+      showCloseButton: true,
+      confirmButtonText: 'OK',
+    }).then(() => {
+      router.push(path);
+    });
+  },
+
   popupConfirmAction(text, confirmButtonText, cancelButtonText) {
     const result = Swal.fire({
       icon: 'info',
@@ -84,6 +96,7 @@ export default {
       showCancelButton: true,
       confirmButtonText,
       cancelButtonText,
+      focusCancel: true,
     }).then((res) => res.isConfirmed);
 
     return result;

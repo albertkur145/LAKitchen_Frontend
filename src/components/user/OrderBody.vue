@@ -23,7 +23,7 @@
             </div>
 
             <div>
-              <div class="title sm-only">Tanggal Transaksi</div>
+              <div class="title">Tanggal Transaksi</div>
               <div class="value">{{ val.date }}</div>
             </div>
 
@@ -40,12 +40,16 @@
           </div>
 
           <div class="mt-5 bottom">
-            <div :class="`status${val.status.id === 1 ||
+            <div v-if="val.status.name !== 'Selesai'" :class="`status${val.status.id === 1 ||
             val.status.name === 'Dibatalkan' ? ' bg-danger-la' : ''}`">
               {{ val.status.name }}
             </div>
 
-            <router-link to="/wishlist" class="detail-order">
+            <router-link to="/wishlist" class="assessment" v-else>
+              Nilai Produk
+            </router-link>
+
+            <router-link :to="`/order/${val.orderNumber}`" class="detail-order">
               <span>Detail pesanan</span>
               <font-awesome-icon icon="chevron-right" class="chev-icon"/>
             </router-link>
@@ -111,26 +115,23 @@
       .headline {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
 
         .md-only {
-          display: none;
-        }
-
-        .sm-only {
           display: none;
         }
 
         .title {
           color: #888;
           text-transform: uppercase;
-          font-size: 0.6875em;
+          font-size: 0.75em;
         }
 
         .value {
           color: #3D3D3D;
           font-weight: 500;
           margin-top: 0.25rem;
-          font-size: 0.75em;
+          font-size: 0.875em;
         }
 
         .order-number {
@@ -157,7 +158,16 @@
           letter-spacing: 0.0625rem;
           background-color: #31C699;
           padding: 0.625rem 1rem;
-          font-size: 0.625em;
+          font-size: 0.6875em;
+        }
+
+        .assessment {
+          display: block;
+          color: #FF9900;
+          font-weight: 500;
+          margin-top: 1rem;
+          text-decoration: underline;
+          font-size: 0.8125em;
         }
 
         .detail-order {
@@ -169,11 +179,11 @@
 
           span {
             margin-right: 0.5rem;
-            font-size: 0.75em;
+            font-size: 0.8125em;
           }
 
           .chev-icon {
-            font-size: 0.625em;
+            font-size: 0.6875em;
           }
         }
       }
@@ -201,33 +211,11 @@
       .list {
         padding: 0.5rem 0.75rem;
 
-        .headline {
-
-          .title {
-            font-size: 0.6875em;
-          }
-
-          .value {
-            font-size: 0.75em;
-          }
-        }
-
         .bottom {
 
           .status {
             padding: 0.625rem 1rem;
-            font-size: 0.625em;
-          }
-
-          .detail-order {
-
-            span {
-              font-size: 0.75em;
-            }
-
-            .chev-icon {
-              font-size: 0.625em;
-            }
+            font-size: 0.6875em;
           }
         }
       }
@@ -255,21 +243,6 @@
       .list {
         padding: 0.75rem 1.25rem;
 
-        .headline {
-
-          .sm-only {
-            display: block;
-          }
-
-          .title {
-            font-size: 0.75em;
-          }
-
-          .value {
-            font-size: 0.875em;
-          }
-        }
-
         .bottom {
           display: flex;
           justify-content: space-between;
@@ -280,16 +253,12 @@
             font-size: 0.6875em;
           }
 
+          .assessment {
+            margin-top: 0;
+          }
+
           .detail-order {
             margin-top: 0;
-
-            span {
-              font-size: 0.8125em;
-            }
-
-            .chev-icon {
-              font-size: 0.6875em;
-            }
           }
         }
       }
@@ -322,18 +291,6 @@
           .md-only {
             display: block;
           }
-
-          .sm-only {
-            display: block;
-          }
-
-          .title {
-            font-size: 0.8125em;
-          }
-
-          .value {
-            font-size: 0.9375em;
-          }
         }
 
         .bottom {
@@ -346,16 +303,13 @@
             font-size: 0.75em;
           }
 
+          .assessment {
+            margin-top: 0;
+            font-size: 0.875em;
+          }
+
           .detail-order {
             margin-top: 0;
-
-            span {
-              font-size: 0.875em;
-            }
-
-            .chev-icon {
-              font-size: 0.75em;
-            }
           }
         }
       }
@@ -389,10 +343,6 @@
             display: block;
           }
 
-          .sm-only {
-            display: block;
-          }
-
           .title {
             font-size: 0.8125em;
           }
@@ -410,6 +360,11 @@
           .status {
             padding: 0.625rem 1rem;
             font-size: 0.8125em;
+          }
+
+          .assessment {
+            margin-top: 0;
+            font-size: 0.875em;
           }
 
           .detail-order {

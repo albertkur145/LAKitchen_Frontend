@@ -20,7 +20,7 @@
       <div class="path-link-mobile">
         <span @click="back" class="back">
           <font-awesome-icon icon="arrow-left" class="arr-icon"/>
-          <span class="link">Beranda</span>
+          <span class="link">Kembali</span>
         </span>
       </div>
 

@@ -2,7 +2,7 @@
   <div class="side">
     <div class="username">Albert Kurniawan</div>
 
-    <b-row :class="`text-path${val.name === title ? ' active' : ''}`"
+    <b-row :class="`text-path${val.name === active ? ' active' : ''}`"
     v-for="(val, index) in profilePath" :key="index" @click="redirect(val.route)">
       <b-col cols="1">
         <font-awesome-icon :icon="val.icon"/>
@@ -95,7 +95,7 @@
 export default {
 
   props: {
-    title: {
+    active: {
       required: true,
     },
   },

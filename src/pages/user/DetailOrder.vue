@@ -4,9 +4,13 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <UserPathContainer title="Daftar Pesanan" active="Daftar Pesanan">
+      <UserPathContainer title="Detail Pesanan" active="Daftar Pesanan">
+        <template v-slot:path-back>
+          <router-link to="/order" class="back">Daftar Pesanan / </router-link>
+        </template>
         <template v-slot:content>
-          <OrderBody v-if="orders !== undefined" :orders="orders"/>
+          <DetailOrderBody v-if="order !== undefined"
+          :order="order" @cancel="cancelOrder"/>
         </template>
       </UserPathContainer>
     </div>
@@ -36,6 +40,11 @@
 
     .content {
       padding: 7.25rem 0.875rem;
+
+      .back {
+        color: #AAA;
+        font-size: 0.625em;
+      }
     }
   }
   // global css
@@ -92,8 +101,8 @@ import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import UserPathContainer from '@/components/user/UserPathContainer.vue';
-import OrderBody from '@/components/user/OrderBody.vue';
-import { mapActions, mapGetters } from 'vuex';
+import DetailOrderBody from '@/components/user/DetailOrderBody.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
@@ -101,39 +110,61 @@ export default {
     Header,
     Footer,
     UserPathContainer,
-    OrderBody,
     Loader,
+    DetailOrderBody,
   },
 
   data() {
     return {
       loader: false,
-      orders: undefined,
+      paramId: '',
+      order: undefined,
     };
   },
 
   computed: {
     ...mapGetters('order', [
-      'orderList',
+      'detailOrder',
     ]),
   },
 
   methods: {
     ...mapActions('order', [
-      'getOrder',
+      'getById',
+      'cancel',
     ]),
 
-    async getAllOrder() {
+    async getDetailOrder() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.getOrder, {
-        userId: this.$cookies.get('user').id,
+      const { code } = await this.$func.promiseAPI(this.getById, {
+        orderNumber: this.paramId,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.orders = this.orderList.orders;
+        this.order = this.detailOrder.order;
+      } else {
+        this.$func.popupConnectionError();
+      }
+    },
+
+    async cancelOrder() {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.cancel, {
+        orderNumber: this.paramId,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.$func.popupSuccess(
+          'Berhasil membatalkan pesanan',
+          this.$router,
+          '/order',
+        );
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -157,7 +188,8 @@ export default {
       this.$router.push('/');
     }
 
-    this.getAllOrder();
+    this.paramId = this.$route.params.number;
+    this.getDetailOrder();
   },
 
 };

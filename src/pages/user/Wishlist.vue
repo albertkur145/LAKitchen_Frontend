@@ -4,7 +4,7 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <UserPathContainer title="Wishlist">
+      <UserPathContainer title="Wishlist" active="Wishlist">
         <template v-slot:content>
           <WishlistBody :products="products" @del="removeProduct"/>
         </template>

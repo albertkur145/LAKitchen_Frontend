@@ -1,11 +1,14 @@
 <template>
   <b-row>
     <b-col lg="3" class="path">
-      <SidePath :title="title"/>
+      <SidePath :active="active"/>
     </b-col>
 
     <b-col cols="12" lg="9" class="body-frame">
-      <div class="title">{{ title }}</div>
+      <div class="title">
+        <slot name="path-back"></slot>
+        {{ title }}
+      </div>
 
       <div class="body">
         <slot name="content"></slot>
@@ -114,6 +117,9 @@ export default {
 
   props: {
     title: {
+      required: true,
+    },
+    active: {
       required: true,
     },
   },

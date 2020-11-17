@@ -87,7 +87,7 @@
 
       <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
     </template>
-    <div class="text-center mt-5">{{ windowWidth }}</div>
+    <!-- <div class="text-center mt-5">{{ windowWidth }}</div> -->
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>

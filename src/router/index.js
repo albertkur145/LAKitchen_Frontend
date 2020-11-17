@@ -12,6 +12,7 @@ const Register = () => import(/* webpackChunkName: "p-register" */ '../pages/use
 const Profile = () => import(/* webpackChunkName: "p-profile" */ '../pages/user/Profile.vue');
 const Wishlist = () => import(/* webpackChunkName: "p-wishlist" */ '../pages/user/Wishlist.vue');
 const Order = () => import(/* webpackChunkName: "p-order" */ '../pages/user/Order.vue');
+const DetailOrder = () => import(/* webpackChunkName: "p-detailOrder" */ '../pages/user/DetailOrder.vue');
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: Order,
+  },
+  {
+    path: '/order/:number',
+    name: 'DetailOrder',
+    component: DetailOrder,
   },
 ];
 
