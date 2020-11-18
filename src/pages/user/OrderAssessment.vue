@@ -4,14 +4,14 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <UserPathContainer title="Detail Pesanan" active="Daftar Pesanan">
+      <UserPathContainer title="Nilai Produk" active="Daftar Pesanan">
         <template v-slot:path-back>
           <router-link to="/order" class="back">Daftar Pesanan</router-link>
           <span class="back"> / </span>
         </template>
         <template v-slot:content>
-          <DetailOrderBody v-if="order !== undefined"
-          :order="order" @cancel="cancelOrder"/>
+          <OrderAssessmentBody :order="order.order" :products="order.products"
+          v-if="order !== undefined"/>
         </template>
       </UserPathContainer>
     </div>
@@ -102,7 +102,7 @@ import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import UserPathContainer from '@/components/user/UserPathContainer.vue';
-import DetailOrderBody from '@/components/user/DetailOrderBody.vue';
+import OrderAssessmentBody from '@/components/user/OrderAssessmentBody.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -111,8 +111,8 @@ export default {
     Header,
     Footer,
     UserPathContainer,
+    OrderAssessmentBody,
     Loader,
-    DetailOrderBody,
   },
 
   data() {
@@ -124,50 +124,29 @@ export default {
   },
 
   computed: {
-    ...mapGetters('order', [
-      'detailOrder',
+    ...mapGetters('products', [
+      'productOrderList',
     ]),
   },
 
   methods: {
-    ...mapActions('order', [
-      'getById',
-      'cancel',
+    ...mapActions('products', [
+      'getByOrderNumber',
     ]),
 
-    async getDetailOrder() {
+    async getProducts() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.getById, {
+      const { code } = await this.$func.promiseAPI(this.getByOrderNumber, {
         orderNumber: this.paramId,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.order = this.detailOrder.order;
+        this.order = this.productOrderList;
       } else {
         this.$func.popupConnectionError();
-      }
-    },
-
-    async cancelOrder() {
-      this.loader = true;
-
-      const { code } = await this.$func.promiseAPI(this.cancel, {
-        orderNumber: this.paramId,
-      });
-
-      this.loader = false;
-
-      if (code >= 200 && code < 300) {
-        this.$func.popupSuccess(
-          'Berhasil membatalkan pesanan',
-          this.$router,
-          '/order',
-        );
-      } else {
-        this.$func.popupConnectionError(false);
       }
     },
 
@@ -190,7 +169,7 @@ export default {
     }
 
     this.paramId = this.$route.params.number;
-    this.getDetailOrder();
+    this.getProducts();
   },
 
 };

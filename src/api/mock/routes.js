@@ -1531,4 +1531,102 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/product/order`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '125706159125',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        order: {
+          orderNumber: '125706159125',
+          date: '28 September 2020',
+          totalPayment: 550000,
+          status: {
+            id: 4,
+            name: 'Selesai',
+          },
+        },
+        products: [
+          {
+            id: 1,
+            name: 'Hakau Ayam x Udang',
+            price: 70000,
+            quantity: 2,
+            photo_link: 'hakau',
+            isAssessment: 0,
+          },
+          {
+            id: 2,
+            name: 'Kastengel Keju',
+            price: 85000,
+            quantity: 1,
+            photo_link: 'kastengel',
+            isAssessment: 1,
+          },
+          {
+            id: 3,
+            name: 'Pierogi',
+            price: 65000,
+            quantity: 5,
+            photo_link: 'pierogi',
+            isAssessment: 0,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/order/productdetail`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '125706159125',
+        productId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orderNumber: '125706159125',
+        date: '28 September 2020',
+        product: {
+          id: 1,
+          name: 'Kue Cendol Surabaya',
+          photo_link: 'cendol_cake',
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/assessment`,
+    method: 'POST',
+    status: 200,
+    params: {
+      orderNumber: '125706159125',
+      productId: 1,
+      userId: 1,
+      rate: 4,
+      comment: 'Bagus sekali',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

@@ -1,13 +1,21 @@
 import axios from '@/config/axios';
+import cookies from 'vue-cookies';
+
+const token = cookies.get('token');
 
 const data = {
   temp: {},
   product: {},
+  productsOrder: [],
 };
 
 const getters = {
   productDetail(state) {
     return state.product;
+  },
+
+  productOrderList(state) {
+    return state.productsOrder;
   },
 };
 
@@ -18,6 +26,10 @@ const mutations = {
 
   setProduct(state, value) {
     state.product = value;
+  },
+
+  setProductOrder(state, value) {
+    state.productsOrder = value;
   },
 };
 
@@ -103,6 +115,25 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getByOrderNumber({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/order',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setProductOrder', res.data.data);
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {

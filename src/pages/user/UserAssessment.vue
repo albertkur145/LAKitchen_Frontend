@@ -4,14 +4,19 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <UserPathContainer title="Detail Pesanan" active="Daftar Pesanan">
+      <UserPathContainer title="" active="Daftar Pesanan">
         <template v-slot:path-back>
           <router-link to="/order" class="back">Daftar Pesanan</router-link>
           <span class="back"> / </span>
+          <router-link class="back"
+          :to="`/order/${paramOrderNumber}/assessment`">Nilai Produk</router-link>
+          <span class="back"> / </span>
+          <span class="back product-name">{{ data.product.name }}</span>
         </template>
+
         <template v-slot:content>
-          <DetailOrderBody v-if="order !== undefined"
-          :order="order" @cancel="cancelOrder"/>
+          <UserAssessmentBody @send="sendAssessment"
+          :data="data" v-if="data !== undefined"/>
         </template>
       </UserPathContainer>
     </div>
@@ -45,6 +50,10 @@
       .back {
         color: #AAA;
         font-size: 0.625em;
+      }
+
+      .product-name {
+        color: #4F4F4F;
       }
     }
   }
@@ -102,8 +111,8 @@ import Loader from '@/components/Loader.vue';
 import Header from '@/components/user/Header.vue';
 import Footer from '@/components/user/Footer.vue';
 import UserPathContainer from '@/components/user/UserPathContainer.vue';
-import DetailOrderBody from '@/components/user/DetailOrderBody.vue';
-import { mapGetters, mapActions } from 'vuex';
+import UserAssessmentBody from '@/components/user/UserAssessmentBody.vue';
+import { mapActions } from 'vuex';
 
 export default {
 
@@ -111,60 +120,63 @@ export default {
     Header,
     Footer,
     UserPathContainer,
+    UserAssessmentBody,
     Loader,
-    DetailOrderBody,
   },
 
   data() {
     return {
       loader: false,
       paramId: '',
-      order: undefined,
+      paramOrderNumber: '',
+      data: undefined,
     };
-  },
-
-  computed: {
-    ...mapGetters('order', [
-      'detailOrder',
-    ]),
   },
 
   methods: {
     ...mapActions('order', [
-      'getById',
-      'cancel',
+      'getProductDetail',
     ]),
 
-    async getDetailOrder() {
+    ...mapActions('assessment', [
+      'postAssessment',
+    ]),
+
+    async getProduct() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.getById, {
-        orderNumber: this.paramId,
+      const { data, code } = await this.$func.promiseAPI(this.getProductDetail, {
+        orderNumber: this.paramOrderNumber,
+        productId: parseInt(this.paramId, 10),
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.order = this.detailOrder.order;
+        this.data = data;
       } else {
         this.$func.popupConnectionError();
       }
     },
 
-    async cancelOrder() {
+    async sendAssessment(form) {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.cancel, {
-        orderNumber: this.paramId,
+      const { code } = await this.$func.promiseAPI(this.postAssessment, {
+        orderNumber: this.paramOrderNumber,
+        productId: parseInt(this.paramId, 10),
+        userId: this.$cookies.get('user').id,
+        rate: parseInt(form.rate, 10),
+        comment: form.comment,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.$func.popupSuccess(
-          'Berhasil membatalkan pesanan',
+          'Terimakasih sudah menilai kami :)',
           this.$router,
-          '/order',
+          `/order/${this.paramOrderNumber}/assessment`,
         );
       } else {
         this.$func.popupConnectionError(false);
@@ -189,8 +201,9 @@ export default {
       this.$router.push('/');
     }
 
-    this.paramId = this.$route.params.number;
-    this.getDetailOrder();
+    this.paramOrderNumber = this.$route.params.number;
+    this.paramId = this.$route.params.id;
+    this.getProduct();
   },
 
 };

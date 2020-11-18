@@ -8,10 +8,14 @@
         <router-link to="/" class="link">Home</router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
 
-        <router-link to="/" class="link">{{ path.category.name }}</router-link>
+        <router-link :to="`/product/category/${path.category.id}`" class="link">
+          {{ path.category.name }}
+        </router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
 
-        <router-link to="/" class="link">{{ path.subCategory.name }}</router-link>
+        <router-link :to="`/product/subCategory/${path.category.id}`" class="link">
+          {{ path.subCategory.name }}
+        </router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
 
         <span class="link">{{ product.name }}</span>

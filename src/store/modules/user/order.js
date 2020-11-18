@@ -1,4 +1,7 @@
 import axios from '@/config/axios';
+import cookies from 'vue-cookies';
+
+const token = cookies.get('token');
 
 const data = {
   temp: {},
@@ -37,6 +40,9 @@ const actions = {
       url: '/order',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         commit('setOrder', res.data.data);
@@ -53,6 +59,9 @@ const actions = {
       url: '/order/id',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         commit('setDetailOrder', res.data.data);
@@ -69,10 +78,35 @@ const actions = {
       url: '/order',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
         payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getProductDetail({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/order/productdetail',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });

@@ -13,6 +13,8 @@ const Profile = () => import(/* webpackChunkName: "p-profile" */ '../pages/user/
 const Wishlist = () => import(/* webpackChunkName: "p-wishlist" */ '../pages/user/Wishlist.vue');
 const Order = () => import(/* webpackChunkName: "p-order" */ '../pages/user/Order.vue');
 const DetailOrder = () => import(/* webpackChunkName: "p-detailOrder" */ '../pages/user/DetailOrder.vue');
+const OrderAssessment = () => import(/* webpackChunkName: "p-orderAssessment" */ '../pages/user/OrderAssessment.vue');
+const UserAssessment = () => import(/* webpackChunkName: "p-userAssessment" */ '../pages/user/UserAssessment.vue');
 
 const routes = [
   {
@@ -64,6 +66,16 @@ const routes = [
     path: '/order/:number',
     name: 'DetailOrder',
     component: DetailOrder,
+  },
+  {
+    path: '/order/:number/assessment',
+    name: 'OrderAssessment',
+    component: OrderAssessment,
+  },
+  {
+    path: '/order/:number/assessment/:id',
+    name: 'UserAssessment',
+    component: UserAssessment,
   },
 ];
 

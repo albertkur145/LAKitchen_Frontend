@@ -29,8 +29,9 @@
 
             <div class="md-only">
               <div class="title">Status Pembayaran</div>
-              <div class="value" v-if="val.status.id !== 1">Diterima</div>
-              <div class="value" v-else>-</div>
+              <div class="value" v-if="val.status.id !== 1 &&
+              val.status.name !== 'Dibatalkan'">Diterima</div>
+              <div class="value text-center" v-else>-</div>
             </div>
 
             <div class="md-only">
@@ -45,7 +46,7 @@
               {{ val.status.name }}
             </div>
 
-            <router-link to="/wishlist" class="assessment" v-else>
+            <router-link :to="`/order/${val.orderNumber}/assessment`" class="assessment" v-else>
               Nilai Produk
             </router-link>
 

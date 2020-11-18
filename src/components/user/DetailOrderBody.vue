@@ -186,33 +186,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-      fields: [
-        {
-          key: 'name',
-          label: 'NAMA',
-        },
-        {
-          key: 'price',
-          label: 'HARGA',
-        },
-        {
-          key: 'quantity',
-          label: 'JUMLAH',
-        },
-        {
-          key: 'subTotal',
-          label: 'SUBTOTAL',
-        },
-        {
-          key: 'note',
-          label: 'CATATAN',
-        },
-      ],
-    };
-  },
-
   methods: {
     async confirmAction() {
       const result = await this.$func.popupConfirmAction(
