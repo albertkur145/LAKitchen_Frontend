@@ -101,4 +101,18 @@ export default {
 
     return result;
   },
+
+  formTextArea(label, placeholder, value) {
+    const result = Swal.fire({
+      input: 'textarea',
+      title: label,
+      inputPlaceholder: placeholder,
+      confirmButtonText: 'Simpan',
+      showCancelButton: true,
+      cancelButtonText: 'Batal',
+      inputValue: value,
+    }).then((res) => res);
+
+    return result;
+  },
 };

@@ -16,7 +16,7 @@
     </div>
 
     <div class="other-path">
-      <div class="path">
+      <div class="path" @click="redirect('/cart')">
         <b-row class="text-path">
           <b-col cols="1"><font-awesome-icon icon="shopping-cart"/></b-col>
           <b-col cols="9"><span class="ml-1">Keranjang</span></b-col>

@@ -1629,4 +1629,102 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/cart`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        products: [
+          {
+            id: 1,
+            name: 'Chocholate Chip Cookies',
+            price: 40000,
+            photo_link: 'chocholate_chip_cookies',
+            quantity: 5,
+            note: 'Tolong bungkus yang rapi',
+          },
+          {
+            id: 2,
+            name: 'Indomie Goreng Rendang 10 Pcs',
+            price: 75000,
+            photo_link: 'banana_roll_cake',
+            quantity: 2,
+            note: 'Pisangnya yang banyak ya',
+          },
+          {
+            id: 3,
+            name: 'Tofu Skin Roll',
+            price: 38000,
+            rating: 4.27,
+            quantity: 1,
+            note: '',
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/cart`,
+    method: 'DELETE',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+        productId: 2,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/cart`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      userId: 1,
+      productId: 1,
+      quantity: 6,
+      note: 'Tolong bungkus yang rapi',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/cart`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      userId: 1,
+      productId: 3,
+      quantity: 1,
+      note: 'Minta yang banyak ya',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

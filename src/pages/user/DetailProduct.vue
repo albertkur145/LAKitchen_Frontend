@@ -3,7 +3,7 @@
     <Header @show="showBackground" @hide="hideBackground"/>
     <div class="bg-all"></div>
 
-    <div class="content">
+    <div class="content" v-if="path && product !== undefined">
       <div class="path-link">
         <router-link to="/" class="link">Home</router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
@@ -1159,8 +1159,8 @@ export default {
       },
 
       paramId: null,
-      path: {},
-      product: {},
+      path: undefined,
+      product: undefined,
       windowWidth: null,
       imgBinding: '',
       quantity: 1,

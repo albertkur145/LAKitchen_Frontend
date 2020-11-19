@@ -14,7 +14,7 @@
       </div>
 
       <div class="info">
-        <div class="cart">
+        <div class="cart" @click="$router.push('/cart')">
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
@@ -87,7 +87,7 @@
 
       <SidebarMobile :show="isShowSide" @close="hideSidebar"/>
     </template>
-    <!-- <div class="text-center mt-5">{{ windowWidth }}</div> -->
+    <div class="text-center mt-5">{{ windowWidth }}</div>
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
