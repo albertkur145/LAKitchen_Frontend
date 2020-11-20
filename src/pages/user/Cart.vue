@@ -12,18 +12,19 @@
       <b-row class="cart-container" v-if="products !== undefined">
         <b-col cols="12" lg="8">
           <div class="top style-container">
-            <label @click="setFormChecked(!checkAll)">
-              <input type="checkbox" v-model="checkAll">
+            <label>
+              <input type="checkbox" v-model="isCheckAll" @click="checkAll">
               <span class="checkbox-la"></span>
-              <span class="text">Pilih Semua</span>
             </label>
+            <span class="text">Pilih Semua</span>
           </div>
 
           <div class="body style-container">
             <div class="product" v-for="(val, index) in products" :key="val.id">
               <div class="d-flex">
-                <label @click="emptyCheck">
-                  <input type="checkbox" v-model="val.checked">
+                <label>
+                  <input type="checkbox" @change="updateCheckAll"
+                  :value="val" v-model="selectedProduct">
                   <span class="checkbox-la"></span>
                 </label>
 
@@ -75,7 +76,8 @@
               <div class="total-value">{{ totalPrice | currency }}</div>
             </div>
 
-            <button class="btn-buy btn-active">Beli (2)</button>
+            <button :class="`${selectedProduct.length > 0 ? ' btn-active' : ' btn-disable'}
+              btn-buy`" @click="checkout">Beli ({{ selectedProduct.length }})</button>
           </div>
         </b-col>
       </b-row>
@@ -86,7 +88,8 @@
           <div class="total-value">{{ totalPrice | currency }}</div>
         </div>
 
-        <button class="btn-buy btn-active">Beli (2)</button>
+        <button :class="`${selectedProduct.length > 0 ? ' btn-active' : ' btn-disable'}
+          btn-buy`" @click="checkout">Beli ({{ selectedProduct.length }})</button>
       </div>
     </div>
 
@@ -119,7 +122,7 @@
       .style-container {
         background-color: #FFF;
         box-shadow: 0 0 0.0625rem 0.0625rem rgba($color: #000000, $alpha: 0.2);
-        padding: 0.5rem 0.625rem 0;
+        padding: 0.8125rem 0.8125rem 0;
       }
 
       .title {
@@ -132,9 +135,7 @@
         margin-top: 1rem;
 
         label {
-          display: inline-flex;
           cursor: pointer;
-          align-items: center;
 
           &:hover > .checkbox-la {
             border: 0.0625rem solid #666;
@@ -179,6 +180,10 @@
               left: 0.375rem;
             }
           }
+        }
+
+        .top {
+          display: flex;
 
           .text {
             font-size: 0.875em;
@@ -441,7 +446,7 @@
         padding: 8rem 1rem;
 
         .style-container {
-          padding: 0.75rem 1rem 0.25rem;
+          padding: 0.8125rem 1rem 0;
         }
 
         .cart-container {
@@ -491,7 +496,7 @@
         padding: 8.25rem 1.5rem;
 
         .style-container {
-          padding: 0.75rem 1rem 0.25rem;
+          padding: 0.8125rem 1rem 0;
         }
 
         .title {
@@ -514,6 +519,9 @@
                 left: 0.4375rem;
               }
             }
+          }
+
+          .top {
 
             .text {
               font-size: 0.9375em;
@@ -605,7 +613,7 @@
         padding: 8.5rem 1.875rem;
 
         .style-container {
-          padding: 0.75rem 1rem 0.25rem;
+          padding: 0.8125rem 1rem 0;
         }
 
         .title {
@@ -628,6 +636,9 @@
                 left: 0.4375rem;
               }
             }
+          }
+
+          .top {
 
             .text {
               font-size: 0.9375em;
@@ -727,7 +738,8 @@ export default {
       maxQuantity: 20,
       loader: false,
       products: undefined,
-      checkAll: true,
+      isCheckAll: true,
+      selectedProduct: [],
       windowWidth: null,
     };
   },
@@ -738,11 +750,7 @@ export default {
     ]),
 
     totalPrice() {
-      if (this.products !== undefined) {
-        return this.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-      }
-
-      return 0;
+      return this.selectedProduct.reduce((val, item) => val + (item.price * item.quantity), 0);
     },
   },
 
@@ -772,7 +780,7 @@ export default {
 
       if (code >= 200 && code < 300) {
         this.products = this.userCart.products;
-        this.setFormChecked();
+        this.selectedProduct = this.products;
       } else {
         this.$func.popupConnectionError();
       }
@@ -863,29 +871,35 @@ export default {
       }
     },
 
-    emptyCheck() {
-      let count = 0;
-      this.products.forEach((val) => {
-        if (val.checked) {
-          count += 1;
-        }
-      });
-
-      if (count === 0) {
-        this.checkAll = false;
-      } else if (count === this.products.length) {
-        this.checkAll = true;
+    checkout() {
+      if (this.selectedProduct.length > 0) {
+        this.$cookies.set('cart', this.selectedProduct);
+        this.$router.push('/payment');
       }
     },
 
-    setFormChecked(bool = true) {
-      for (let i = 0; i < this.products.length; i += 1) {
-        this.products[i].checked = bool;
+    checkAll() {
+      this.isCheckAll = !this.isCheckAll;
+      this.selectedProduct = [];
+
+      if (this.isCheckAll) {
+        this.products.forEach((val) => {
+          this.selectedProduct.push(val);
+        });
+      }
+    },
+
+    updateCheckAll() {
+      if (this.selectedProduct.length === this.products.length) {
+        this.isCheckAll = true;
+      } else {
+        this.isCheckAll = false;
       }
     },
 
     popProductArray(id) {
       this.products = this.products.filter((val) => val.id !== id);
+      this.selectedProduct = this.products.filter((val) => val.id !== id);
     },
 
     getNoteText(note) {
@@ -970,7 +984,7 @@ export default {
 
   created() {
     if (!this.$cookies.get('token')) {
-      this.$router.push('/');
+      this.$router.push('/login');
     }
 
     this.getWindowWidth();

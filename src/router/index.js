@@ -16,6 +16,7 @@ const DetailOrder = () => import(/* webpackChunkName: "p-detailOrder" */ '../pag
 const OrderAssessment = () => import(/* webpackChunkName: "p-orderAssessment" */ '../pages/user/OrderAssessment.vue');
 const UserAssessment = () => import(/* webpackChunkName: "p-userAssessment" */ '../pages/user/UserAssessment.vue');
 const Cart = () => import(/* webpackChunkName: "p-cart" */ '../pages/user/Cart.vue');
+const Payment = () => import(/* webpackChunkName: "p-payment" */ '../pages/user/Payment.vue');
 
 const routes = [
   {
@@ -82,6 +83,11 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: Cart,
+  },
+  {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment,
   },
 ];
 
