@@ -1663,6 +1663,7 @@ export default [
             id: 3,
             name: 'Tofu Skin Roll',
             price: 38000,
+            photo_link: 'tofu_skin_roll',
             rating: 4.27,
             quantity: 1,
             note: '',

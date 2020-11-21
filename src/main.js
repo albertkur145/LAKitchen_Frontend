@@ -29,7 +29,7 @@ import {
   faEyeSlash,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as farHeart, faCopyright } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
 import func from '@/function';
@@ -57,7 +57,8 @@ library.add(faSearch, faShoppingCart, faBars, faCogs,
   faIdCardAlt, faHeart, faBoxTissue, faSignOutAlt,
   faDotCircle, faTimes, faLock, faMailBulk, faStar,
   faEnvelope, faTty, faPlus, faMinus, farHeart, faCartPlus,
-  faArrowLeft, faUserAlt, faEye, faEyeSlash, faTrash);
+  faArrowLeft, faUserAlt, faEye, faEyeSlash, faTrash,
+  faCopyright);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

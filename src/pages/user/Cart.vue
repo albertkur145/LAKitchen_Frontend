@@ -28,7 +28,7 @@
                   <span class="checkbox-la"></span>
                 </label>
 
-                <img :src="require('@/assets/images/hakau.webp')" alt="img">
+                <img :src="require(`@/assets/images/${val.photo_link}.webp`)" alt="img">
 
                 <div class="description">
                   <div class="product-name">{{ productName(val.name) }}</div>
@@ -873,7 +873,7 @@ export default {
 
     checkout() {
       if (this.selectedProduct.length > 0) {
-        this.$cookies.set('cart', this.selectedProduct);
+        localStorage.setItem('cart', JSON.stringify(this.selectedProduct));
         this.$router.push('/payment');
       }
     },
