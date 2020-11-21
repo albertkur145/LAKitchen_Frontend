@@ -1,12 +1,14 @@
 <template>
   <div class="profile-path">
-    <div class="profile">
+    <div class="profile" @click="redirect('/profile')">
       <div class="d-flex justify-content-between align-items-center">
-        <b-avatar class="avatar">AK</b-avatar>
+        <b-avatar class="avatar">{{ getInitial() }}</b-avatar>
 
         <div class="user">
-          <div class="username">Albert Kurniawan</div>
-          <div class="register-at">Terdaftar sejak Okt 2016</div>
+          <div class="username">
+            {{ user.name.length === 0 ? 'User' : username }}
+          </div>
+          <div class="register-at">Terdaftar sejak {{ user.registerAt }}</div>
         </div>
       </div>
 
@@ -286,13 +288,47 @@
 
 export default {
 
+  data() {
+    return {
+      user: null,
+    };
+  },
+
   computed: {
     profilePath() {
       return this.$func.pathUser();
     },
+
+    username() {
+      if (this.user.name.length > 16) {
+        return `${this.user.name.slice(0, 16)}...`;
+      }
+
+      return this.user.name;
+    },
   },
 
   methods: {
+    getInitial() {
+      if (this.user.name.length === 0) {
+        return 'U';
+      }
+
+      const name = this.user.name.split(' ');
+      let limit = 0;
+      let initial = '';
+
+      for (let i = 0; i < name.length; i += 1) {
+        if (limit > 1) {
+          break;
+        }
+        initial += `${name[i][0]}`;
+        limit += 1;
+      }
+
+      return initial;
+    },
+
     logout() {
       this.$cookies.remove('token');
       this.$cookies.remove('user');
@@ -302,6 +338,10 @@ export default {
     redirect(route) {
       this.$router.push(route);
     },
+  },
+
+  created() {
+    this.user = this.$cookies.get('user');
   },
 
 };

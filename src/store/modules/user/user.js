@@ -50,6 +50,24 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  changePassword({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/user/changepassword',
+      data: payload.params,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

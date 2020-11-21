@@ -151,10 +151,14 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getWishlist();
+        this.popProductArray(productId);
       } else {
         this.$func.popupConnectionError(false);
       }
+    },
+
+    popProductArray(id) {
+      this.products = this.products.filter((val) => val.id !== id);
     },
 
     showBackground() {

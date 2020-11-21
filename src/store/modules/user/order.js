@@ -112,6 +112,24 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  create({ commit }, payload) {
+    return axios({
+      method: 'post',
+      url: '/order',
+      data: payload.params,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

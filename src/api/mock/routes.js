@@ -1228,6 +1228,7 @@ export default [
           address: 'Jalan Ribawa Yunsudiro No 4E',
           province: 'Sumatra Selatan',
           city: 'Kota Palembang',
+          registerAt: 'Apr 2020',
           status: 'Active',
           role: 'ROLE_USER',
         },
@@ -1259,12 +1260,29 @@ export default [
     status: 200,
     params: {
       id: 1,
-      name: 'Albert',
+      name: 'Albert Kurniawan Simanjuntak',
       email: 'albertkur@gmail.com',
       phoneNumber: '081297541232',
       address: 'Jalan Ribawa Yunsudiro No 4E',
       province: 'Sumatra Selatan',
       city: 'Kota Palembang',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/user/changepassword`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
+      oldPassword: 123,
+      newPassword: 321,
     },
     response: {
       code: 200,
@@ -1653,7 +1671,7 @@ export default [
           },
           {
             id: 2,
-            name: 'Indomie Goreng Rendang 10 Pcs',
+            name: 'Banana Roll Cake',
             price: 75000,
             photo_link: 'banana_roll_cake',
             quantity: 2,
@@ -1719,6 +1737,59 @@ export default [
       productId: 3,
       quantity: 1,
       note: 'Minta yang banyak ya',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/cart`,
+    method: 'POST',
+    status: 200,
+    params: {
+      userId: 1,
+      productId: 1,
+      quantity: 1,
+      note: '',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/order`,
+    method: 'POST',
+    status: 200,
+    params: {
+      userId: 1,
+      products: [
+        {
+          id: 1,
+          price: 40000,
+          quantity: 5,
+          note: 'Tolong bungkus yang rapi',
+        },
+        {
+          id: 2,
+          price: 75000,
+          quantity: 2,
+          note: 'Pisangnya yang banyak ya',
+        },
+        {
+          id: 3,
+          price: 38000,
+          quantity: 1,
+          note: '',
+        },
+      ],
     },
     response: {
       code: 200,

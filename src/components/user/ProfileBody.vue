@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-col md="4" class="avatar">
-      <span>AK</span>
+      <span>{{ getInitial() }}</span>
     </b-col>
 
     <b-col cols="12" md="8" class="form">
@@ -766,11 +766,12 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        params.status = this.$cookies.get('user').status;
         params.role = this.$cookies.get('user').role;
-        this.$cookies.set('user', params);
+        params.status = this.$cookies.get('user').status;
+        params.registerAt = this.$cookies.get('user').registerAt;
 
-        this.$func.popupSuccessNoRoute('Berhasil update profil');
+        this.$cookies.set('user', params);
+        this.$func.popupSuccessNoRoute('Berhasil update profil', true);
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -846,6 +847,28 @@ export default {
 
       this.validateForm.city = true;
       return 1;
+    },
+
+    getInitial() {
+      let { name } = this.$cookies.get('user');
+
+      if (name.length === 0) {
+        return '';
+      }
+
+      name = name.split(' ');
+      let limit = 0;
+      let initial = '';
+
+      for (let i = 0; i < name.length; i += 1) {
+        if (limit > 1) {
+          break;
+        }
+        initial += `${name[i][0]}`;
+        limit += 1;
+      }
+
+      return initial;
     },
   },
 

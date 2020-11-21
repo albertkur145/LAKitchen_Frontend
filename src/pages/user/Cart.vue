@@ -28,10 +28,13 @@
                   <span class="checkbox-la"></span>
                 </label>
 
-                <img :src="require(`@/assets/images/${val.photo_link}.webp`)" alt="img">
+                <img :src="require(`@/assets/images/${val.photo_link}.webp`)"
+                @click="redirectDetailProduct(val.id)" alt="img">
 
                 <div class="description">
-                  <div class="product-name">{{ productName(val.name) }}</div>
+                  <div class="product-name" @click="redirectDetailProduct(val.id)">
+                    {{ productName(val.name) }}
+                  </div>
                   <div class="price">{{ val.price | currency }}</div>
                   <div class="note">
                     <span class="value">{{ sliceNote(val.note) }}</span>
@@ -204,6 +207,7 @@
             padding: 1.5rem 0;
 
             img {
+              cursor: pointer;
               border-radius: 0.375rem;
               width: 4.375rem;
               height: 4.5rem;
@@ -214,6 +218,7 @@
               padding-right: 2.5rem;
 
               .product-name {
+                cursor: pointer;
                 color: #3F3F3F;
                 font-weight: 500;
                 font-size: 0.875em;
@@ -934,6 +939,15 @@ export default {
       }
 
       return text;
+    },
+
+    redirectDetailProduct(id) {
+      this.$router.push({
+        name: 'DetailProduct',
+        params: {
+          id,
+        },
+      });
     },
 
     getWindowWidth() {

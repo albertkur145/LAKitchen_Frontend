@@ -104,8 +104,8 @@
             </b-row>
 
             <div class="button-act">
-              <button class="buy-now">Beli Sekarang</button>
-              <button class="add-to-cart">Tambah Ke Keranjang</button>
+              <button class="buy-now" @click="addToCart(true)">Beli Sekarang</button>
+              <button class="add-to-cart" @click="addToCart(false)">Tambah Ke Keranjang</button>
             </div>
 
             <div class="wishlist" @click="addToWishlist">
@@ -132,11 +132,11 @@
           <div class="add-to-wishlist d-inline-block" @click="addToWishlist">
             <font-awesome-icon :icon="['far', 'heart']" class="wishlist-icon"/>
           </div>
-          <div class="add-to-cart d-inline-block">
+          <div class="add-to-cart d-inline-block" @click="addToCart(false)">
             <font-awesome-icon icon="cart-plus" class="cart-icon"/>
           </div>
         </div>
-        <button class="buy-now">Beli Sekarang</button>
+        <button class="buy-now" @click="addToCart(true)">Beli Sekarang</button>
       </div>
     </div>
 
@@ -1193,6 +1193,10 @@ export default {
       'saveProduct',
     ]),
 
+    ...mapActions('cart', [
+      'addCart',
+    ]),
+
     async getProductDetail() {
       this.loader = true;
 
@@ -1229,6 +1233,33 @@ export default {
 
         if (code >= 200 && code < 300) {
           this.$func.popupSuccessNoRoute('Berhasil ditambahkan ke wishlist');
+        } else {
+          this.$func.popupConnectionError(false);
+        }
+      } else {
+        this.$func.popupLoginFirst(
+          'Silahkan login terlebih dahulu <a href="/login">disini</a>',
+        );
+      }
+    },
+
+    async addToCart(isNow) {
+      if (this.checkUser()) {
+        this.loader = true;
+        const { code } = await this.$func.promiseAPI(this.addCart, {
+          userId: this.$cookies.get('user').id,
+          productId: this.product.id,
+          quantity: this.quantity,
+          note: '',
+        });
+        this.loader = false;
+
+        if (code >= 200 && code < 300) {
+          if (isNow) {
+            this.$router.push('/cart');
+          } else {
+            this.$func.popupSuccessNoRoute('Berhasil ditambahkan ke keranjang');
+          }
         } else {
           this.$func.popupConnectionError(false);
         }

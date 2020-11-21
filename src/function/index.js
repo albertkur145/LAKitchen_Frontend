@@ -57,6 +57,17 @@ export default {
     });
   },
 
+  popupErrorRedirect(text, confirmButtonText, router, path) {
+    Swal.fire({
+      icon: 'error',
+      text,
+      showCloseButton: true,
+      confirmButtonText,
+    }).then(() => {
+      router.push(path);
+    });
+  },
+
   popupLoginFirst(html) {
     Swal.fire({
       icon: 'info',
@@ -66,20 +77,24 @@ export default {
     });
   },
 
-  popupSuccessNoRoute(text) {
+  popupSuccessNoRoute(text, refresh = false) {
     Swal.fire({
       icon: 'success',
       text,
       timer: 5000,
       showCloseButton: true,
       confirmButtonText: 'OK',
+    }).then(() => {
+      if (refresh) {
+        window.location.reload();
+      }
     });
   },
 
   popupSuccess(text, router, path) {
     Swal.fire({
       icon: 'success',
-      text,
+      html: text,
       timer: 5000,
       showCloseButton: true,
       confirmButtonText: 'OK',
@@ -92,6 +107,7 @@ export default {
     const result = Swal.fire({
       icon: 'info',
       html: text,
+      reverseButtons: true,
       showCloseButton: true,
       showCancelButton: true,
       confirmButtonText,
@@ -107,6 +123,7 @@ export default {
       input: 'textarea',
       title: label,
       inputPlaceholder: placeholder,
+      reverseButtons: true,
       confirmButtonText: 'Simpan',
       showCancelButton: true,
       cancelButtonText: 'Batal',

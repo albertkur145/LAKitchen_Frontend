@@ -24,9 +24,11 @@
         </div>
 
         <div @mouseover="showBackground" @mouseleave="hideBackground"
-        :class="`profile${isLogin ? '' : ' d-none'}`">
-          <b-avatar class="avatar">AK</b-avatar>
-          <span class="username ml-3">Hi, Albert Kurniawan</span>
+        :class="`profile${isLogin ? '' : ' d-none'}`" v-if="user !== null">
+          <b-avatar class="avatar">{{ getInitial() }}</b-avatar>
+          <span class="username ml-3">
+            Hi, {{ user.name.length === 0 ? 'User' : username }}
+          </span>
 
           <div class="profile-path">
             <div class="container-path">
@@ -637,6 +639,7 @@ export default {
       searchText: '',
       isLogin: false,
       loader: false,
+      user: null,
     };
   },
 
@@ -647,6 +650,14 @@ export default {
 
     profilePath() {
       return this.$func.pathUser();
+    },
+
+    username() {
+      if (this.user.name.length > 16) {
+        return `${this.user.name.slice(0, 16)}...`;
+      }
+
+      return this.user.name;
     },
   },
 
@@ -712,6 +723,26 @@ export default {
       });
     },
 
+    getInitial() {
+      if (this.user.name.length === 0) {
+        return 'U';
+      }
+
+      const name = this.user.name.split(' ');
+      let limit = 0;
+      let initial = '';
+
+      for (let i = 0; i < name.length; i += 1) {
+        if (limit > 1) {
+          break;
+        }
+        initial += `${name[i][0]}`;
+        limit += 1;
+      }
+
+      return initial;
+    },
+
     logout() {
       this.$cookies.remove('token');
       this.$cookies.remove('user');
@@ -726,6 +757,8 @@ export default {
   created() {
     this.getWindowWidth();
     this.getCategoryList();
+
+    this.user = this.$cookies.get('user');
   },
 
 };

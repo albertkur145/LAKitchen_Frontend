@@ -62,7 +62,7 @@
             <div class="value">{{ (totalPayment + postage) | currency }}</div>
           </div>
 
-          <button class="btn-payment">
+          <button class="btn-payment" @click="createOrder">
             <font-awesome-icon icon="lock" class="lock-icon"/>
             <span class="ml-2">Bayar Sekarang</span>
           </button>
@@ -76,7 +76,7 @@
         <div class="value">{{ (totalPayment + postage) | currency }}</div>
       </div>
 
-      <button>
+      <button @click="createOrder">
         <font-awesome-icon icon="lock" class="lock-icon"/>
         <span class="ml-2">Bayar Sekarang</span>
       </button>
@@ -755,6 +755,7 @@
 <script>
 
 import Loader from '@/components/Loader.vue';
+import { mapActions } from 'vuex';
 
 export default {
 
@@ -790,7 +791,66 @@ export default {
   },
 
   methods: {
+    ...mapActions('order', [
+      'create',
+    ]),
 
+    async createOrder() {
+      this.loader = true;
+      const params = this.cart.map((val) => ({
+        id: val.id,
+        price: val.price,
+        quantity: val.quantity,
+        note: val.note,
+      }));
+
+      const { code } = await this.$func.promiseAPI(this.create, {
+        userId: this.$cookies.get('user').id,
+        products: params,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.$func.popupSuccess(
+          'Transaksi berhasil<br>Segera lakukan pembayaran<br>[ <b class="text-success">MOHON CEK EMAIL</b> ]',
+          this.$router,
+          '/',
+        );
+      } else {
+        this.$func.popupConnectionError();
+      }
+    },
+
+    isProfileComplete() {
+      const user = this.$cookies.get('user');
+
+      if (user.name.length === 0) {
+        return false;
+      }
+
+      if (user.phoneNumber.length === 0) {
+        return false;
+      }
+
+      if (user.province.length === 0) {
+        return false;
+      }
+
+      if (user.city.length === 0) {
+        return false;
+      }
+
+      if (user.address.length === 0) {
+        return false;
+      }
+
+      if (user.email.length === 0) {
+        return false;
+      }
+
+      return true;
+    },
   },
 
   created() {
@@ -802,6 +862,15 @@ export default {
 
     if (!this.cart) {
       this.$router.go(-1);
+    }
+
+    if (!this.isProfileComplete()) {
+      this.$func.popupErrorRedirect(
+        'Lengkapi profil terlebih dahulu',
+        'Ok',
+        this.$router,
+        '/profile',
+      );
     }
   },
 
