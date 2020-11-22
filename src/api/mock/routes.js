@@ -1280,9 +1280,9 @@ export default [
     method: 'PUT',
     status: 200,
     params: {
-      id: 1,
-      oldPassword: 123,
-      newPassword: 321,
+      userId: 1,
+      oldPassword: '123',
+      newPassword: '321',
     },
     response: {
       code: 200,

@@ -6,7 +6,7 @@
 
     <div class="path">
       <section v-if="!isLogin">
-        <div class="brand">
+        <div class="brand" @click="goHome">
           <img src="@/assets/images/logo.png" alt="Logo LA' Kitchen">
         </div>
 
@@ -201,6 +201,12 @@ export default {
     if (this.$cookies.get('token')) {
       this.isLogin = true;
     }
+  },
+
+  methods: {
+    goHome() {
+      this.$router.push('/');
+    },
   },
 
 };

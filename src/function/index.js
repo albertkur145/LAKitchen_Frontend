@@ -29,8 +29,8 @@ export default {
       },
       {
         icon: 'cogs',
-        name: 'Ganti Password',
-        route: '/',
+        name: 'Ganti Kata Sandi',
+        route: '/changepassword',
       },
     ];
   },

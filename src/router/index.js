@@ -12,6 +12,7 @@ const Register = () => import(/* webpackChunkName: "p-register" */ '../pages/use
 const Profile = () => import(/* webpackChunkName: "p-profile" */ '../pages/user/Profile.vue');
 const Wishlist = () => import(/* webpackChunkName: "p-wishlist" */ '../pages/user/Wishlist.vue');
 const Order = () => import(/* webpackChunkName: "p-order" */ '../pages/user/Order.vue');
+const ChangePassword = () => import(/* webpackChunkName: "p-changePassword" */ '../pages/user/ChangePassword.vue');
 const DetailOrder = () => import(/* webpackChunkName: "p-detailOrder" */ '../pages/user/DetailOrder.vue');
 const OrderAssessment = () => import(/* webpackChunkName: "p-orderAssessment" */ '../pages/user/OrderAssessment.vue');
 const UserAssessment = () => import(/* webpackChunkName: "p-userAssessment" */ '../pages/user/UserAssessment.vue');
@@ -63,6 +64,11 @@ const routes = [
     path: '/order',
     name: 'Order',
     component: Order,
+  },
+  {
+    path: '/changepassword',
+    name: 'changepassword',
+    component: ChangePassword,
   },
   {
     path: '/order/:number',

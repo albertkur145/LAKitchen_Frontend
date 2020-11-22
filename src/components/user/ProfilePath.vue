@@ -18,6 +18,14 @@
     </div>
 
     <div class="other-path">
+      <div class="path" @click="redirect('/')">
+        <b-row class="text-path">
+          <b-col cols="1"><font-awesome-icon icon="home"/></b-col>
+          <b-col cols="9"><span class="ml-1">Beranda</span></b-col>
+          <font-awesome-icon class="chev-icon" icon="chevron-right"/>
+        </b-row>
+      </div>
+
       <div class="path" @click="redirect('/cart')">
         <b-row class="text-path">
           <b-col cols="1"><font-awesome-icon icon="shopping-cart"/></b-col>
