@@ -175,11 +175,9 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/');
+    if (this.$func.isLoggedIn(this.$cookies, true, this.$router)) {
+      this.getWishlist();
     }
-
-    this.getWishlist();
   },
 
 };

@@ -997,12 +997,10 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/login');
+    if (this.$func.isLoggedIn(this.$cookies, true, this.$router)) {
+      this.getWindowWidth();
+      this.getUserCart();
     }
-
-    this.getWindowWidth();
-    this.getUserCart();
   },
 
 };

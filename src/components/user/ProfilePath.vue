@@ -338,8 +338,7 @@ export default {
     },
 
     logout() {
-      this.$cookies.remove('token');
-      this.$cookies.remove('user');
+      this.$func.removeStorages(this.$cookies);
       window.location.reload();
     },
 

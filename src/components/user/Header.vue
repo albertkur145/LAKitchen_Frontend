@@ -8,9 +8,9 @@
       <div class="search">
         <label for="search-input"></label>
         <font-awesome-icon icon="search" class="search-icon"/>
-        <input id="search-input" v-model="searchText" @keyup.enter="redirectSearch"
-        type="text" placeholder="Kamu sedang cari apa...">
-        <button class="btn-search" @click="redirectSearch">Cari</button>
+        <input id="search-input" v-model="searchText" placeholder="Kamu sedang cari apa..."
+        @keyup.enter="redirectSearch('search', searchText)" type="text">
+        <button class="btn-search" @click="redirectSearch('search', searchText)">Cari</button>
       </div>
 
       <div class="info">
@@ -69,9 +69,9 @@
 
         <div class="line-spacer">|</div>
 
-        <div class="sort-text">Rating Teratas</div>
-        <div class="sort-text">Harga Terendah</div>
-        <div class="sort-text">Harga Tertinggi</div>
+        <div class="sort-text" @click="redirectSearch('rating', '-')">Rating Teratas</div>
+        <div class="sort-text" @click="redirectSearch('price', 'lowest')">Harga Terendah</div>
+        <div class="sort-text" @click="redirectSearch('price', 'highest')">Harga Tertinggi</div>
       </div>
 
       <div class="right">
@@ -713,12 +713,12 @@ export default {
       this.hideBackground();
     },
 
-    redirectSearch() {
+    redirectSearch(type, value) {
       this.$router.push({
         name: 'ProductSearch',
         params: {
-          type: 'search',
-          value: this.searchText,
+          type,
+          value,
         },
       });
     },
@@ -744,8 +744,7 @@ export default {
     },
 
     logout() {
-      this.$cookies.remove('token');
-      this.$cookies.remove('user');
+      this.$func.removeStorages(this.$cookies);
       window.location.reload();
     },
 

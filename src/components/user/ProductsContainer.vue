@@ -462,6 +462,8 @@ export default {
       'getByCategory',
       'getBySubCategory',
       'getByName',
+      'getByPrice',
+      'getByRating',
     ]),
 
     async getProducts(action, params) {
@@ -500,6 +502,18 @@ export default {
         case 'search': {
           params = { productName: this.params };
           action = this.getByName;
+          break;
+        }
+
+        case 'rating': {
+          params = null;
+          action = this.getByRating;
+          break;
+        }
+
+        case 'price': {
+          params = { from: this.params };
+          action = this.getByPrice;
           break;
         }
 

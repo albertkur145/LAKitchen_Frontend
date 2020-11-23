@@ -116,9 +116,7 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/');
-    }
+    this.$func.isLoggedIn(this.$cookies, true, this.$router);
   },
 
 };

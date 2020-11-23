@@ -130,6 +130,8 @@ export default {
       if (code >= 200 && code < 300) {
         this.$cookies.remove('token');
         this.$cookies.remove('user');
+        localStorage.removeItem('isStartConversation');
+        localStorage.removeItem('cart');
 
         this.$func.popupSuccess(
           'Kata sandi berhasil diganti<br>Silahkan login kembali',
@@ -155,9 +157,7 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/');
-    }
+    this.$func.isLoggedIn(this.$cookies, true, this.$router);
   },
 
 };

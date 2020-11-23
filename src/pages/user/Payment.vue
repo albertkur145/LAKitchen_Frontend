@@ -777,19 +777,6 @@ export default {
     },
   },
 
-  beforeRouteLeave(to, from, next) {
-    localStorage.removeItem('cart');
-    next();
-  },
-
-  beforeRouteEnter(to, from, next) {
-    if (from.name === 'Cart' && to.name === 'Payment') {
-      next();
-    } else {
-      window.location.href = '/cart';
-    }
-  },
-
   methods: {
     ...mapActions('order', [
       'create',
@@ -853,12 +840,22 @@ export default {
     },
   },
 
-  created() {
-    this.cart = JSON.parse(localStorage.getItem('cart'));
+  beforeRouteLeave(to, from, next) {
+    localStorage.removeItem('cart');
+    next();
+  },
 
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/');
+  beforeRouteEnter(to, from, next) {
+    if (from.name === 'Cart' && to.name === 'Payment') {
+      next();
+    } else {
+      window.location.href = '/cart';
     }
+  },
+
+  created() {
+    this.$func.isLoggedIn(this.$cookies, true, this.$router);
+    this.cart = JSON.parse(localStorage.getItem('cart'));
 
     if (!this.cart) {
       this.$router.go(-1);

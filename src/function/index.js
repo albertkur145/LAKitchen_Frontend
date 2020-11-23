@@ -35,6 +35,25 @@ export default {
     ];
   },
 
+  removeStorages(cookies) {
+    cookies.remove('token');
+    cookies.remove('user');
+    localStorage.removeItem('isStartConversation');
+    localStorage.removeItem('cart');
+  },
+
+  isLoggedIn(cookies, redirect = true, router = null, path = '/login') {
+    if (!cookies.get('token') && !cookies.get('user')) {
+      if (redirect) {
+        router.push(path);
+      }
+
+      return false;
+    }
+
+    return true;
+  },
+
   popupConnectionError(back = true) {
     Swal.fire({
       icon: 'question',

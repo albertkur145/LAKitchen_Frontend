@@ -197,13 +197,11 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token')) {
-      this.$router.push('/');
+    if (this.$func.isLoggedIn(this.$cookies, true, this.$router)) {
+      this.paramOrderNumber = this.$route.params.number;
+      this.paramId = this.$route.params.id;
+      this.getProduct();
     }
-
-    this.paramOrderNumber = this.$route.params.number;
-    this.paramId = this.$route.params.id;
-    this.getProduct();
   },
 
 };

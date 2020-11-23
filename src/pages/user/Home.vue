@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="position-relative">
     <Header @show="showBackground" @hide="hideBackground"/>
     <div class="bg-all"></div>
 
@@ -29,6 +29,7 @@
       </b-row>
     </div>
 
+    <Chat v-if="isLogin"/>
     <Footer/>
   </div>
 </template>
@@ -113,6 +114,7 @@ import Premier from '@/components/user/Premier.vue';
 import InsideSlider from '@/components/user/InsideSlider.vue';
 import OutsideSlider from '@/components/user/OutsideSlider.vue';
 import ProductsContainer from '@/components/user/ProductsContainer.vue';
+import Chat from '@/components/user/Chat.vue';
 
 export default {
 
@@ -123,6 +125,13 @@ export default {
     InsideSlider,
     OutsideSlider,
     ProductsContainer,
+    Chat,
+  },
+
+  data() {
+    return {
+      isLogin: null,
+    };
   },
 
   methods: {
@@ -139,6 +148,9 @@ export default {
     },
   },
 
+  created() {
+    this.isLogin = this.$func.isLoggedIn(this.$cookies, false);
+  },
 };
 
 </script>

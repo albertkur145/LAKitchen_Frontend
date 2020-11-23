@@ -140,6 +140,43 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  getByPrice({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/price',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getByRating({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/rating',
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

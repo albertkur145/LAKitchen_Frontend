@@ -170,7 +170,9 @@ export default {
   },
 
   created() {
-    if (this.$cookies.get('token')) {
+    const isLogin = this.$func.isLoggedIn(this.$cookies, false);
+
+    if (isLogin) {
       this.$router.push('/');
     }
   },

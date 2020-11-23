@@ -112,9 +112,8 @@ export default {
     },
 
     logout() {
-      this.$cookies.remove('token');
-      this.$cookies.remove('user');
-      window.location.reload();
+      this.$func.removeStorages(this.$cookies);
+      this.$router.push('/');
     },
   },
 

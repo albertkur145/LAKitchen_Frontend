@@ -171,7 +171,6 @@
 <script>
 
 import { mapActions } from 'vuex';
-import Swal from 'sweetalert2';
 import Loader from '../Loader.vue';
 
 export default {
@@ -218,14 +217,11 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        Swal.fire({
-          icon: 'success',
-          text: 'Lakukan konfirmasi pada email',
-          confirmButtonText: 'Ok',
-          allowOutsideClick: false,
-        }).then(() => {
-          this.$router.push('/');
-        });
+        this.$func.popupSuccess(
+          'Lakukan verifikasi pada email',
+          this.$router,
+          '/',
+        );
       } else {
         this.$func.popupConnectionError();
       }
@@ -311,7 +307,7 @@ export default {
       }
 
       this.validateForm.password = true;
-      return 1;
+      return this.validateConfirmPassword();
     },
 
     validateConfirmPassword() {
