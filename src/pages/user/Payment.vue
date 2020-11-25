@@ -812,27 +812,19 @@ export default {
     isProfileComplete() {
       const user = this.$cookies.get('user');
 
-      if (user.name.length === 0) {
+      if (user.name === null) {
         return false;
       }
 
-      if (user.phoneNumber.length === 0) {
+      if (user.province === null) {
         return false;
       }
 
-      if (user.province.length === 0) {
+      if (user.city === null) {
         return false;
       }
 
-      if (user.city.length === 0) {
-        return false;
-      }
-
-      if (user.address.length === 0) {
-        return false;
-      }
-
-      if (user.email.length === 0) {
+      if (user.address === null) {
         return false;
       }
 

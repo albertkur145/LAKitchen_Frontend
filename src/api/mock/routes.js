@@ -1656,6 +1656,36 @@ export default [
     },
   },
   {
+    url: `${API}/auth/login`,
+    method: 'POST',
+    status: 200,
+    params: {
+      email: 'admin_la',
+      password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        token: 'eJhbGciJIzUxMiJ9yJyb2xlIjpbIlJPTEfVVNFUiJdLCJIi',
+        user: {
+          id: 1,
+          name: null,
+          email: 'admin_la',
+          phoneNumber: null,
+          address: null,
+          province: null,
+          city: null,
+          registerAt: 'Apr 2020',
+          status: 'Active',
+          role: 'ROLE_ADMIN',
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/user`,
     method: 'POST',
     status: 200,

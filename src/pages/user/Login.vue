@@ -149,12 +149,6 @@ export default {
     LoginForm,
   },
 
-  data() {
-    return {
-
-    };
-  },
-
   methods: {
     showBackground() {
       const el = document.querySelector('.bg-all');

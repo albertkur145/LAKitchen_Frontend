@@ -42,8 +42,8 @@ export default {
     localStorage.removeItem('cart');
   },
 
-  isLoggedIn(cookies, redirect = true, router = null, path = '/login') {
-    if (!cookies.get('token') && !cookies.get('user')) {
+  isLoggedIn(cookies, redirect = true, router = null, path = '/login', role = 'user') {
+    if (!cookies.get('token') && !cookies.get(role)) {
       if (redirect) {
         router.push(path);
       }
@@ -150,5 +150,15 @@ export default {
     }).then((res) => res);
 
     return result;
+  },
+
+  popupInfo(text) {
+    return Swal.fire({
+      icon: 'info',
+      html: text,
+      timer: 5000,
+      showCloseButton: true,
+      confirmButtonText: 'OK',
+    });
   },
 };

@@ -7,7 +7,7 @@
     <b-col cols="12" md="8" class="form">
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Nama Lengkap <span>*</span></label>
+          <label>Nama Lengkap <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -22,7 +22,7 @@
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Email <span>*</span></label>
+          <label>Email <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -37,7 +37,7 @@
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Nomor HP <span>*</span></label>
+          <label>Nomor HP <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -52,7 +52,7 @@
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Alamat Pengiriman <span>*</span></label>
+          <label>Alamat Pengiriman <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -67,7 +67,7 @@
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Provinsi <span>*</span></label>
+          <label>Provinsi <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -85,7 +85,7 @@
 
       <b-row class="input-group-la">
         <b-col cols="12">
-          <label for="name">Kota <span>*</span></label>
+          <label>Kota <span>*</span></label>
         </b-col>
 
         <b-col cols="12">
@@ -740,12 +740,12 @@ export default {
       this.fillCity({ target: { value: user.province } });
 
       this.form = {
-        name: user.name,
+        name: user.name === null ? '' : user.name,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        address: user.address,
-        province: user.province,
-        city: user.city,
+        address: user.address === null ? '' : user.address,
+        province: user.province === null ? '' : user.province,
+        city: user.city === null ? '' : user.city,
       };
     },
 

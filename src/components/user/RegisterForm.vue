@@ -223,7 +223,7 @@ export default {
           '/',
         );
       } else {
-        this.$func.popupConnectionError();
+        this.$func.popupConnectionError(false);
       }
     },
 

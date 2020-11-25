@@ -18,6 +18,7 @@ const OrderAssessment = () => import(/* webpackChunkName: "p-orderAssessment" */
 const UserAssessment = () => import(/* webpackChunkName: "p-userAssessment" */ '../pages/user/UserAssessment.vue');
 const Cart = () => import(/* webpackChunkName: "p-cart" */ '../pages/user/Cart.vue');
 const Payment = () => import(/* webpackChunkName: "p-payment" */ '../pages/user/Payment.vue');
+const AdminLogin = () => import(/* webpackChunkName: "p-adminLogin" */ '../pages/admin/Login.vue');
 
 const routes = [
   {
@@ -94,6 +95,11 @@ const routes = [
     path: '/payment',
     name: 'Payment',
     component: Payment,
+  },
+  {
+    path: '/cpanel',
+    name: 'AdminLogin',
+    component: AdminLogin,
   },
 ];
 
