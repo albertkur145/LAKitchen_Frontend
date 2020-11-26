@@ -343,7 +343,7 @@ export default {
     popupLogoutFirst() {
       this.$func.popupInfo('Silahkan logout terlebih dahulu')
         .then(() => {
-          this.$router.push('/');
+          this.$router.push('/admin');
         });
     },
   },

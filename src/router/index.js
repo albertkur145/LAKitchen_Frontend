@@ -18,7 +18,9 @@ const OrderAssessment = () => import(/* webpackChunkName: "p-orderAssessment" */
 const UserAssessment = () => import(/* webpackChunkName: "p-userAssessment" */ '../pages/user/UserAssessment.vue');
 const Cart = () => import(/* webpackChunkName: "p-cart" */ '../pages/user/Cart.vue');
 const Payment = () => import(/* webpackChunkName: "p-payment" */ '../pages/user/Payment.vue');
-const AdminLogin = () => import(/* webpackChunkName: "p-adminLogin" */ '../pages/admin/Login.vue');
+const AdLogin = () => import(/* webpackChunkName: "p-adminLogin" */ '../pages/admin/Login.vue');
+const AdTemplate = () => import(/* webpackChunkName: "p-adminTemplate" */ '../pages/admin/TemplateLayout.vue');
+const AdDashboard = () => import(/* webpackChunkName: "c-adminDashboard" */ '../components/admin/Dashboard.vue');
 
 const routes = [
   {
@@ -99,7 +101,19 @@ const routes = [
   {
     path: '/cpanel',
     name: 'AdminLogin',
-    component: AdminLogin,
+    component: AdLogin,
+  },
+  {
+    path: '/admin',
+    name: 'AdminTemplate',
+    component: AdTemplate,
+    children: [
+      {
+        path: '/admin',
+        name: 'AdminDashboard',
+        component: AdDashboard,
+      },
+    ],
   },
 ];
 
