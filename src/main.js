@@ -44,6 +44,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
 import func from '@/function';
 import cookies from 'vue-cookies';
+import Chartkick from 'vue-chartkick';
+import Chart from 'chart.js';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -61,6 +63,7 @@ Vue.use(VueCurrencyFilter, {
   symbolPosition: 'front',
 });
 Vue.use(cookies);
+Vue.use(Chartkick.use(Chart));
 
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,

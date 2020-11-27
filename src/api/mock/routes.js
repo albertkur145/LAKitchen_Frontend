@@ -2247,4 +2247,41 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/dashboard`,
+    method: 'GET',
+    status: 200,
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: {
+          today: 2,
+          prepared: 5,
+          readyToShip: 3,
+          inDelivery: 7,
+        },
+        sales: {
+          todayIncome: 638500,
+          weekIncome: 2125800,
+          soldToday: 12,
+        },
+        others: {
+          newUsers: 24,
+          users: 237,
+        },
+        weeklyReport: {
+          '2020-11-21': 67000,
+          '2020-11-22': 75000,
+          '2020-11-23': 93750,
+          '2020-11-24': 12750,
+          '2020-11-25': 44800,
+          '2020-11-26': 34500,
+          '2020-11-27': 136200,
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

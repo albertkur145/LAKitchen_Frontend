@@ -1,16 +1,13 @@
 <template>
   <div id="app">
-    <transition name="slide">
-      <div class="sidebar" v-if="isShow">
-        <Sidebar @close="toggleSidebar"/>
-      </div>
-    </transition>
+    <div :class="`sidebar${isShow ? '' : ' scale-transform'}`">
+      <Sidebar @close="toggleSidebar"/>
+    </div>
 
-    <transition name="slide">
-      <div v-if="!isShow" class="trigger-sidebar" @click="toggleSidebar">
-        <font-awesome-icon icon="bars" class="bars-icon"/>
-      </div>
-    </transition>
+    <div v-if="!isShow" @click="toggleSidebar"
+    :class="`trigger-sidebar${!isShow ? '' : ' scale-transform'}`">
+      <font-awesome-icon icon="bars" class="bars-icon"/>
+    </div>
 
     <div class="body">
       <router-view/>
@@ -28,41 +25,30 @@
     background-color: #F2F2F2;
     font-family: 'Source Sans Pro';
 
-    .slide-enter-active {
-      transform-origin: left;
-      animation: slide .2s linear;
-    }
-
-    .slide-leave-active {
-      transform-origin: left;
-      animation: slide .2s linear reverse;
-    }
-
-    @keyframes slide {
-      0% {
-        transform: scaleX(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scaleX(1);
-        opacity: 1;
-      }
+    .scale-transform {
+      transform: scaleX(0) !important;
+      margin-left: -16rem !important;
     }
 
     .sidebar {
       top: 0;
       left: 0;
       bottom: 0;
+      z-index: 1;
       position: fixed;
       min-width: 16rem;
       overflow-y: auto;
-      max-height: 100vh;
+      min-height: 100vh;
+      transform: scaleX(1);
+      transform-origin: left;
       background-color: #FFF;
+      transition: all .35s linear;
       box-shadow: 0.0625rem 0 0.25rem 0.125rem rgba($color: #000000, $alpha: 0.1);
     }
 
     .trigger-sidebar {
       left: 0;
+      z-index: 1;
       top: 4.25rem;
       position: fixed;
       cursor: pointer;
@@ -108,6 +94,7 @@
       .sidebar {
         position: unset;
         box-shadow: 0 0 0 0;
+        transition: all .2s linear;
       }
     }
   }
@@ -133,7 +120,9 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('resize', this.getWindowWidth);
+    if (this.windowWidth < 1025) {
+      this.isShow = false;
+    }
   },
 
   methods: {
@@ -147,6 +136,10 @@ export default {
   },
 
   created() {
+    if (!this.$cookies.get('token') || !this.$cookies.get('admin')) {
+      this.$router.go(-1);
+    }
+
     this.getWindowWidth();
   },
 

@@ -9,6 +9,7 @@ import user from './modules/user/user';
 import wishlist from './modules/user/wishlist';
 import order from './modules/user/order';
 import cart from './modules/user/cart';
+import adDashboard from './modules/admin/dashboard';
 
 Vue.use(Vuex);
 
@@ -22,5 +23,6 @@ export default new Vuex.Store({
     wishlist,
     order,
     cart,
+    adDashboard,
   },
 });

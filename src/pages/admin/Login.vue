@@ -62,6 +62,7 @@
       margin-top: 6rem;
 
       .header {
+        font-weight: 700;
         text-align: center;
         text-transform: uppercase;
         font-family: 'Source Sans Pro';
@@ -323,7 +324,6 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        console.log(this.userData.user);
         this.checkRole();
       } else {
         this.$func.popupError('Kode / password salah!', 'Coba lagi');
@@ -336,7 +336,7 @@ export default {
       } else {
         this.$cookies.set('token', this.userData.token, '1y');
         this.$cookies.set('admin', this.userData.user, '1y');
-        window.location.reload();
+        this.$router.push('/admin');
       }
     },
 
