@@ -43,7 +43,7 @@ export default {
   },
 
   isLoggedIn(cookies, redirect = true, router = null, path = '/login', role = 'user') {
-    if (!cookies.get('token') && !cookies.get(role)) {
+    if (!cookies.get('token') || !cookies.get(role)) {
       if (redirect) {
         router.push(path);
       }

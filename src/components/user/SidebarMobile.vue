@@ -199,7 +199,7 @@ export default {
   },
 
   mounted() {
-    if (this.$cookies.get('token')) {
+    if (this.$cookies.get('token') && this.$cookies.get('user')) {
       this.isLogin = true;
     }
   },

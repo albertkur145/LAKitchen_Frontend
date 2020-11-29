@@ -3,7 +3,7 @@
     <Header @show="showBackground" @hide="hideBackground"/>
     <div class="bg-all"></div>
 
-    <div class="content">
+    <div class="content" v-if="isLogin">
       <UserPathContainer title="Profil" active="Profil">
         <template v-slot:content>
           <ProfileBody/>
@@ -101,6 +101,12 @@ export default {
     ProfileBody,
   },
 
+  data() {
+    return {
+      isLogin: false,
+    };
+  },
+
   methods: {
     showBackground() {
       const el = document.querySelector('.bg-all');
@@ -116,7 +122,9 @@ export default {
   },
 
   created() {
-    this.$func.isLoggedIn(this.$cookies, true, this.$router);
+    if (this.$func.isLoggedIn(this.$cookies, true, this.$router)) {
+      this.isLogin = true;
+    }
   },
 
 };

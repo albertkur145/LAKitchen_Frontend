@@ -222,7 +222,6 @@ export default {
   data() {
     return {
       windowWidth: null,
-      currentRoute: null,
 
       path: [
         {
@@ -239,8 +238,8 @@ export default {
           icon: 'hamburger',
           name: 'Produk',
           route: {
-            name: '',
-            path: '/admin',
+            name: 'AdminProduct',
+            path: '',
           },
           chevIc: 'chevron-up',
           isHaveChild: true,
@@ -250,8 +249,8 @@ export default {
             {
               name: 'Jual Produk',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminProduct',
+                path: '/admin/product',
               },
             },
             {
@@ -342,6 +341,12 @@ export default {
     };
   },
 
+  computed: {
+    currentRoute() {
+      return this.$route.name;
+    },
+  },
+
   mounted() {
     window.addEventListener('resize', this.getWindowWidth);
   },
@@ -396,7 +401,6 @@ export default {
 
   created() {
     this.getWindowWidth();
-    this.currentRoute = this.$route.name;
   },
 
 };

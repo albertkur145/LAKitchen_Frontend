@@ -21,6 +21,7 @@ const Payment = () => import(/* webpackChunkName: "p-payment" */ '../pages/user/
 const AdLogin = () => import(/* webpackChunkName: "p-adminLogin" */ '../pages/admin/Login.vue');
 const AdTemplate = () => import(/* webpackChunkName: "p-adminTemplate" */ '../pages/admin/TemplateLayout.vue');
 const AdDashboard = () => import(/* webpackChunkName: "c-adminDashboard" */ '../components/admin/Dashboard.vue');
+const AdProduct = () => import(/* webpackChunkName: "c-adminProduct" */ '../components/admin/Product.vue');
 
 const routes = [
   {
@@ -112,6 +113,11 @@ const routes = [
         path: '/admin',
         name: 'AdminDashboard',
         component: AdDashboard,
+      },
+      {
+        path: '/admin/product',
+        name: 'AdminProduct',
+        component: AdProduct,
       },
     ],
   },

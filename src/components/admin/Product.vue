@@ -2,73 +2,11 @@
   <div>
     <TemplateContent>
       <template v-slot:title>
-        <span>Beranda</span>
+        <span>Jual Produk</span>
       </template>
 
       <template v-slot:content>
-        <div class="report-container">
-          <div class="title">Pesanan</div>
-
-          <div class="report-body" v-if="orders !== undefined">
-            <div class="item" v-for="(val, i) in orderItems" :key="i">
-              <div class="item-title">{{ val.title }}</div>
-              <div class="item-value">{{ val.value }}</div>
-              <button class="btn-more">Lihat</button>
-            </div>
-          </div>
-        </div>
-
-        <b-row>
-          <b-col cols="12" md="6">
-            <div class="report-container">
-              <div class="title">Penjualan hari ini</div>
-
-              <div class="report-body" v-if="sales !== undefined">
-                <div class="item" v-for="(val, i) in salesItems" :key="i">
-                  <div class="item-title">{{ val.title }}</div>
-
-                  <div v-if="val.title === 'Pendapatan'"
-                  class="item-value income">
-                    {{ val.value | currency }}
-                  </div>
-
-                  <div class="item-value" v-else>{{ val.value }}</div>
-
-                  <button class="btn-more">Lihat</button>
-                </div>
-              </div>
-            </div>
-          </b-col>
-
-          <b-col cols="12" md="6">
-            <div class="report-container">
-              <div class="title">Lainnya</div>
-
-              <div class="report-body" v-if="others !== undefined">
-                <div class="item" v-for="(val, i) in otherItems" :key="i">
-                  <div class="item-title">{{ val.title }}</div>
-                  <div class="item-value">{{ val.value }}</div>
-                  <button class="btn-more">Lihat</button>
-                </div>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
-
-        <div class="report-container weekly-income">
-          <div class="title">Pendapatan (1 minggu terakhir)</div>
-
-          <div class="report-body" v-if="sales !== undefined">
-            <div class="item">
-              <div class="item-value income">{{ sales.weekIncome | currency }}</div>
-            </div>
-          </div>
-
-          <div class="graph" v-if="weeklyReport !== undefined">
-            <line-chart prefix="Rp. " thousands="." :data="weeklyReport"
-            :messages="{ empty: 'Belum ada pendapatan' }"/>
-          </div>
-        </div>
+        halo
       </template>
     </TemplateContent>
 
@@ -306,10 +244,6 @@ export default {
   data() {
     return {
       loader: false,
-      orders: undefined,
-      sales: undefined,
-      others: undefined,
-      weeklyReport: undefined,
     };
   },
 
@@ -317,61 +251,6 @@ export default {
     ...mapGetters('adDashboard', [
       'dashboardData',
     ]),
-
-    orderItems() {
-      return [
-        {
-          title: 'Pesanan hari ini',
-          value: this.orders.today,
-          route: '',
-        },
-        {
-          title: 'Sedang dipersiapkan',
-          value: this.orders.prepared,
-          route: '',
-        },
-        {
-          title: 'Siap dikirim',
-          value: this.orders.readyToShip,
-          route: '',
-        },
-        {
-          title: 'Dalam pengiriman',
-          value: this.orders.inDelivery,
-          route: '',
-        },
-      ];
-    },
-
-    salesItems() {
-      return [
-        {
-          title: 'Pendapatan',
-          value: this.sales.todayIncome,
-          route: '',
-        },
-        {
-          title: 'Jumlah produk terjual',
-          value: this.sales.soldToday,
-          route: '',
-        },
-      ];
-    },
-
-    otherItems() {
-      return [
-        {
-          title: 'Pengguna baru',
-          value: this.others.newUsers,
-          route: '',
-        },
-        {
-          title: 'Total pengguna',
-          value: this.others.users,
-          route: '',
-        },
-      ];
-    },
   },
 
   methods: {
@@ -399,7 +278,7 @@ export default {
   },
 
   created() {
-    this.getAllData();
+
   },
 
 };
