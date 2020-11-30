@@ -38,6 +38,7 @@ import {
   faMoneyBillWave,
   faUser,
   faChartLine,
+  faPen,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faCopyright } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -73,7 +74,7 @@ library.add(faSearch, faShoppingCart, faBars, faCogs,
   faArrowLeft, faUserAlt, faEye, faEyeSlash, faTrash,
   faCopyright, faHome, faCommentDots, faPaperPlane,
   faRocket, faChevronUp, faHamburger, faFunnelDollar,
-  faMoneyBillWave, faUser, faChartLine);
+  faMoneyBillWave, faUser, faChartLine, faPen);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

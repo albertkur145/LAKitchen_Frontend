@@ -379,18 +379,18 @@ export default {
     },
 
     routerParent(i) {
-      if ((this.path[i].route.name === this.$route.name) && this.windowWidth < 1025) {
+      this.$router.push(this.path[i].route.path).catch(() => {});
+
+      if (this.windowWidth < 1025) {
         this.$emit('close');
-      } else {
-        this.$router.push(this.path[i].route.path).catch(() => {});
       }
     },
 
     routerChild(i, j) {
-      if ((this.path[i].child[j].route.name === this.$route.name) && this.windowWidth < 1025) {
+      this.$router.push(this.path[i].child[j].route.path).catch(() => {});
+
+      if (this.windowWidth < 1025) {
         this.$emit('close');
-      } else {
-        this.$router.push(this.path[i].child[j].route.path).catch(() => {});
       }
     },
 

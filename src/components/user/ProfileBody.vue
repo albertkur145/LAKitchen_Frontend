@@ -89,7 +89,7 @@
         </b-col>
 
         <b-col cols="12">
-          <select id="city" class="input-text" v-model="form.city">
+          <select id="city" class="input-text bg-white" v-model="form.city">
             <option value="" disabled>-- PILIH KOTA --</option>
             <option v-for="val in cityList" :key="val"
             :value="val">{{ val }}</option>

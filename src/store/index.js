@@ -10,6 +10,7 @@ import wishlist from './modules/user/wishlist';
 import order from './modules/user/order';
 import cart from './modules/user/cart';
 import adDashboard from './modules/admin/dashboard';
+import adProduct from './modules/admin/product';
 
 Vue.use(Vuex);
 
@@ -24,5 +25,6 @@ export default new Vuex.Store({
     order,
     cart,
     adDashboard,
+    adProduct,
   },
 });

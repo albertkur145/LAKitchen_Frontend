@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="isLogin">
     <div :class="`sidebar${isShow ? '' : ' scale-transform'}`">
       <Sidebar @close="toggleSidebar"/>
     </div>
@@ -116,6 +116,7 @@ export default {
     return {
       isShow: true,
       windowWidth: null,
+      isLogin: false,
     };
   },
 
@@ -136,11 +137,12 @@ export default {
   },
 
   created() {
-    if (!this.$cookies.get('token') || !this.$cookies.get('admin')) {
+    if (this.$cookies.get('token') && this.$cookies.get('admin')) {
+      this.getWindowWidth();
+      this.isLogin = true;
+    } else {
       this.$router.go(-1);
     }
-
-    this.getWindowWidth();
   },
 
 };
