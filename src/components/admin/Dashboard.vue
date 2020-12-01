@@ -34,7 +34,7 @@
 
                   <div class="item-value" v-else>{{ val.value }}</div>
 
-                  <button class="btn-more">Lihat</button>
+                  <button class="btn-more" @click="redirect(val.route)">Lihat</button>
                 </div>
               </div>
             </div>
@@ -348,12 +348,16 @@ export default {
         {
           title: 'Pendapatan',
           value: this.sales.todayIncome,
-          route: '',
+          route: {
+            name: 'AdminSalesToday',
+          },
         },
         {
           title: 'Jumlah produk terjual',
           value: this.sales.soldToday,
-          route: '',
+          route: {
+            name: 'AdminSalesToday',
+          },
         },
       ];
     },
@@ -395,6 +399,10 @@ export default {
       } else {
         this.$func.popupConnectionError(false);
       }
+    },
+
+    redirect(route) {
+      this.$router.push(route);
     },
   },
 

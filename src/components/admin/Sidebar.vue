@@ -222,6 +222,7 @@ export default {
   data() {
     return {
       windowWidth: null,
+      activeRoute: '',
 
       path: [
         {
@@ -320,8 +321,8 @@ export default {
           icon: 'chart-line',
           name: 'Laporan',
           route: {
-            name: '',
-            path: '/admin',
+            name: 'AdminReport',
+            path: '',
           },
           chevIc: 'chevron-up',
           isHaveChild: true,
@@ -343,7 +344,24 @@ export default {
 
   computed: {
     currentRoute() {
-      return this.$route.name;
+      return this.activeRoute;
+    },
+  },
+
+  watch: {
+    $route: {
+      handler({ name }) {
+        switch (name) {
+          case 'AdminSalesToday':
+            this.activeRoute = 'AdminDashboard';
+            break;
+
+          default:
+            this.activeRoute = name;
+            break;
+        }
+      },
+      immediate: true,
     },
   },
 

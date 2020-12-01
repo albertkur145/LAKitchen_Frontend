@@ -21,6 +21,8 @@
     padding: 0.75rem 1.125rem;
 
     .title {
+      display: flex;
+      align-items: center;
       color: #555;
       font-weight: 600;
       font-size: 1em;

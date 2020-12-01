@@ -2930,4 +2930,58 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/report/salestoday`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        products: [
+          {
+            id: 1,
+            name: 'Hakau Ayam x Udang',
+            price: 70000,
+            sold: 12,
+          },
+          {
+            id: 2,
+            name: 'Chiffon Pandan',
+            price: 80000,
+            sold: 6,
+          },
+          {
+            id: 3,
+            name: 'Indome Goreng 10 Pcs',
+            price: 25000,
+            sold: 13,
+          },
+          {
+            id: 4,
+            name: 'Kue Talan Pandan',
+            price: 50000,
+            sold: 5,
+          },
+          {
+            id: 5,
+            name: 'Semprit Dahlia',
+            price: 60000,
+            sold: 3,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 5,
+        view: 5,
+      },
+      errors: null,
+    },
+  },
 ];
