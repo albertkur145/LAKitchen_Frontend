@@ -30,7 +30,8 @@
               </div>
             </div>
 
-            <button class="btn-create">Tambah</button>
+            <button @click="redirect({ name: 'AdminProductForm' })"
+            class="btn-create">Tambah</button>
           </div>
 
           <b-table-simple responsive class="table-la">
@@ -61,7 +62,8 @@
                 <b-td class="value text-center">{{ val.rating }}</b-td>
                 <b-td class="value text-center">{{ val.sold }}</b-td>
                 <b-td class="value">
-                  <font-awesome-icon icon="pen" class="edit-icon"/>
+                  <font-awesome-icon icon="pen" class="edit-icon"
+                  @click="redirect({ name: 'AdminProductForm', params: { id: val.id } })"/>
                   <font-awesome-icon icon="star" class="ml-1 rate-icon"/>
                 </b-td>
               </b-tr>
@@ -534,6 +536,10 @@ export default {
       } else {
         this.getProductsByName(page);
       }
+    },
+
+    redirect(route) {
+      this.$router.push(route);
     },
   },
 

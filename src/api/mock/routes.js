@@ -2984,4 +2984,79 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/product`,
+    method: 'POST',
+    status: 200,
+    params: {
+      name: 'Kastengel',
+      price: 50000,
+      description: 'Kue home made fresh from oven',
+      categoryId: 5,
+      subCategoryId: 33,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
+      name: 'Kastengel Keju',
+      price: 100000,
+      description: 'Kue home made fresh from oven',
+      categoryId: 5,
+      subCategoryId: 33,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        id: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: {
+          id: 1,
+          name: 'Kastengel',
+          price: 50000,
+          description: 'Kue home made fresh from oven',
+          categoryId: 5,
+          subCategoryId: 33,
+          photo_links: [
+            {
+              id: 1,
+              link: 'www.google.co.id',
+            },
+            {
+              id: 2,
+              link: 'www.google.co.id',
+            },
+          ],
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

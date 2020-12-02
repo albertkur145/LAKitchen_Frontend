@@ -356,6 +356,10 @@ export default {
             this.activeRoute = 'AdminDashboard';
             break;
 
+          case 'AdminProductForm':
+            this.activeRoute = 'AdminProduct';
+            break;
+
           default:
             this.activeRoute = name;
             break;

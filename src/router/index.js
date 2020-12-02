@@ -23,6 +23,7 @@ const AdTemplate = () => import(/* webpackChunkName: "p-adminTemplate" */ '../pa
 const AdDashboard = () => import(/* webpackChunkName: "c-adminDashboard" */ '../components/admin/Dashboard.vue');
 const AdSalesToday = () => import(/* webpackChunkName: "c-adminSalesToday" */ '../components/admin/SalesToday.vue');
 const AdProduct = () => import(/* webpackChunkName: "c-adminProduct" */ '../components/admin/Product.vue');
+const AdProductForm = () => import(/* webpackChunkName: "c-adminProductForm" */ '../components/admin/ProductForm.vue');
 
 const routes = [
   {
@@ -107,7 +108,6 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'AdminTemplate',
     component: AdTemplate,
     children: [
       {
@@ -124,6 +124,11 @@ const routes = [
         path: 'product',
         name: 'AdminProduct',
         component: AdProduct,
+      },
+      {
+        path: 'product/form/:id?',
+        name: 'AdminProductForm',
+        component: AdProductForm,
       },
     ],
   },

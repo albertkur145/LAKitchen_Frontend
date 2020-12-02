@@ -370,7 +370,6 @@ export default {
       ],
 
       cityList: [],
-      regionList: [],
     };
   },
 
