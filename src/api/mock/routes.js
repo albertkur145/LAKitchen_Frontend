@@ -3079,4 +3079,244 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/product/bestselling`,
+    method: 'GET',
+    status: 200,
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: [
+          {
+            id: 1,
+            name: 'Kue Talan Pandan',
+            sold: 124,
+          },
+          {
+            id: 2,
+            name: 'Samyang Cheese 10 Pcs',
+            sold: 92,
+          },
+          {
+            id: 3,
+            name: 'Hakau Ayam x Udang',
+            sold: 90,
+          },
+          {
+            id: 4,
+            name: 'Nastar',
+            sold: 72,
+          },
+          {
+            id: 5,
+            name: 'Ekado Ayam',
+            sold: 65,
+          },
+          {
+            id: 6,
+            name: 'Pierogi',
+            sold: 52,
+          },
+          {
+            id: 7,
+            name: 'Semprit Dahlia',
+            sold: 22,
+          },
+          {
+            id: 8,
+            name: 'Siomay Ayam',
+            sold: 20,
+          },
+          {
+            id: 9,
+            name: 'Tofu Skin Roll',
+            sold: 15,
+          },
+          {
+            id: 10,
+            name: 'Pukis Original',
+            sold: 9,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product/bestselling`,
+    method: 'GET',
+    status: 200,
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: [
+          {
+            id: 1,
+            name: 'Kue Talan Pandan',
+            sold: 124,
+          },
+          {
+            id: 2,
+            name: 'Samyang Cheese 10 Pcs',
+            sold: 92,
+          },
+          {
+            id: 3,
+            name: 'Hakau Ayam x Udang',
+            sold: 90,
+          },
+          {
+            id: 4,
+            name: 'Nastar',
+            sold: 72,
+          },
+          {
+            id: 5,
+            name: 'Ekado Ayam',
+            sold: 65,
+          },
+          {
+            id: 6,
+            name: 'Pierogi',
+            sold: 52,
+          },
+          {
+            id: 7,
+            name: 'Semprit Dahlia',
+            sold: 22,
+          },
+          {
+            id: 8,
+            name: 'Siomay Ayam',
+            sold: 20,
+          },
+          {
+            id: 9,
+            name: 'Tofu Skin Roll',
+            sold: 15,
+          },
+          {
+            id: 10,
+            name: 'Pukis Original',
+            sold: 9,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product/bestselling/category`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        categoryId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: [
+          {
+            id: 1,
+            name: 'Kue Talan Pandan',
+            category: 'Bahan Kue',
+            subCategory: 'Perisa Makanan',
+            sold: 124,
+          },
+          {
+            id: 2,
+            name: 'Samyang Cheese 10 Pcs',
+            category: 'Bahan Kue',
+            subCategory: 'Perisa Makanan',
+            sold: 92,
+          },
+          {
+            id: 3,
+            name: 'Hakau Ayam x Udang',
+            category: 'Bahan Kue',
+            subCategory: 'Perisa Makanan',
+            sold: 90,
+          },
+          {
+            id: 4,
+            name: 'Nastar',
+            category: 'Bahan Kue',
+            subCategory: 'Perisa Makanan',
+            sold: 72,
+          },
+          {
+            id: 5,
+            name: 'Ekado Ayam',
+            category: 'Bahan Kue',
+            subCategory: 'Perisa Makanan',
+            sold: 65,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product/bestselling/category`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        categoryId: 2,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: [
+          {
+            id: 1,
+            name: 'Beras Radja Rasa',
+            category: 'Beras',
+            subCategory: 'Beras Putih',
+            sold: 124,
+          },
+          {
+            id: 2,
+            name: 'Ketan Putih Finna',
+            category: 'Beras',
+            subCategory: 'Beras Ketan',
+            sold: 92,
+          },
+          {
+            id: 3,
+            name: 'Beras Merah Tropicana Slim',
+            category: 'Beras',
+            subCategory: 'Beras Merah',
+            sold: 90,
+          },
+          {
+            id: 4,
+            name: 'Beras Hitam Kokoku',
+            category: 'Beras',
+            subCategory: 'Beras Hitam',
+            sold: 72,
+          },
+          {
+            id: 5,
+            name: 'Beras Hitam Panino',
+            category: 'Beras',
+            subCategory: 'Beras Hitam',
+            sold: 65,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

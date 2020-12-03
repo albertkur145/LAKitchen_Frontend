@@ -94,6 +94,52 @@ const actions = {
       });
   },
 
+  getAllBestSelling({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/bestselling',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getBestSellingByCategory({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/bestselling/category',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
   getById({ commit }, payload) {
     return axios({
       method: 'get',

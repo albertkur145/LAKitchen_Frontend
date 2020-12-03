@@ -47,6 +47,7 @@ import func from '@/function';
 import cookies from 'vue-cookies';
 import Chartkick from 'vue-chartkick';
 import Chart from 'chart.js';
+import VueApexCharts from 'vue-apexcharts';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -65,6 +66,9 @@ Vue.use(VueCurrencyFilter, {
 });
 Vue.use(cookies);
 Vue.use(Chartkick.use(Chart));
+Vue.use(VueApexCharts);
+
+Vue.component('apexchart', VueApexCharts);
 
 library.add(faSearch, faShoppingCart, faBars, faCogs,
   faChevronDown, faQuestionCircle, faChevronRight,

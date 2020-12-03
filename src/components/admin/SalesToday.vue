@@ -27,7 +27,11 @@
 
             <b-tbody v-if="dataTable !== null">
               <b-tr v-for="val in dataTable" :key="val.id">
-                <b-td class="value">{{ val.name }}</b-td>
+                <b-td class="value">
+                  <router-link :to="`/product/${val.id}`" target="_blank">
+                    {{ val.name }}
+                  </router-link>
+                </b-td>
                 <b-td class="value">{{ val.price | currency }}</b-td>
                 <b-td class="value text-center">{{ val.sold }}</b-td>
                 <b-td class="value">{{ (val.price * val.sold) | currency }}</b-td>

@@ -111,7 +111,7 @@
         margin-bottom: 1rem;
         padding-top: 0.4375rem;
         padding-bottom: 0.4375rem;
-        font-size: 0.9375em;
+        font-size: 0.875em;
 
         &:focus {
           border: 0.0625rem solid #BF67E9;

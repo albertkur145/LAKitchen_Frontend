@@ -24,6 +24,7 @@ const AdDashboard = () => import(/* webpackChunkName: "c-adminDashboard" */ '../
 const AdSalesToday = () => import(/* webpackChunkName: "c-adminSalesToday" */ '../components/admin/SalesToday.vue');
 const AdProduct = () => import(/* webpackChunkName: "c-adminProduct" */ '../components/admin/Product.vue');
 const AdProductForm = () => import(/* webpackChunkName: "c-adminProductForm" */ '../components/admin/ProductForm.vue');
+const AdProductBestSelling = () => import(/* webpackChunkName: "c-adminProductBestSelling" */ '../components/admin/BestSellingProduct.vue');
 
 const routes = [
   {
@@ -129,6 +130,11 @@ const routes = [
         path: 'product/form/:id?',
         name: 'AdminProductForm',
         component: AdProductForm,
+      },
+      {
+        path: 'product/bestselling',
+        name: 'AdminProductBestSelling',
+        component: AdProductBestSelling,
       },
     ],
   },

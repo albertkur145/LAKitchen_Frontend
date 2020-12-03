@@ -11,7 +11,7 @@
     <div class="content">
       <div v-for="(val, i) in path" :key="i" class="path">
         <div @click="majorAction(val.isHaveChild, i)"
-        :class="`major${currentRoute === val.route.name ? ' active' : ''}`">
+        :class="`major${currentParentRoute === val.route.name ? ' active' : ''}`">
           <b-row>
             <b-col cols="1">
               <font-awesome-icon :icon="val.icon" class="path-icon"/>
@@ -31,7 +31,7 @@
           <div class="minor" v-if="val.isHaveChild && val.isShowChild">
               <div v-for="(valChild, j) in val.child" :key="j"
               @click="routerSelection(true, i, j)"
-              :class="`text${currentRoute === valChild.route.name ? ' active' : ''}`">
+              :class="`text${currentChildRoute === valChild.route.name ? ' active' : ''}`">
                 {{ valChild.name }}
               </div>
           </div>
@@ -222,7 +222,8 @@ export default {
   data() {
     return {
       windowWidth: null,
-      activeRoute: '',
+      parentRoute: null,
+      childRoute: null,
 
       path: [
         {
@@ -257,8 +258,8 @@ export default {
             {
               name: 'Produk Terlaris',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminProductBestSelling',
+                path: '/admin/product/bestselling',
               },
             },
             {
@@ -343,25 +344,35 @@ export default {
   },
 
   computed: {
-    currentRoute() {
-      return this.activeRoute;
+    currentParentRoute() {
+      return this.parentRoute;
+    },
+
+    currentChildRoute() {
+      return this.childRoute;
     },
   },
 
   watch: {
     $route: {
       handler({ name }) {
+        this.childRoute = name;
+
         switch (name) {
           case 'AdminSalesToday':
-            this.activeRoute = 'AdminDashboard';
+            this.parentRoute = 'AdminDashboard';
             break;
 
           case 'AdminProductForm':
-            this.activeRoute = 'AdminProduct';
+            this.parentRoute = 'AdminProduct';
+            break;
+
+          case 'AdminProductBestSelling':
+            this.parentRoute = 'AdminProduct';
             break;
 
           default:
-            this.activeRoute = name;
+            this.parentRoute = name;
             break;
         }
       },
