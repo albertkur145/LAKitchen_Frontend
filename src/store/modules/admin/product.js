@@ -121,7 +121,10 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
-        payload.resolve({ code: res.data.code });
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });
@@ -136,7 +139,10 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
-        payload.resolve({ code: res.data.code });
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });

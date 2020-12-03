@@ -94,8 +94,8 @@
   .remove {
     top: 0.25rem;
     right: 0.5rem;
-    color: #FF3743;
     cursor: pointer;
+    color: #FF3743;
     position: absolute;
     border-radius: 100rem;
     background-color: #FFF;

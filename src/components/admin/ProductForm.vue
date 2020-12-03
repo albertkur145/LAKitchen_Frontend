@@ -106,6 +106,31 @@
                 </b-col>
               </b-row>
 
+              <b-row class="input-group-la">
+                <b-col cols="12">
+                  <label>
+                    <input type="file" class="d-none" @change="readImage">
+                    <div class="input-file">TAMBAH GAMBAR</div>
+                  </label>
+                </b-col>
+
+                <b-col cols="12">
+                  <b-form-text :class="`warning-text${validateForm.image ? ' d-none' : ''}`">
+                    Minimal memiliki 1 gambar produk.
+                  </b-form-text>
+                </b-col>
+              </b-row>
+
+              <div class="input-group-la d-flex flex-wrap" v-if="images.length > 0">
+                <div class="img-container" v-for="val in images" :key="val.id">
+                  <img :src="val.link" alt="product">
+
+                  <div class="remove" @click="popImage(val.id)">
+                    <font-awesome-icon icon="times" class="times-icon"/>
+                  </div>
+                </div>
+              </div>
+
               <b-row>
                 <b-col cols="12">
                   <button class="btn-save" @click="validationForm">Simpan</button>
@@ -151,6 +176,49 @@
         font-size: 0.8125em;
       }
 
+      .input-file {
+        color: #444;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        transition: border .1s linear;
+        border: 0.0625rem solid #BBB;
+        padding: 0.625rem 0.9375rem;
+        font-size: 0.8125em;
+
+        &:hover {
+          color: #333;
+          border: 0.0625rem solid #777;
+        }
+      }
+
+      .img-container {
+        position: relative;
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+
+        img {
+          border-radius: 0.5rem;
+          border: 0.0625rem solid #DDD;
+          width: 6.75rem;
+          height: 6.875rem;
+        }
+
+        .remove {
+          top: 0.125rem;
+          right: 0.125rem;
+          cursor: pointer;
+          color: #FF3743;
+          position: absolute;
+          border-radius: 100rem;
+          background-color: #FFF;
+          padding: 0rem 0.5rem 0.125rem;
+
+          .times-icon {
+            font-size: 0.8125em;
+          }
+        }
+      }
+
       .input-text {
         width: 100%;
         outline: none;
@@ -183,7 +251,6 @@
 
     .btn-save {
       color: #FFF;
-      margin-top: 1rem;
       font-weight: 600;
       border-radius: 0.375rem;
       text-transform: uppercase;
@@ -225,6 +292,11 @@
           font-size: 0.875em;
         }
 
+        .input-file {
+          padding: 0.625rem 1rem;
+          font-size: 0.875em;
+        }
+
         .input-text {
           padding: 0.625rem 1rem;
           font-size: 0.875em;
@@ -263,6 +335,11 @@
           font-size: 0.9375em;
         }
 
+        .input-file {
+          padding: 0.625rem 1rem;
+          font-size: 0.9375em;
+        }
+
         .input-text {
           padding: 0.625rem 1rem;
           font-size: 0.9375em;
@@ -298,6 +375,11 @@
         margin-bottom: 1.25rem;
 
         label {
+          font-size: 0.9375em;
+        }
+
+        .input-file {
+          padding: 0.625rem 1rem;
           font-size: 0.9375em;
         }
 
@@ -349,12 +431,15 @@ export default {
         description: '',
       },
 
+      images: [],
+
       validateForm: {
         name: true,
         price: true,
         category: true,
         subCategory: true,
         description: true,
+        image: true,
       },
     };
   },
@@ -414,15 +499,24 @@ export default {
       }
     },
 
+    async uploadImage() {
+      this.loader = true;
+
+      setTimeout(() => {
+        this.loader = false;
+        this.$func.popupSuccess('Berhasil simpan produk', this.$router, '/admin/product');
+      }, 2000);
+    },
+
     async reqApi(params, action) {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(action, params);
+      const { code, data } = await this.$func.promiseAPI(action, params);
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.$func.popupSuccess('Berhasil simpan produk', this.$router, '/admin/product');
+        this.uploadImage(data.product.id);
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -451,7 +545,7 @@ export default {
     validationForm() {
       if (this.validateName() && this.validatePrice()
       && this.validateCategory() && this.validateSubCategory()
-      && this.validateDescription()) {
+      && this.validateDescription() && this.validateImage()) {
         this.apiHandler();
       }
     },
@@ -466,6 +560,8 @@ export default {
         subCategory: product.subCategoryId,
         description: product.description,
       };
+
+      this.images = product.photo_links;
     },
 
     fillSubCategory({ target }) {
@@ -532,6 +628,25 @@ export default {
       return 1;
     },
 
+    validateImage() {
+      if (this.images.length <= 0) {
+        this.validateForm.image = false;
+        return 0;
+      }
+
+      this.validateForm.image = true;
+      return 1;
+    },
+
+    validateImageType(file) {
+      if (file === 'image/jpeg' || file === 'image/jpg'
+      || file === 'image/png' || file === 'image/webp') {
+        return 1;
+      }
+
+      return 0;
+    },
+
     rupiahFormat() {
       this.restore();
       this.form.price = parseInt(this.form.price, 10);
@@ -559,6 +674,48 @@ export default {
       if (this.form.price.length > 0) {
         this.form.price = this.form.price.toString().split('.').join('');
       }
+    },
+
+    readImage({ target }) {
+      this.validateForm.image = true;
+      const file = target.files[0];
+
+      if (file) {
+        if (this.validateImageType(file.type)) {
+          const reader = new FileReader();
+          let id = this.generateRandomId();
+
+          while (!id) {
+            id = this.generateRandomId();
+          }
+
+          reader.onload = (e) => {
+            this.images.push({
+              id,
+              link: e.target.result,
+            });
+          };
+
+          reader.readAsDataURL(target.files[0]);
+        } else {
+          this.$func.popupError('Format gambar tidak didukung', 'OK');
+        }
+      }
+    },
+
+    popImage(id) {
+      this.images = this.images.filter((val) => val.id !== id);
+    },
+
+    generateRandomId() {
+      const rand = Math.random().toString(16).substring(2);
+      const isExist = this.images.find((val) => val.id === rand);
+
+      if (isExist) {
+        return false;
+      }
+
+      return rand;
     },
   },
 

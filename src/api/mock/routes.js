@@ -2998,7 +2998,16 @@ export default [
     response: {
       code: 200,
       status: 'OK',
-      data: null,
+      data: {
+        product: {
+          id: 1,
+          name: 'Kastengel',
+          price: 50000,
+          description: 'Kue home made fresh from oven',
+          categoryId: 5,
+          subCategoryId: 33,
+        },
+      },
       paging: null,
       errors: null,
     },
@@ -3018,7 +3027,16 @@ export default [
     response: {
       code: 200,
       status: 'OK',
-      data: null,
+      data: {
+        product: {
+          id: 1,
+          name: 'Kastengel Keju',
+          price: 100000,
+          description: 'Kue home made fresh from oven',
+          categoryId: 5,
+          subCategoryId: 33,
+        },
+      },
       paging: null,
       errors: null,
     },
@@ -3043,16 +3061,18 @@ export default [
           description: 'Kue home made fresh from oven',
           categoryId: 5,
           subCategoryId: 33,
+          /* eslint-disable global-require */
           photo_links: [
             {
               id: 1,
-              link: 'www.google.co.id',
+              link: require('@/assets/images/kastengel.webp'),
             },
             {
               id: 2,
-              link: 'www.google.co.id',
+              link: require('@/assets/images/lumpia.webp'),
             },
           ],
+          /* eslint-disable global-require */
         },
       },
       paging: null,
