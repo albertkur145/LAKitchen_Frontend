@@ -1,8 +1,8 @@
 <template>
   <div>
     <Template v-if="categories !== null"
-    headerTitle="Produk Terlaris"
-    title="Produk Terlaris (TOP 10)"
+    headerTitle="Produk Favorit"
+    title="Produk Terfavorit (TOP 10)"
     :chartOptions="chartOptions"
     :categories="categories"
     @changetrig="getDataTable">
@@ -11,7 +11,7 @@
           <b-th class="title">Produk</b-th>
           <b-th class="title">Kategori</b-th>
           <b-th class="title">Sub kategori</b-th>
-          <b-th class="title text-center">Total penjualan</b-th>
+          <b-th class="title text-center">Popularitas</b-th>
         </b-tr>
       </template>
 
@@ -24,7 +24,7 @@
           </b-td>
           <b-td class="value">{{ val.category }}</b-td>
           <b-td class="value">{{ val.subCategory }}</b-td>
-          <b-td class="value text-center">{{ val.sold }}</b-td>
+          <b-td class="value text-center">{{ val.popularity }}</b-td>
         </b-tr>
       </template>
 
@@ -170,8 +170,8 @@ export default {
     ]),
 
     ...mapActions('adProduct', [
-      'getAllBestSelling',
-      'getBestSellingByCategory',
+      'getAllFavorite',
+      'getFavoriteByCategory',
     ]),
 
     async getCategories() {
@@ -192,7 +192,7 @@ export default {
     async getDataGraph() {
       this.loader = true;
 
-      const { code, data } = await this.$func.promiseAPI(this.getAllBestSelling);
+      const { code, data } = await this.$func.promiseAPI(this.getAllFavorite);
 
       this.loader = false;
 
@@ -207,7 +207,7 @@ export default {
     async getDataTable(categoryId) {
       this.loader = true;
 
-      const { code, data } = await this.$func.promiseAPI(this.getBestSellingByCategory, {
+      const { code, data } = await this.$func.promiseAPI(this.getFavoriteByCategory, {
         categoryId,
       });
 
@@ -223,8 +223,8 @@ export default {
     dataGraphFormat() {
       this.chartOptions.series = [
         {
-          name: 'Terjual',
-          data: this.dataGraph.map((val) => ({ x: val.name, y: val.sold })),
+          name: 'Popularitas',
+          data: this.dataGraph.map((val) => ({ x: val.name, y: val.popularity })),
         },
       ];
     },

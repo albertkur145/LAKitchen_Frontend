@@ -140,6 +140,98 @@ const actions = {
       });
   },
 
+  getAllFavorite({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/favorite',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getFavoriteByCategory({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/favorite/category',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getAllBestRating({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/bestrating',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getBestRatingByCategory({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/product/bestrating/category',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
   getById({ commit }, payload) {
     return axios({
       method: 'get',

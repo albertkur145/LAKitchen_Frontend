@@ -265,15 +265,15 @@ export default {
             {
               name: 'Produk Favorit',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminProductFavorite',
+                path: '/admin/product/favorite',
               },
             },
             {
               name: 'Penilaian Produk',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminProductAssessment',
+                path: '/admin/product/assessment',
               },
             },
           ],
@@ -368,6 +368,14 @@ export default {
             break;
 
           case 'AdminProductBestSelling':
+            this.parentRoute = 'AdminProduct';
+            break;
+
+          case 'AdminProductFavorite':
+            this.parentRoute = 'AdminProduct';
+            break;
+
+          case 'AdminProductAssessment':
             this.parentRoute = 'AdminProduct';
             break;
 

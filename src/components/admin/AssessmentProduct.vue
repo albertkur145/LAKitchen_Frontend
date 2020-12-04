@@ -1,8 +1,8 @@
 <template>
   <div>
     <Template v-if="categories !== null"
-    headerTitle="Produk Terlaris"
-    title="Produk Terlaris (TOP 10)"
+    headerTitle="Penilaian Produk"
+    title="Produk Terbaik (TOP 10)"
     :chartOptions="chartOptions"
     :categories="categories"
     @changetrig="getDataTable">
@@ -11,7 +11,10 @@
           <b-th class="title">Produk</b-th>
           <b-th class="title">Kategori</b-th>
           <b-th class="title">Sub kategori</b-th>
-          <b-th class="title text-center">Total penjualan</b-th>
+          <b-th class="title text-center">Jumlah penilai</b-th>
+          <b-th class="title text-center">Jumlah komentar</b-th>
+          <b-th class="title text-center">Rating</b-th>
+          <b-th class="title"></b-th>
         </b-tr>
       </template>
 
@@ -24,7 +27,10 @@
           </b-td>
           <b-td class="value">{{ val.category }}</b-td>
           <b-td class="value">{{ val.subCategory }}</b-td>
-          <b-td class="value text-center">{{ val.sold }}</b-td>
+          <b-td class="value text-center">{{ val.evaluators }}</b-td>
+          <b-td class="value text-center">{{ val.comments }}</b-td>
+          <b-td class="value text-center">{{ val.rating }}</b-td>
+          <b-td><div class="btn-more">Lihat</div></b-td>
         </b-tr>
       </template>
 
@@ -53,6 +59,23 @@
     color: #555;
     white-space: nowrap;
     font-size: 0.875em;
+  }
+
+  .btn-more {
+    cursor: pointer;
+    font-weight: 600;
+    color: #373737;
+    text-align: center;
+    border-radius: 100rem;
+    background-color: #C6BAE7;
+    transition: background-color .2s ease-out;
+    padding: 0.3125rem 0.5rem;
+    font-size: 0.75em;
+
+    &:hover {
+      color: #272727;
+      background-color: #C1B5E1;
+    }
   }
 
   .is-empty {
@@ -170,8 +193,8 @@ export default {
     ]),
 
     ...mapActions('adProduct', [
-      'getAllBestSelling',
-      'getBestSellingByCategory',
+      'getAllBestRating',
+      'getBestRatingByCategory',
     ]),
 
     async getCategories() {
@@ -192,7 +215,7 @@ export default {
     async getDataGraph() {
       this.loader = true;
 
-      const { code, data } = await this.$func.promiseAPI(this.getAllBestSelling);
+      const { code, data } = await this.$func.promiseAPI(this.getAllBestRating);
 
       this.loader = false;
 
@@ -207,7 +230,7 @@ export default {
     async getDataTable(categoryId) {
       this.loader = true;
 
-      const { code, data } = await this.$func.promiseAPI(this.getBestSellingByCategory, {
+      const { code, data } = await this.$func.promiseAPI(this.getBestRatingByCategory, {
         categoryId,
       });
 
@@ -223,8 +246,8 @@ export default {
     dataGraphFormat() {
       this.chartOptions.series = [
         {
-          name: 'Terjual',
-          data: this.dataGraph.map((val) => ({ x: val.name, y: val.sold })),
+          name: 'Rating',
+          data: this.dataGraph.map((val) => ({ x: val.name, y: val.rating })),
         },
       ];
     },
