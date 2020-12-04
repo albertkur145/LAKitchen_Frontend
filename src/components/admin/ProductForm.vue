@@ -131,11 +131,11 @@
                 </div>
               </div>
 
-              <b-row>
-                <b-col cols="12">
-                  <button class="btn-save" @click="validationForm">Simpan</button>
-                </b-col>
-              </b-row>
+              <div class="d-flex flex-wrap">
+                <button class="btn-save" @click="validationForm">Simpan</button>
+                <button class="btn-nonactive" v-if="paramsId"
+                @click="confirmActivation">{{ activeText }}</button>
+              </div>
             </b-col>
           </b-row>
         </div>
@@ -256,11 +256,29 @@
       text-transform: uppercase;
       background-color: #BF67E9;
       transition: background-color .2s ease-out;
+      margin-right: 0.75rem;
+      margin-bottom: 0.75rem;
       padding: 0.6875rem 1.6875rem;
       font-size: 0.75em;
 
       &:hover {
         background-color: #B75BE2;
+      }
+    }
+
+    .btn-nonactive {
+      color: #FFF;
+      font-weight: 600;
+      border-radius: 0.375rem;
+      text-transform: uppercase;
+      background-color: #999;
+      margin-bottom: 0.75rem;
+      transition: background-color .2s ease-out;
+      padding: 0.6875rem 1.6875rem;
+      font-size: 0.75em;
+
+      &:hover {
+        background-color: #909090;
       }
     }
   }
@@ -307,7 +325,7 @@
         }
       }
 
-      .btn-save {
+      .btn-save, .btn-nonactive {
         padding: 0.6875rem 1.6875rem;
         font-size: 0.8125em;
       }
@@ -350,7 +368,7 @@
         }
       }
 
-      .btn-save {
+      .btn-save, .btn-nonactive {
         padding: 0.75rem 1.75rem;
         font-size: 0.875em;
       }
@@ -393,7 +411,7 @@
         }
       }
 
-      .btn-save {
+      .btn-save, .btn-nonactive {
         padding: 0.75rem 1.75rem;
         font-size: 0.875em;
       }
@@ -441,6 +459,8 @@ export default {
         description: true,
         image: true,
       },
+
+      isActiveProduct: null,
     };
   },
 
@@ -456,6 +476,10 @@ export default {
     title() {
       return this.paramsId ? 'Ubah Produk' : 'Tambah Produk';
     },
+
+    activeText() {
+      return this.isActiveProduct ? 'Non Aktifkan' : 'Aktifkan';
+    },
   },
 
   methods: {
@@ -466,6 +490,8 @@ export default {
     ...mapActions('adProduct', [
       'addProduct',
       'updateProduct',
+      'nonActiveProduct',
+      'productActivation',
       'getById',
     ]),
 
@@ -494,6 +520,7 @@ export default {
 
       if (code >= 200 && code < 300) {
         this.setForm(this.product.product);
+        this.isActiveProduct = this.product.product.isActive;
       } else {
         this.$func.popupConnectionError();
       }
@@ -520,6 +547,44 @@ export default {
       } else {
         this.$func.popupConnectionError(false);
       }
+    },
+
+    async toggleActivation() {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.chooseActivation(), {
+        id: parseInt(this.paramsId, 10),
+      });
+
+      this.loader = false;
+      const msg = this.isActiveProduct ? 'nonaktifkan' : 'mengaktifkan';
+
+      if (code >= 200 && code < 300) {
+        this.$func.popupSuccess(`Berhasil ${msg} produk`, this.$router, '/admin/product');
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
+    async confirmActivation() {
+      const msg = this.isActiveProduct ? 'nonaktifkan' : 'mengaktifkan';
+      const res = await this.$func.popupConfirmAction(
+        `Ingin ${msg} produk?`,
+        'Ya',
+        'Tidak',
+      );
+
+      if (res) {
+        this.toggleActivation();
+      }
+    },
+
+    chooseActivation() {
+      if (this.isActiveProduct) {
+        return this.nonActiveProduct;
+      }
+
+      return this.productActivation;
     },
 
     apiHandler() {

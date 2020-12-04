@@ -2307,6 +2307,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 2,
@@ -2317,6 +2318,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 3,
@@ -2327,6 +2329,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 4,
@@ -2337,6 +2340,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 5,
@@ -2347,6 +2351,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 6,
@@ -2357,6 +2362,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 7,
@@ -2367,6 +2373,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 8,
@@ -2377,6 +2384,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 9,
@@ -2387,6 +2395,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 10,
@@ -2397,6 +2406,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
         ],
       },
@@ -2431,6 +2441,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 2,
@@ -2441,6 +2452,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 3,
@@ -2451,6 +2463,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 4,
@@ -2461,6 +2474,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 5,
@@ -2471,6 +2485,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 6,
@@ -2481,6 +2496,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 7,
@@ -2491,6 +2507,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 8,
@@ -2501,6 +2518,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 9,
@@ -2511,6 +2529,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 10,
@@ -2521,6 +2540,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
         ],
       },
@@ -2556,6 +2576,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 2,
@@ -2566,6 +2587,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 3,
@@ -2576,6 +2598,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 4,
@@ -2586,6 +2609,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 5,
@@ -2596,6 +2620,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 6,
@@ -2606,6 +2631,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 7,
@@ -2616,6 +2642,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 8,
@@ -2626,6 +2653,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 9,
@@ -2636,6 +2664,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 10,
@@ -2646,6 +2675,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
         ],
       },
@@ -2681,6 +2711,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 12,
@@ -2691,6 +2722,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 13,
@@ -2701,6 +2733,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 14,
@@ -2721,6 +2754,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 16,
@@ -2731,6 +2765,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
         ],
       },
@@ -2784,6 +2819,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 2,
@@ -2794,6 +2830,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 3,
@@ -2804,6 +2841,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 4,
@@ -2814,6 +2852,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 5,
@@ -2824,6 +2863,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 6,
@@ -2834,6 +2874,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 7,
@@ -2844,6 +2885,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 8,
@@ -2854,6 +2896,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 9,
@@ -2864,6 +2907,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
           {
             id: 10,
@@ -2874,6 +2918,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
         ],
       },
@@ -2909,6 +2954,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 0,
           },
           {
             id: 12,
@@ -2919,6 +2965,7 @@ export default [
             popularity: 76,
             rating: 4.68,
             sold: 102,
+            isActive: 1,
           },
         ],
       },
@@ -3042,6 +3089,38 @@ export default [
     },
   },
   {
+    url: `${API}/admin/product`,
+    method: 'DELETE',
+    status: 200,
+    params: {
+      params: {
+        id: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/product/activation`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/admin/product/id`,
     method: 'GET',
     status: 200,
@@ -3061,6 +3140,7 @@ export default [
           description: 'Kue home made fresh from oven',
           categoryId: 5,
           subCategoryId: 33,
+          isActive: 1,
           /* eslint-disable global-require */
           photo_links: [
             {

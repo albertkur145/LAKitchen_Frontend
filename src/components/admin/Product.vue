@@ -44,6 +44,7 @@
                 <b-th class="title text-center">Popularitas</b-th>
                 <b-th class="title text-center">Rating</b-th>
                 <b-th class="title text-center">Total Penjualan</b-th>
+                <b-th class="title">Status</b-th>
                 <b-th></b-th>
               </b-tr>
             </b-thead>
@@ -61,6 +62,9 @@
                 <b-td class="value text-center">{{ val.popularity }}</b-td>
                 <b-td class="value text-center">{{ val.rating }}</b-td>
                 <b-td class="value text-center">{{ val.sold }}</b-td>
+                <b-td class="value">
+                  {{ val.isActive ? 'Aktif' : 'Nonaktif' }}
+                </b-td>
                 <b-td class="value">
                   <font-awesome-icon icon="pen" class="edit-icon"
                   @click="redirect({ name: 'AdminProductForm', params: { id: val.id } })"/>

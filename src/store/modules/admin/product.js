@@ -286,6 +286,37 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  nonActiveProduct({ commit }, payload) {
+    return axios({
+      method: 'delete',
+      url: '/admin/product',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  productActivation({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/admin/product/activation',
+      data: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {
