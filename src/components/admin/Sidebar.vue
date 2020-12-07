@@ -379,6 +379,10 @@ export default {
             this.parentRoute = 'AdminProduct';
             break;
 
+          case 'AdminProductAssessmentDetail':
+            this.parentRoute = 'AdminProduct';
+            break;
+
           default:
             this.parentRoute = name;
             break;

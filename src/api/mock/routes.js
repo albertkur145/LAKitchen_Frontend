@@ -3769,4 +3769,143 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/assessment`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        productId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        product: 'Kue Talan Pandan',
+        rate: {
+          five: 25,
+          four: 16,
+          three: 4,
+          two: 0,
+          one: 1,
+        },
+        totalAssessment: 202,
+        evaluators: 46,
+        rating: 4.39,
+        totalComments: 30,
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/assessment/comment`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        productId: 1,
+        page: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        comments: [
+          {
+            id: 1,
+            rate: 5,
+            username: 'Budi Wijaya Sailaman',
+            date: '02/12/2020',
+            comment: 'Terimakasih, makanan sampai dengan selamat dan enak',
+          },
+          {
+            id: 2,
+            rate: 5,
+            username: 'Lea',
+            date: '03/12/2020',
+            comment: 'Pengiriman cepat, penjual fast respon dan kurir juga ramah',
+          },
+          {
+            id: 3,
+            rate: 4,
+            username: 'Indra Darmawan',
+            date: '04/12/2020',
+            comment: 'Penjual ramah, paket sampai dengan selamat. Sangat recommended!',
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 14,
+        view: 3,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/assessment/comment`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        productId: 1,
+        page: 5,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        comments: [
+          {
+            id: 1,
+            rate: 5,
+            username: 'Budi Wijaya Sailaman',
+            date: '02/12/2020',
+            comment: null,
+          },
+          {
+            id: 2,
+            rate: 5,
+            username: 'Lea',
+            date: '03/12/2020',
+            comment: null,
+          },
+          {
+            id: 3,
+            rate: 4,
+            username: 'Indra Darmawan',
+            date: '04/12/2020',
+            comment: null,
+          },
+        ],
+      },
+      paging: {
+        page: 5,
+        count: 14,
+        view: 3,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/assessment/comment`,
+    method: 'DELETE',
+    status: 200,
+    params: {
+      params: {
+        id: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

@@ -30,7 +30,7 @@
           <b-td class="value text-center">{{ val.evaluators }}</b-td>
           <b-td class="value text-center">{{ val.comments }}</b-td>
           <b-td class="value text-center">{{ val.rating }}</b-td>
-          <b-td><div class="btn-more">Lihat</div></b-td>
+          <b-td><div class="btn-more" @click="redirectDetail(val.id)">Lihat</div></b-td>
         </b-tr>
       </template>
 
@@ -250,6 +250,15 @@ export default {
           data: this.dataGraph.map((val) => ({ x: val.name, y: val.rating })),
         },
       ];
+    },
+
+    redirectDetail(id) {
+      this.$router.push({
+        name: 'AdminProductAssessmentDetail',
+        params: {
+          id,
+        },
+      });
     },
   },
 

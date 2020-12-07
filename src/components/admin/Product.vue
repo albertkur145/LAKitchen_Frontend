@@ -68,7 +68,9 @@
                 <b-td class="value">
                   <font-awesome-icon icon="pen" class="edit-icon"
                   @click="redirect({ name: 'AdminProductForm', params: { id: val.id } })"/>
-                  <font-awesome-icon icon="star" class="ml-1 rate-icon"/>
+                  <font-awesome-icon icon="star" class="ml-1 rate-icon"
+                  @click="redirect({ name: 'AdminProductAssessmentDetail',
+                  params: { id: val.id } })"/>
                 </b-td>
               </b-tr>
             </b-tbody>
