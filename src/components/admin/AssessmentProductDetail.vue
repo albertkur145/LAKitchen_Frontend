@@ -612,7 +612,8 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.$func.popupSuccessNoRoute('Berhasil menghapus komentar', true);
+        this.$func.popupSuccessNoRoute('Berhasil menghapus komentar');
+        this.getAllComment(1);
       } else {
         this.$func.popupConnectionError(false);
       }

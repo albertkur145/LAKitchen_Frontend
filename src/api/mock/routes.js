@@ -3908,4 +3908,363 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/orderstatus`,
+    method: 'GET',
+    status: 200,
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        status: [
+          {
+            id: 2,
+            name: 'Sedang Dipersiapkan',
+          },
+          {
+            id: 3,
+            name: 'Siap Dikirim',
+          },
+          {
+            id: 4,
+            name: 'Dalam Pengiriman',
+          },
+          {
+            id: 5,
+            name: 'Selesai',
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 3,
+              name: 'Siap Dikirim',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 3,
+              name: 'Siap Dikirim',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 24,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 3,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 3,
+              name: 'Siap Dikirim',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 3,
+        count: 24,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/status`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderStatusId: 2,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 3,
+              name: 'Siap Dikirim',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 3,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/status`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderStatusId: 4,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 1,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/search`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderNumber: '123',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '123495302572',
+            date: '05/12/2020',
+            status: {
+              id: 2,
+              name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '123569630850',
+            date: '06/12/2020',
+            status: {
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '123371397275',
+            date: '05/12/2020',
+            status: {
+              id: 3,
+              name: 'Siap Dikirim',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 3,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      orderNumber: '130495302572',
+      orderStatusId: 3,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
 ];

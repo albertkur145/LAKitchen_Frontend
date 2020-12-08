@@ -280,15 +280,24 @@ export default {
         },
         {
           icon: 'money-bill-wave',
-          name: 'Pesanan',
+          name: 'Transaksi',
           route: {
-            name: '',
-            path: '/admin',
+            name: 'AdminOrder',
+            path: '',
           },
           chevIc: 'chevron-up',
-          isHaveChild: false,
+          isHaveChild: true,
           isShowChild: false,
           childIcon: 'chevron-up',
+          child: [
+            {
+              name: 'Pesanan',
+              route: {
+                name: 'AdminOrder',
+                path: '/admin/order',
+              },
+            },
+          ],
         },
         {
           icon: 'user',

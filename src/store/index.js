@@ -13,6 +13,7 @@ import adDashboard from './modules/admin/dashboard';
 import adProduct from './modules/admin/product';
 import adReport from './modules/admin/report';
 import adAssessment from './modules/admin/assessment';
+import adOrder from './modules/admin/order';
 
 Vue.use(Vuex);
 
@@ -30,5 +31,6 @@ export default new Vuex.Store({
     adProduct,
     adReport,
     adAssessment,
+    adOrder,
   },
 });
