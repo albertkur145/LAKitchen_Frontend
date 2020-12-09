@@ -2,7 +2,7 @@
   <div>
     <TemplateContent>
       <template v-slot:title>
-        <span>Pesanan Aktif</span>
+        <span>Riwayat Pesanan</span>
       </template>
 
       <template v-slot:content>
@@ -31,11 +31,10 @@
               <b-td class="value">{{ val.totalPayment | currency }}</b-td>
 
               <b-td class="value">
-                {{ val.status.name }}
-
-                <font-awesome-icon icon="pen" class="ml-2 edit-icon"
-                @click="setParamUpdate(val.status.id, val.orderNumber)"
-                v-b-modal.modal-update-status/>
+                <span :class="`${val.status.name === 'Selesai'}
+								? ' bg-danger' : ''`">
+									{{ val.status.name }}
+								</span>
               </b-td>
 
               <b-td class="value">
@@ -46,23 +45,6 @@
         </OrderTable>
       </template>
     </TemplateContent>
-
-    <b-modal id="modal-update-status" ref="modal"
-    title="Perbarui status pesanan" @ok="handleSubmit">
-      <b-form-select v-model="selectedUpdateStatus">
-        <option v-for="val in statusFilter"
-        :key="val.id" :value="val.id">
-          {{ val.name }}
-        </option>
-
-        <template v-if="lastStatus !== null">
-          <option :value="finishedStatus.id"
-          v-if="selectedUpdateStatusOri === lastStatus.id">
-            {{ finishedStatus.name }}
-          </option>
-        </template>
-      </b-form-select>
-    </b-modal>
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
@@ -191,62 +173,34 @@ export default {
       searchText: '',
       selectedStatus: '',
 
-      paramOrderNumber: '',
-      selectedUpdateStatus: null,
-      selectedUpdateStatusOri: null,
-
       timeout: null,
     };
   },
 
   computed: {
     ...mapGetters('adOrder', [
-      'orderStatusActive',
+      'orderStatusHistory',
     ]),
-
-    statusFilter() {
-      if (this.selectedUpdateStatus) {
-        return this.status.filter((val) => val.id >= this.selectedUpdateStatusOri
-        && val.id <= this.selectedUpdateStatusOri + 1);
-      }
-
-      return null;
-    },
-
-    lastStatus() {
-      if (this.status !== null) {
-        return this.status.find((val) => val.name === 'Dalam Pengiriman');
-      }
-
-      return null;
-    },
-
-    finishedStatus() {
-      return {
-        id: 5,
-        name: 'Selesai',
-      };
-    },
   },
 
   methods: {
     ...mapActions('adOrder', [
-      'getStatusActive',
-      'getAllOrder',
+      'getStatusHistory',
+      'getAllOrderHistory',
       'getAllOrderByStatus',
-      'getAllByNumber',
+      'getAllByNumberHistory',
       'updateStatus',
     ]),
 
     async getAllStatus() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.getStatusActive);
+      const { code } = await this.$func.promiseAPI(this.getStatusHistory);
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.status = this.orderStatusActive.status;
+        this.status = this.orderStatusHistory.status;
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -263,7 +217,7 @@ export default {
         params.orderStatusId = this.selectedStatus;
         action = this.getAllOrderByStatus;
       } else {
-        action = this.getAllOrder;
+        action = this.getAllOrderHistory;
       }
 
       const { code, data, paging } = await this.$func.promiseAPI(action, params);
@@ -275,31 +229,13 @@ export default {
     async getOrdersByNumber(page) {
       this.loader = true;
 
-      const { code, data, paging } = await this.$func.promiseAPI(this.getAllByNumber, {
+      const { code, data, paging } = await this.$func.promiseAPI(this.getAllByNumberHistory, {
         page,
         orderNumber: this.searchText,
       });
 
       this.loader = false;
       this.setData(code, data, paging, page);
-    },
-
-    async updateStatusOrder() {
-      this.loader = true;
-
-      const { code } = await this.$func.promiseAPI(this.updateStatus, {
-        orderNumber: this.paramOrderNumber,
-        orderStatusId: this.selectedUpdateStatus,
-      });
-
-      this.loader = false;
-
-      if (code >= 200 && code < 300) {
-        this.getOrders(this.activePage);
-        this.$func.popupSuccessNoRoute('Berhasil perbarui status');
-      } else {
-        this.$func.popupConnectionError(false);
-      }
     },
 
     setData(code, data, paging, page) {
@@ -334,18 +270,6 @@ export default {
       } else {
         this.getOrdersByNumber(page);
       }
-    },
-
-    handleSubmit() {
-      if (this.selectedUpdateStatus !== this.selectedUpdateStatusOri) {
-        this.updateStatusOrder();
-      }
-    },
-
-    setParamUpdate(id, orderNumber) {
-      this.selectedUpdateStatus = id;
-      this.selectedUpdateStatusOri = id;
-      this.paramOrderNumber = orderNumber;
     },
 
     statusSelectChanged(statusId) {

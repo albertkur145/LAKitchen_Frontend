@@ -3936,7 +3936,7 @@ export default [
     },
   },
   {
-    url: `${API}/admin/orderstatus/finished`,
+    url: `${API}/admin/orderstatus/history`,
     method: 'GET',
     status: 200,
     response: {
@@ -4151,8 +4151,8 @@ export default [
             orderNumber: '130495302572',
             date: '05/12/2020',
             status: {
-              id: 3,
-              name: 'Siap Dikirim',
+              id: 2,
+              name: 'Sedang Dipersiapkan',
             },
             totalPayment: 255800,
           },
@@ -4160,8 +4160,8 @@ export default [
             orderNumber: '120569630850',
             date: '06/12/2020',
             status: {
-              id: 4,
-              name: 'Dalam Pengiriman',
+              id: 2,
+              name: 'Sedang Dipersiapkan',
             },
             totalPayment: 255800,
           },
@@ -4171,6 +4171,58 @@ export default [
             status: {
               id: 2,
               name: 'Sedang Dipersiapkan',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 3,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/status`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderStatusId: 5,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
             },
             totalPayment: 255800,
           },
@@ -4203,8 +4255,42 @@ export default [
             orderNumber: '130495302572',
             date: '05/12/2020',
             status: {
-              id: 2,
-              name: 'Sedang Dipersiapkan',
+              id: 4,
+              name: 'Dalam Pengiriman',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 1,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/status`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderStatusId: 6,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
             },
             totalPayment: 255800,
           },
@@ -4287,7 +4373,23 @@ export default [
     },
   },
   {
-    url: `${API}/admin/order/confirmation`,
+    url: `${API}/admin/order`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      orderNumber: '140455201067',
+      orderStatusId: 5,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/unprocessed`,
     method: 'GET',
     status: 200,
     params: {
@@ -4401,7 +4503,7 @@ export default [
     },
   },
   {
-    url: `${API}/admin/order/confirmation`,
+    url: `${API}/admin/order/unprocessed`,
     method: 'GET',
     status: 200,
     params: {
@@ -4461,7 +4563,7 @@ export default [
     },
   },
   {
-    url: `${API}/admin/order/search/confirmation`,
+    url: `${API}/admin/order/search/unprocessed`,
     method: 'GET',
     status: 200,
     params: {
@@ -4479,8 +4581,8 @@ export default [
             orderNumber: '123495302572',
             date: '05/12/2020',
             status: {
-              id: 2,
-              name: 'Sedang Dipersiapkan',
+              id: 1,
+              name: 'Menunggu Pembayaran',
             },
             totalPayment: 255800,
           },
@@ -4488,8 +4590,8 @@ export default [
             orderNumber: '123569630850',
             date: '06/12/2020',
             status: {
-              id: 4,
-              name: 'Dalam Pengiriman',
+              id: 1,
+              name: 'Menunggu Pembayaran',
             },
             totalPayment: 255800,
           },
@@ -4497,8 +4599,8 @@ export default [
             orderNumber: '123371397275',
             date: '05/12/2020',
             status: {
-              id: 3,
-              name: 'Siap Dikirim',
+              id: 1,
+              name: 'Menunggu Pembayaran',
             },
             totalPayment: 255800,
           },
@@ -4513,7 +4615,7 @@ export default [
     },
   },
   {
-    url: `${API}/admin/order/confirmation`,
+    url: `${API}/admin/order/unprocessed`,
     method: 'PUT',
     status: 200,
     params: {
@@ -4524,6 +4626,232 @@ export default [
       status: 'OK',
       data: null,
       paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/history`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 24,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/history`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 3,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '130495302572',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '120569630850',
+            date: '06/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '180371397275',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '140455201067',
+            date: '12/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 3,
+        count: 24,
+        view: 10,
+      },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/order/search/history`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        page: 1,
+        orderNumber: '123',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        orders: [
+          {
+            orderNumber: '123495302572',
+            date: '05/12/2020',
+            status: {
+              id: 6,
+              name: 'Dibatalkan',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '123569630850',
+            date: '06/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+          {
+            orderNumber: '123371397275',
+            date: '05/12/2020',
+            status: {
+              id: 5,
+              name: 'Selesai',
+            },
+            totalPayment: 255800,
+          },
+        ],
+      },
+      paging: {
+        page: 1,
+        count: 3,
+        view: 10,
+      },
       errors: null,
     },
   },

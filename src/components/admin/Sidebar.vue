@@ -304,6 +304,13 @@ export default {
                 path: '/admin/order',
               },
             },
+            {
+              name: 'Riwayat Pesanan',
+              route: {
+                name: 'AdminOrderHistory',
+                path: '/admin/order/history',
+              },
+            },
           ],
         },
         {
@@ -400,6 +407,10 @@ export default {
             break;
 
           case 'AdminOrderConfirm':
+            this.parentRoute = 'AdminOrder';
+            break;
+
+          case 'AdminOrderHistory':
             this.parentRoute = 'AdminOrder';
             break;
 
