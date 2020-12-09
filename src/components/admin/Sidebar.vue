@@ -291,7 +291,14 @@ export default {
           childIcon: 'chevron-up',
           child: [
             {
-              name: 'Pesanan',
+              name: 'Konfirmasi Pesanan',
+              route: {
+                name: 'AdminOrderConfirm',
+                path: '/admin/order/confirm',
+              },
+            },
+            {
+              name: 'Pesanan Aktif',
               route: {
                 name: 'AdminOrder',
                 path: '/admin/order',
@@ -390,6 +397,10 @@ export default {
 
           case 'AdminProductAssessmentDetail':
             this.parentRoute = 'AdminProduct';
+            break;
+
+          case 'AdminOrderConfirm':
+            this.parentRoute = 'AdminOrder';
             break;
 
           default:

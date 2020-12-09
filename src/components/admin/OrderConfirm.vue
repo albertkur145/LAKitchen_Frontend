@@ -2,18 +2,17 @@
   <div>
     <TemplateContent>
       <template v-slot:title>
-        <span>Pesanan Aktif</span>
+        <span>Konfirmasi Pesanan</span>
       </template>
 
       <template v-slot:content>
-        <OrderTable :isShowStatus="true"
-        @status-select="statusSelectChanged"
+        <OrderTable :isShowStatus="false"
         @search-key-up="searchKeyUp"
         @search-key-enter="getOrdersByNumber(1)"
         @paging-click="manageRequest"
-        :status="status" :dataTable="dataTable"
-        :isPageActive="isPageActive" :paging="paging"
-        :activePage="activePage">
+        :dataTable="dataTable"
+        :isPageActive="isPageActive"
+        :paging="paging" :activePage="activePage">
           <template v-slot:thead>
             <b-tr>
               <b-th class="title">No pesanan</b-th>
@@ -32,30 +31,18 @@
 
               <b-td class="value">
                 {{ val.status.name }}
-
-                <font-awesome-icon icon="pen" class="ml-2 edit-icon"
-                @click="setParamUpdate(val.status.id, val.orderNumber)"
-                v-b-modal.modal-update-status/>
               </b-td>
 
               <b-td class="value">
-                <div class="btn-more">Lihat</div>
+                <font-awesome-icon @click="confirmAction(val.orderNumber)"
+                icon="check-circle" class="check-icon"/>
+                <font-awesome-icon icon="eye" class="ml-1 ml-lg-2 see-icon"/>
               </b-td>
             </b-tr>
           </template>
         </OrderTable>
       </template>
     </TemplateContent>
-
-    <b-modal id="modal-update-status" ref="modal"
-    title="Perbarui status pesanan" @ok="handleSubmit">
-      <b-form-select v-model="selectedUpdateStatus">
-        <option v-for="val in statusFilter"
-        :key="val.id" :value="val.id">
-          {{ val.name }}
-        </option>
-      </b-form-select>
-    </b-modal>
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
@@ -77,27 +64,14 @@
     font-size: 0.875em;
   }
 
-  .edit-icon {
-    outline: none;
+  .check-icon, .see-icon {
+    color: #888;
     cursor: pointer;
-    color: #24DB83;
+    font-size: 1.125em;
   }
 
-  .btn-more {
-    cursor: pointer;
-    font-weight: 600;
-    color: #373737;
-    text-align: center;
-    border-radius: 100rem;
-    background-color: #C6BAE7;
-    transition: background-color .2s ease-out;
-    padding: 0.375rem 0.875rem;
-    font-size: 0.75em;
-
-    &:hover {
-      color: #272727;
-      background-color: #C1B5E1;
-    }
+  .check-icon {
+    color: #34C66E;
   }
   // global css
 
@@ -128,11 +102,6 @@
     .value {
       font-size: 0.9375em;
     }
-
-    .btn-more {
-      padding: 0.375rem 0.125rem;
-      font-size: 0.8125em;
-    }
   }
   // #Device = Tablets, Ipads
 
@@ -144,11 +113,6 @@
 
     .value {
       font-size: 0.9375em;
-    }
-
-    .btn-more {
-      padding: 0.375rem 0.125rem;
-      font-size: 0.8125em;
     }
   }
   // #Device = Laptops, Desktops
@@ -179,14 +143,7 @@ export default {
       isPageActive: true,
 
       dataTable: null,
-      status: null,
-
       searchText: '',
-      selectedStatus: '',
-
-      paramOrderNumber: '',
-      selectedUpdateStatus: null,
-      selectedUpdateStatusOri: null,
 
       timeout: null,
     };
@@ -194,57 +151,24 @@ export default {
 
   computed: {
     ...mapGetters('adOrder', [
-      'orderStatusActive',
+      'orderStatus',
     ]),
-
-    statusFilter() {
-      if (this.selectedUpdateStatus) {
-        return this.status.filter((val) => val.id >= this.selectedUpdateStatusOri
-        && val.id <= this.selectedUpdateStatusOri + 1);
-      }
-
-      return null;
-    },
   },
 
   methods: {
     ...mapActions('adOrder', [
-      'getStatusActive',
-      'getAllOrder',
-      'getAllOrderByStatus',
-      'getAllByNumber',
-      'updateStatus',
+      'getAllOrderNotPay',
+      'getAllByNumberNotPay',
+      'confirmOrder',
     ]),
-
-    async getAllStatus() {
-      this.loader = true;
-
-      const { code } = await this.$func.promiseAPI(this.getStatusActive);
-
-      this.loader = false;
-
-      if (code >= 200 && code < 300) {
-        this.status = this.orderStatusActive.status;
-      } else {
-        this.$func.popupConnectionError(false);
-      }
-    },
 
     async getOrders(page) {
       this.searchText = '';
       this.loader = true;
 
-      let action;
-      const params = { page };
-
-      if (this.selectedStatus) {
-        params.orderStatusId = this.selectedStatus;
-        action = this.getAllOrderByStatus;
-      } else {
-        action = this.getAllOrder;
-      }
-
-      const { code, data, paging } = await this.$func.promiseAPI(action, params);
+      const { code, data, paging } = await this.$func.promiseAPI(this.getAllOrderNotPay, {
+        page,
+      });
 
       this.loader = false;
       this.setData(code, data, paging, page);
@@ -253,7 +177,7 @@ export default {
     async getOrdersByNumber(page) {
       this.loader = true;
 
-      const { code, data, paging } = await this.$func.promiseAPI(this.getAllByNumber, {
+      const { code, data, paging } = await this.$func.promiseAPI(this.getAllByNumberNotPay, {
         page,
         orderNumber: this.searchText,
       });
@@ -262,21 +186,32 @@ export default {
       this.setData(code, data, paging, page);
     },
 
-    async updateStatusOrder() {
+    async confirmationOrder(orderNumber) {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.updateStatus, {
-        orderNumber: this.paramOrderNumber,
-        orderStatusId: this.selectedUpdateStatus,
+      const { code } = await this.$func.promiseAPI(this.confirmOrder, {
+        orderNumber,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.getOrders(1);
-        this.$func.popupSuccessNoRoute('Berhasil perbarui status');
+        this.$func.popupSuccessNoRoute('Berhasil konfirmasi pesanan');
       } else {
         this.$func.popupConnectionError(false);
+      }
+    },
+
+    async confirmAction(orderNumber) {
+      const res = await this.$func.popupConfirmAction(
+        'Yakin konfirmasi pesanan ini?',
+        'Ya',
+        'Tidak',
+      );
+
+      if (res) {
+        this.confirmationOrder(orderNumber);
       }
     },
 
@@ -314,23 +249,6 @@ export default {
       }
     },
 
-    handleSubmit() {
-      if (this.selectedUpdateStatus !== this.selectedUpdateStatusOri) {
-        this.updateStatusOrder();
-      }
-    },
-
-    setParamUpdate(id, orderNumber) {
-      this.selectedUpdateStatus = id;
-      this.selectedUpdateStatusOri = id;
-      this.paramOrderNumber = orderNumber;
-    },
-
-    statusSelectChanged(statusId) {
-      this.selectedStatus = statusId;
-      this.getOrders(1);
-    },
-
     searchKeyUp(keyword) {
       this.searchText = keyword;
       this.search(1);
@@ -338,7 +256,6 @@ export default {
   },
 
   created() {
-    this.getAllStatus();
     this.getOrders(1);
   },
 

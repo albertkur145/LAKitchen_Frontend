@@ -5,12 +5,17 @@ const token = cookies.get('token');
 
 const data = {
   temp: {},
-  status: {},
+  statusActive: {},
+  statusFinished: {},
 };
 
 const getters = {
-  orderStatus(state) {
-    return state.status;
+  orderStatusActive(state) {
+    return state.statusActive;
+  },
+
+  orderStatusFinished(state) {
+    return state.statusFinished;
   },
 };
 
@@ -19,23 +24,45 @@ const mutations = {
     state.temp = value;
   },
 
-  setStatus(state, value) {
-    state.status = value;
+  setStatusActive(state, value) {
+    state.statusActive = value;
+  },
+
+  setStatusFinished(state, value) {
+    state.statusFinished = value;
   },
 };
 
 const actions = {
-  getStatus({ commit }, payload) {
+  getStatusActive({ commit }, payload) {
     return axios({
       method: 'get',
-      url: '/admin/orderstatus',
+      url: '/admin/orderstatus/active',
       data: {},
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
-        commit('setStatus', res.data.data);
+        commit('setStatusActive', res.data.data);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getStatusFinished({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/orderstatus/finished',
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setStatusFinished', res.data.data);
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {
@@ -47,6 +74,29 @@ const actions = {
     return axios({
       method: 'get',
       url: '/admin/order',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getAllOrderNotPay({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/order/confirmation',
       params: payload.params,
       data: {},
       headers: {
@@ -112,10 +162,51 @@ const actions = {
       });
   },
 
+  getAllByNumberNotPay({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/order/search/confirmation',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+          paging: res.data.paging,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
   updateStatus({ commit }, payload) {
     return axios({
       method: 'put',
       url: '/admin/order',
+      data: payload.params,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  confirmOrder({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/admin/order/confirmation',
       data: payload.params,
       headers: {
         Authorization: `Bearer ${token}`,
