@@ -31,6 +31,7 @@ const AdProductAssessmentDetail = () => import(/* webpackChunkName: "c-adminProd
 const AdOrder = () => import(/* webpackChunkName: "c-adminOrder" */ '../components/admin/Order.vue');
 const AdOrderConfirm = () => import(/* webpackChunkName: "c-adminOrderConfirm" */ '../components/admin/OrderConfirm.vue');
 const AdOrderHistory = () => import(/* webpackChunkName: "c-adminOrderHistory" */ '../components/admin/OrderHistory.vue');
+const AdOrderDetail = () => import(/* webpackChunkName: "c-adminOrderDetail" */ '../components/admin/OrderDetail.vue');
 
 const routes = [
   {
@@ -171,6 +172,12 @@ const routes = [
         path: 'order/history',
         name: 'AdminOrderHistory',
         component: AdOrderHistory,
+      },
+      {
+        path: 'order/:orderNumber',
+        name: 'AdminOrderDetail',
+        props: true,
+        component: AdOrderDetail,
       },
     ],
   },

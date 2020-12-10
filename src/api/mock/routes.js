@@ -4855,4 +4855,56 @@ export default [
       errors: null,
     },
   },
+  {
+    url: `${API}/admin/order/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        orderNumber: '130495302572',
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        customer: {
+          id: 1,
+          name: 'Ryan Santoso',
+          email: 'ryansan@gmail.com',
+          phoneNumber: '089625320075',
+          address: 'Jl Cendrawasih Ruslan No 44A, Blok C',
+          province: 'Kalimantan Tengah',
+          city: 'Palu',
+        },
+        order: {
+          orderNumber: '130495302572',
+          date: '10 Desember 2020',
+          status: 'Siap Dikirim',
+          paymentMethod: 'Transfer',
+          totalPayment: 237500,
+        },
+        products: [
+          {
+            id: 1,
+            name: 'Hakau Ayam x Udang',
+            price: 60000,
+            quantity: 2,
+            subTotal: 120000,
+            note: 'Tolong topingnya yang banyak ya',
+          },
+          {
+            id: 2,
+            name: 'Nastar Pandan Keju',
+            price: 85000,
+            quantity: 1,
+            subTotal: 85000,
+            note: null,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
 ];

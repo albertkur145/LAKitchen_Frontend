@@ -39,7 +39,9 @@
               </b-td>
 
               <b-td class="value">
-                <div class="btn-more">Lihat</div>
+                <div class="btn-more" @click="redirectDetail(val.orderNumber)">
+                  Lihat
+                </div>
               </b-td>
             </b-tr>
           </template>
@@ -356,6 +358,21 @@ export default {
     searchKeyUp(keyword) {
       this.searchText = keyword;
       this.search(1);
+    },
+
+    redirectDetail(orderNumber) {
+      this.$router.push({
+        name: 'AdminOrderDetail',
+        params: {
+          orderNumber,
+          title: {
+            path: {
+              name: 'AdminOrder',
+            },
+            name: 'Pesanan Aktif',
+          },
+        },
+      });
     },
   },
 

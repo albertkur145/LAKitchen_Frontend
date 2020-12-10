@@ -7,6 +7,7 @@ const data = {
   temp: {},
   statusActive: {},
   statusHistory: {},
+  order: {},
 };
 
 const getters = {
@@ -16,6 +17,10 @@ const getters = {
 
   orderStatusHistory(state) {
     return state.statusHistory;
+  },
+
+  orderDetail(state) {
+    return state.order;
   },
 };
 
@@ -30,6 +35,10 @@ const mutations = {
 
   setStatusHistory(state, value) {
     state.statusHistory = value;
+  },
+
+  setOrder(state, value) {
+    state.order = value;
   },
 };
 
@@ -261,6 +270,25 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getDetail({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/admin/order/id',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setOrder', res.data.data);
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {

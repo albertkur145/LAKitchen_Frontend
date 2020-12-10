@@ -414,6 +414,10 @@ export default {
             this.parentRoute = 'AdminOrder';
             break;
 
+          case 'AdminOrderDetail':
+            this.parentRoute = 'AdminOrder';
+            break;
+
           default:
             this.parentRoute = name;
             break;

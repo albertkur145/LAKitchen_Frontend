@@ -36,7 +36,8 @@
               <b-td class="value">
                 <font-awesome-icon @click="confirmAction(val.orderNumber)"
                 icon="check-circle" class="check-icon"/>
-                <font-awesome-icon icon="eye" class="ml-1 ml-lg-2 see-icon"/>
+                <font-awesome-icon @click="redirectDetail(val.orderNumber)"
+                icon="eye" class="ml-1 ml-lg-2 see-icon"/>
               </b-td>
             </b-tr>
           </template>
@@ -196,7 +197,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getOrders(1);
+        this.getOrders(this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil konfirmasi pesanan');
       } else {
         this.$func.popupConnectionError(false);
@@ -252,6 +253,21 @@ export default {
     searchKeyUp(keyword) {
       this.searchText = keyword;
       this.search(1);
+    },
+
+    redirectDetail(orderNumber) {
+      this.$router.push({
+        name: 'AdminOrderDetail',
+        params: {
+          orderNumber,
+          title: {
+            path: {
+              name: 'AdminOrderConfirm',
+            },
+            name: 'Konfirmasi Pesanan',
+          },
+        },
+      });
     },
   },
 
