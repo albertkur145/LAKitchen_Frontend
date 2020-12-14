@@ -260,10 +260,12 @@
       .table-la {
 
         .title {
+          white-space: unset;
           font-size: 1em;
         }
 
         .value {
+          white-space: unset;
           font-size: 0.9375em;
         }
       }

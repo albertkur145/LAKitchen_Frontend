@@ -317,8 +317,8 @@ export default {
           icon: 'user',
           name: 'Pengguna',
           route: {
-            name: '',
-            path: '/admin',
+            name: 'AdminCustomer',
+            path: '',
           },
           chevIc: 'chevron-up',
           isHaveChild: true,
@@ -328,8 +328,8 @@ export default {
             {
               name: 'Customer',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminCustomer',
+                path: '/admin/customer',
               },
             },
             {

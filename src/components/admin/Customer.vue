@@ -2,7 +2,7 @@
   <div>
     <TemplateContent>
       <template v-slot:title>
-        <span>Jual Produk</span>
+        <span>Customer</span>
       </template>
 
       <template v-slot:content>
@@ -10,10 +10,10 @@
           <div class="head">
             <div class="d-flex flex-wrap">
               <div class="position-relative">
-                <select @change="getProducts(1)" v-model="selectedCategory"
-                class="select-la bg-white" v-if="categories !== null">
-                  <option value="">Semua Produk</option>
-                  <option v-for="val in categories"
+                <select @change="getCustomer(1)" v-model="selectedStatus"
+                class="select-la bg-white" v-if="status !== null">
+                  <option value="">Semua Customer</option>
+                  <option v-for="val in status"
                   :key="val.id" :value="val.id">
                     {{ val.name }}
                   </option>
@@ -24,26 +24,21 @@
 
               <div class="position-relative">
                 <input type="text" v-model="searchText"
-                @keyup="search(1)" @keyup.enter="getProductsByName(1)"
-                class="input-text" placeholder="Apa yang sedang kamu cari?">
+                @keyup="search(1)" @keyup.enter="getCustomerByName(1)"
+                class="input-text" placeholder="Cari nama customer...">
                 <font-awesome-icon icon="search" class="search-icon"/>
               </div>
             </div>
-
-            <button @click="redirect({ name: 'AdminProductForm' })"
-            class="btn-create">Tambah</button>
           </div>
 
           <b-table-simple responsive class="table-la">
             <b-thead>
               <b-tr>
-                <b-th class="title">Produk</b-th>
-                <b-th class="title">Harga</b-th>
-                <b-th class="title">Kategori</b-th>
-                <b-th class="title">Sub Kategori</b-th>
-                <b-th class="title text-center">Popularitas</b-th>
-                <b-th class="title text-center">Rating</b-th>
-                <b-th class="title text-center">Total Penjualan</b-th>
+                <b-th class="title">Nama customer</b-th>
+                <b-th class="title">Email</b-th>
+                <b-th class="title">Nomor HP</b-th>
+                <b-th class="title">Kota</b-th>
+                <b-th class="title">Terdaftar sejak</b-th>
                 <b-th class="title">Status</b-th>
                 <b-th></b-th>
               </b-tr>
@@ -51,26 +46,20 @@
 
             <b-tbody v-if="dataTable !== null">
               <b-tr v-for="val in dataTable" :key="val.id">
+                <b-td class="value">{{ val.name }}</b-td>
+                <b-td class="value">{{ val.email }}</b-td>
+                <b-td class="value">{{ val.phoneNumber }}</b-td>
+                <b-td class="value">{{ val.city }}</b-td>
+                <b-td class="value">{{ val.registerAt }}</b-td>
                 <b-td class="value">
-                  <router-link :to="`/product/${val.id}`" target="_blank">
-                    {{ val.name }}
-                  </router-link>
-                </b-td>
-                <b-td class="value">{{ val.price | currency }}</b-td>
-                <b-td class="value">{{ val.category }}</b-td>
-                <b-td class="value">{{ val.subCategory }}</b-td>
-                <b-td class="value text-center">{{ val.popularity }}</b-td>
-                <b-td class="value text-center">{{ val.rating }}</b-td>
-                <b-td class="value text-center">{{ val.sold }}</b-td>
-                <b-td class="value">
-                  {{ val.isActive ? 'Aktif' : 'Nonaktif' }}
+                  {{ val.status.name }}
+                  <font-awesome-icon icon="pen" class="ml-2 edit-icon"
+                  @click="setParamSelected(val.id, val.status.id)" v-b-modal.modal-update-status/>
                 </b-td>
                 <b-td class="value">
-                  <font-awesome-icon icon="pen" class="edit-icon"
-                  @click="redirect({ name: 'AdminProductForm', params: { id: val.id } })"/>
-                  <font-awesome-icon icon="star" class="ml-1 rate-icon"
-                  @click="redirect({ name: 'AdminProductAssessmentDetail',
-                  params: { id: val.id } })"/>
+                  <div class="btn-more" @click="userModal(val.id)" v-b-modal.modal-detail-user>
+                    Lihat
+                  </div>
                 </b-td>
               </b-tr>
             </b-tbody>
@@ -89,6 +78,61 @@
         </div>
       </template>
     </TemplateContent>
+
+    <b-modal id="modal-update-status" ref="modal"
+    title="Akun customer" @ok="handleSubmit">
+      <b-form-select v-model="selectedUpdateStatus">
+        <option v-for="val in status"
+        :key="val.id" :value="val.id">
+          {{ val.name }}
+        </option>
+      </b-form-select>
+    </b-modal>
+
+    <b-modal id="modal-detail-user" ref="modal"
+    title="Akun customer" ok-only v-if="userDetail !== null">
+      <b-row>
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Nama lengkap</div>
+          <div class="value">{{ userDetail.name }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Status</div>
+          <div class="value">{{ userDetail.status.name }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Email</div>
+          <div class="value">{{ userDetail.email }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Terdaftar sejak</div>
+          <div class="value">{{ userDetail.registerAt }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Nomor HP</div>
+          <div class="value">{{ userDetail.phoneNumber }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Provinsi</div>
+          <div class="value">{{ userDetail.province }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Kota</div>
+          <div class="value">{{ userDetail.city }}</div>
+        </b-col>
+
+        <b-col cols="12" md="6" class="mb-4">
+          <div class="title">Alamat</div>
+          <div class="value">{{ userDetail.address }}</div>
+        </b-col>
+      </b-row>
+    </b-modal>
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
@@ -159,21 +203,6 @@
           color: #A0A0A0;
         }
       }
-
-      .btn-create {
-        color: #FFF;
-        font-weight: 600;
-        border-radius: 0.5rem;
-        background-color: #BF67E9;
-        transition: background-color .2s ease-out;
-        margin-bottom: 1rem;
-        padding: 0.5875rem 1.5rem;
-        font-size: 0.875em;
-
-        &:hover {
-          background-color: #B556E2;
-        }
-      }
     }
 
     .table-la {
@@ -192,16 +221,28 @@
         font-size: 0.875em;
       }
 
-      .edit-icon, .rate-icon {
-        cursor: pointer;
-      }
-
       .edit-icon {
+        outline: none;
+        cursor: pointer;
         color: #24DB83;
       }
 
-      .rate-icon {
-        color: #FF9900;
+      .btn-more {
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        color: #373737;
+        text-align: center;
+        border-radius: 100rem;
+        background-color: #C6BAE7;
+        transition: background-color .2s ease-out;
+        padding: 0.375rem 0.875rem;
+        font-size: 0.75em;
+
+        &:hover {
+          color: #272727;
+          background-color: #C1B5E1;
+        }
       }
     }
 
@@ -228,6 +269,23 @@
         font-weight: 600;
         color: #0075FF;
       }
+    }
+  }
+
+  #modal-detail-user {
+
+    .title {
+      color: #666;
+      word-wrap: break-word;
+      font-size: 0.875em;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #3F3F3F;
+      word-wrap: break-word;
+      margin-top: 0.0625rem;
+      font-size: 1em;
     }
   }
   // global css
@@ -267,10 +325,6 @@
 
         .input-text {
           width: 19rem;
-        }
-
-        .btn-create {
-          font-size: 0.875em;
         }
       }
 
@@ -322,10 +376,6 @@
         .input-text {
           width: 19rem;
         }
-
-        .btn-create {
-          font-size: 0.9375em;
-        }
       }
 
       .table-la {
@@ -336,6 +386,10 @@
 
         .value {
           font-size: 0.9375em;
+        }
+
+        .btn-more {
+          font-size: 0.8125em;
         }
       }
 
@@ -383,10 +437,6 @@
         .input-text {
           width: 19rem;
         }
-
-        .btn-create {
-          font-size: 0.9375em;
-        }
       }
 
       .table-la {
@@ -399,6 +449,10 @@
         .value {
           white-space: unset;
           font-size: 0.9375em;
+        }
+
+        .btn-more {
+          font-size: 0.8125em;
         }
       }
 
@@ -439,59 +493,64 @@ export default {
       activePage: null,
       isPageActive: true,
 
+      userDetail: null,
       dataTable: null,
-      categories: null,
+      status: null,
 
       searchText: '',
-      selectedCategory: '',
+
+      selectedStatus: '',
+      selectedUpdateStatus: null,
+      selectedUpdateStatusOri: null,
 
       timeout: null,
     };
   },
 
   computed: {
-    ...mapGetters('categories', [
-      'generalCategoryList',
+    ...mapGetters('adUserStatus', [
+      'userStatus',
     ]),
   },
 
   methods: {
-    ...mapActions('adProduct', [
-      'getAllByPaging',
-      'getAllByPagingCategory',
-      'getAllByName',
+    ...mapActions('adCustomer', [
+      'getAllCustomer',
+      'getAllCustomerByStatus',
+      'getAllCustomerByName',
+      'activationAccount',
     ]),
 
-    ...mapActions('categories', [
-      'getGeneralCategory',
+    ...mapActions('adUserStatus', [
+      'getAllUserStatus',
     ]),
 
-    async getCategories() {
+    async getUserStatus() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.getGeneralCategory);
+      const { code } = await this.$func.promiseAPI(this.getAllUserStatus);
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.categories = this.generalCategoryList.categories;
+        this.status = this.userStatus.status;
       } else {
         this.$func.popupConnectionError(false);
       }
     },
 
-    async getProducts(page) {
+    async getCustomer(page) {
       this.searchText = '';
       this.loader = true;
 
       let action;
       const params = { page };
 
-      if (this.selectedCategory) {
-        params.categoryId = this.selectedCategory;
-        action = this.getAllByPagingCategory;
+      if (this.selectedStatus) {
+        params.userStatusId = this.selectedStatus;
+        action = this.getAllCustomerByStatus;
       } else {
-        action = this.getAllByPaging;
+        action = this.getAllCustomer;
       }
 
       const { code, data, paging } = await this.$func.promiseAPI(action, params);
@@ -500,10 +559,10 @@ export default {
       this.setData(code, data, paging, page);
     },
 
-    async getProductsByName(page) {
+    async getCustomerByName(page) {
       this.loader = true;
 
-      const { code, data, paging } = await this.$func.promiseAPI(this.getAllByName, {
+      const { code, data, paging } = await this.$func.promiseAPI(this.getAllCustomerByName, {
         page,
         name: this.searchText,
       });
@@ -512,9 +571,27 @@ export default {
       this.setData(code, data, paging, page);
     },
 
+    async updateStatusUser() {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.activationAccount, {
+        id: this.selectedUpdateStatusOri.userId,
+        userStatusId: this.selectedUpdateStatus,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.getCustomer(this.activePage);
+        this.$func.popupSuccessNoRoute('Berhasil mengubah status customer');
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
     setData(code, data, paging, page) {
       if (code >= 200 && code < 300) {
-        this.dataTable = data.products;
+        this.dataTable = data.customers;
         this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
         this.isPageActive = true;
@@ -526,23 +603,41 @@ export default {
       }
     },
 
+    setParamSelected(id, statusId) {
+      this.selectedUpdateStatus = statusId;
+      this.selectedUpdateStatusOri = {
+        userId: id,
+        userStatusId: statusId,
+      };
+    },
+
+    handleSubmit() {
+      if (this.selectedUpdateStatus !== this.selectedUpdateStatusOri.userStatusId) {
+        this.updateStatusUser();
+      }
+    },
+
+    userModal(id) {
+      this.userDetail = this.dataTable.find((val) => val.id === id);
+    },
+
     search(page) {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
         if (this.searchText.length !== 0) {
-          this.getProductsByName(page);
+          this.getCustomerByName(page);
         } else {
-          this.getProducts(1);
+          this.getCustomer(1);
         }
       }, 1000);
     },
 
     manageRequest(page) {
       if (this.searchText.length === 0) {
-        this.getProducts(page);
+        this.getCustomer(page);
       } else {
-        this.getProductsByName(page);
+        this.getCustomerByName(page);
       }
     },
 
@@ -552,8 +647,8 @@ export default {
   },
 
   created() {
-    this.getCategories();
-    this.getProducts(1);
+    this.getUserStatus();
+    this.getCustomer(1);
   },
 
 };
