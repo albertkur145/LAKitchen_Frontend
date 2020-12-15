@@ -33,6 +33,7 @@ const AdOrderConfirm = () => import(/* webpackChunkName: "c-adminOrderConfirm" *
 const AdOrderHistory = () => import(/* webpackChunkName: "c-adminOrderHistory" */ '../components/admin/OrderHistory.vue');
 const AdOrderDetail = () => import(/* webpackChunkName: "c-adminOrderDetail" */ '../components/admin/OrderDetail.vue');
 const AdCustomer = () => import(/* webpackChunkName: "c-adminCustomer" */ '../components/admin/Customer.vue');
+const AdEmployee = () => import(/* webpackChunkName: "c-adminEmployee" */ '../components/admin/Employee.vue');
 
 const routes = [
   {
@@ -184,6 +185,11 @@ const routes = [
         path: 'customer',
         name: 'AdminCustomer',
         component: AdCustomer,
+      },
+      {
+        path: 'employee',
+        name: 'AdminEmployee',
+        component: AdEmployee,
       },
     ],
   },

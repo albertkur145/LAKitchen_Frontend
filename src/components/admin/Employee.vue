@@ -2,29 +2,27 @@
   <div>
     <TemplateContent>
       <template v-slot:title>
-        <span>Customer</span>
+        <span>Pegawai</span>
       </template>
 
       <template v-slot:content>
         <TemplateUserTable class="table-la"
-        :showBtnCreate="false"
-        statusOptionGeneral="Semua Customer"
+        :showBtnCreate="true"
+        statusOptionGeneral="Semua Pegawai"
         :status="status"
         :dataTable="dataTable"
         :paging="paging"
         :activePage="activePage"
         :isPageActive="isPageActive"
         @search-key-up="searchKeyUp"
-        @search-key-enter="getCustomerByName(1)"
+        @search-key-enter="getEmployeeByName(1)"
         @status-select="statusSelectChanged"
         @paging-click="manageRequest">
           <template v-slot:thead>
             <b-tr>
-              <b-th class="title">Nama customer</b-th>
+              <b-th class="title">Nama pegawai</b-th>
               <b-th class="title">Email</b-th>
               <b-th class="title">Nomor HP</b-th>
-              <b-th class="title">Kota</b-th>
-              <b-th class="title">Terdaftar sejak</b-th>
               <b-th class="title">Status</b-th>
               <b-th></b-th>
             </b-tr>
@@ -35,8 +33,6 @@
               <b-td class="value">{{ val.name }}</b-td>
               <b-td class="value">{{ val.email }}</b-td>
               <b-td class="value">{{ val.phoneNumber }}</b-td>
-              <b-td class="value">{{ val.city }}</b-td>
-              <b-td class="value">{{ val.registerAt }}</b-td>
               <b-td class="value">
                 {{ val.status.name }}
                 <font-awesome-icon icon="pen" class="ml-2 edit-icon"
@@ -54,7 +50,7 @@
     </TemplateContent>
 
     <b-modal id="modal-update-status" ref="modal"
-    title="Akun customer" @ok="handleSubmit">
+    title="Akun pegawai" @ok="handleSubmit">
       <b-form-select v-model="selectedUpdateStatus">
         <option v-for="val in status"
         :key="val.id" :value="val.id">
@@ -64,7 +60,7 @@
     </b-modal>
 
     <b-modal id="modal-detail-user" ref="modal"
-    title="Akun customer" ok-only v-if="userDetail !== null">
+    title="Akun pegawai" ok-only v-if="userDetail !== null">
       <b-row class="modal-detail">
         <b-col cols="12" md="6" class="mb-4">
           <div class="title">Nama lengkap</div>
@@ -280,9 +276,9 @@ export default {
 
   methods: {
     ...mapActions('adUser', [
-      'getAllCustomer',
-      'getAllCustomerByStatus',
-      'getAllCustomerByName',
+      'getAllEmployee',
+      'getAllEmployeeByStatus',
+      'getAllEmployeeByName',
       'activationAccount',
     ]),
 
@@ -304,7 +300,7 @@ export default {
       }
     },
 
-    async getCustomer(page) {
+    async getEmployee(page) {
       this.searchText = '';
       this.loader = true;
 
@@ -313,9 +309,9 @@ export default {
 
       if (this.selectedStatus) {
         params.userStatusId = this.selectedStatus;
-        action = this.getAllCustomerByStatus;
+        action = this.getAllEmployeeByStatus;
       } else {
-        action = this.getAllCustomer;
+        action = this.getAllEmployee;
       }
 
       const { code, data, paging } = await this.$func.promiseAPI(action, params);
@@ -324,10 +320,10 @@ export default {
       this.setData(code, data, paging, page);
     },
 
-    async getCustomerByName(page) {
+    async getEmployeeByName(page) {
       this.loader = true;
 
-      const { code, data, paging } = await this.$func.promiseAPI(this.getAllCustomerByName, {
+      const { code, data, paging } = await this.$func.promiseAPI(this.getAllEmployeeByName, {
         page,
         name: this.searchText,
       });
@@ -347,8 +343,8 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getCustomer(this.activePage);
-        this.$func.popupSuccessNoRoute('Berhasil mengubah status customer');
+        this.getEmployee(this.activePage);
+        this.$func.popupSuccessNoRoute('Berhasil mengubah status pegawai');
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -356,7 +352,7 @@ export default {
 
     setData(code, data, paging, page) {
       if (code >= 200 && code < 300) {
-        this.dataTable = data.customers;
+        this.dataTable = data.employees;
         this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
         this.isPageActive = true;
@@ -391,9 +387,9 @@ export default {
 
       this.timeout = setTimeout(() => {
         if (this.searchText.length !== 0) {
-          this.getCustomerByName(page);
+          this.getEmployeeByName(page);
         } else {
-          this.getCustomer(1);
+          this.getEmployee(1);
         }
       }, 1000);
     },
@@ -405,14 +401,14 @@ export default {
 
     statusSelectChanged(statusId) {
       this.selectedStatus = statusId;
-      this.getCustomer(1);
+      this.getEmployee(1);
     },
 
     manageRequest(page) {
       if (this.searchText.length === 0) {
-        this.getCustomer(page);
+        this.getEmployee(page);
       } else {
-        this.getCustomerByName(page);
+        this.getEmployeeByName(page);
       }
     },
 
@@ -423,7 +419,7 @@ export default {
 
   created() {
     this.getUserStatus();
-    this.getCustomer(1);
+    this.getEmployee(1);
   },
 
 };

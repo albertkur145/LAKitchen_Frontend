@@ -335,8 +335,8 @@ export default {
             {
               name: 'Pegawai',
               route: {
-                name: '',
-                path: '/admin',
+                name: 'AdminEmployee',
+                path: '/admin/employee',
               },
             },
           ],
@@ -416,6 +416,10 @@ export default {
 
           case 'AdminOrderDetail':
             this.parentRoute = 'AdminOrder';
+            break;
+
+          case 'AdminEmployee':
+            this.parentRoute = 'AdminCustomer';
             break;
 
           default:

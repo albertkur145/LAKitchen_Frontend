@@ -15,7 +15,7 @@ import adReport from './modules/admin/report';
 import adAssessment from './modules/admin/assessment';
 import adOrder from './modules/admin/order';
 import adUserStatus from './modules/admin/userstatus';
-import adCustomer from './modules/admin/customer';
+import adUser from './modules/admin/user';
 
 Vue.use(Vuex);
 
@@ -35,6 +35,6 @@ export default new Vuex.Store({
     adAssessment,
     adOrder,
     adUserStatus,
-    adCustomer,
+    adUser,
   },
 });
