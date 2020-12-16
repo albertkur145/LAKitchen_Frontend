@@ -24,7 +24,8 @@
         </div>
       </div>
 
-      <button v-if="showBtnCreate" class="btn-create">Tambah</button>
+      <button v-if="showBtnCreate" class="btn-create"
+      @click="$router.push({ name: 'AdminUserForm' })">Tambah</button>
     </div>
 
     <b-table-simple responsive class="table-la">
