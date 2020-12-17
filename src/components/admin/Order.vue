@@ -32,16 +32,28 @@
 
               <b-td class="value">
                 {{ val.status.name }}
-
-                <font-awesome-icon icon="pen" class="ml-2 edit-icon"
-                @click="setParamUpdate(val.status.id, val.orderNumber)"
-                v-b-modal.modal-update-status/>
               </b-td>
 
               <b-td class="value">
-                <div class="btn-more" @click="redirectDetail(val.orderNumber)">
-                  Lihat
-                </div>
+                <b-dropdown size="xs" variant="link"
+                toggle-class="p-0 text-decoration-none" no-caret>
+                  <template #button-content>
+                    <div class="point">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </template>
+
+                  <b-dropdown-item @click="setParamUpdate(val.status.id, val.orderNumber)"
+                  v-b-modal.modal-update-status>
+                    Perbarui Status
+                  </b-dropdown-item>
+
+                  <b-dropdown-item @click="redirectDetail(val.orderNumber)">
+                    Lihat
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-td>
             </b-tr>
           </template>
@@ -73,6 +85,19 @@
 <style lang="scss" scoped>
 
   // global css
+  .point {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 100rem;
+      background-color: #444;
+      margin-bottom: 0.125rem;
+    }
+  }
+
   .title {
     color: #444;
     font-weight: 600;
@@ -84,29 +109,6 @@
     color: #555;
     white-space: nowrap;
     font-size: 0.875em;
-  }
-
-  .edit-icon {
-    outline: none;
-    cursor: pointer;
-    color: #24DB83;
-  }
-
-  .btn-more {
-    cursor: pointer;
-    font-weight: 600;
-    color: #373737;
-    text-align: center;
-    border-radius: 100rem;
-    background-color: #C6BAE7;
-    transition: background-color .2s ease-out;
-    padding: 0.375rem 0.875rem;
-    font-size: 0.75em;
-
-    &:hover {
-      color: #272727;
-      background-color: #C1B5E1;
-    }
   }
   // global css
 
@@ -137,11 +139,6 @@
     .value {
       font-size: 0.9375em;
     }
-
-    .btn-more {
-      padding: 0.375rem 0.125rem;
-      font-size: 0.8125em;
-    }
   }
   // #Device = Tablets, Ipads
 
@@ -155,11 +152,6 @@
     .value {
       white-space: unset;
       font-size: 0.9375em;
-    }
-
-    .btn-more {
-      padding: 0.375rem 0.125rem;
-      font-size: 0.8125em;
     }
   }
   // #Device = Laptops, Desktops
@@ -299,7 +291,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getOrders(this.activePage);
+        this.manageRequest(this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil perbarui status');
       } else {
         this.$func.popupConnectionError(false);
@@ -324,11 +316,7 @@ export default {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        if (this.searchText.length !== 0) {
-          this.getOrdersByNumber(page);
-        } else {
-          this.getOrders(1);
-        }
+        this.manageRequest(page);
       }, 1000);
     },
 

@@ -34,10 +34,24 @@
               </b-td>
 
               <b-td class="value">
-                <font-awesome-icon @click="confirmAction(val.orderNumber)"
-                icon="check-circle" class="check-icon"/>
-                <font-awesome-icon @click="redirectDetail(val.orderNumber)"
-                icon="eye" class="ml-1 ml-lg-2 see-icon"/>
+                <b-dropdown size="xs" variant="link"
+                toggle-class="p-0 text-decoration-none" no-caret>
+                  <template #button-content>
+                    <div class="point">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </template>
+
+                  <b-dropdown-item @click="confirmAction(val.orderNumber)">
+                    Konfirmasi Pesanan
+                  </b-dropdown-item>
+
+                  <b-dropdown-item @click="redirectDetail(val.orderNumber)">
+                    Lihat
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-td>
             </b-tr>
           </template>
@@ -52,6 +66,19 @@
 <style lang="scss" scoped>
 
   // global css
+  .point {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 100rem;
+      background-color: #444;
+      margin-bottom: 0.125rem;
+    }
+  }
+
   .title {
     color: #444;
     font-weight: 600;
@@ -63,16 +90,6 @@
     color: #555;
     white-space: nowrap;
     font-size: 0.875em;
-  }
-
-  .check-icon, .see-icon {
-    color: #888;
-    cursor: pointer;
-    font-size: 1.125em;
-  }
-
-  .check-icon {
-    color: #34C66E;
   }
   // global css
 
@@ -199,7 +216,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getOrders(this.activePage);
+        this.manageRequest(this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil konfirmasi pesanan');
       } else {
         this.$func.popupConnectionError(false);
@@ -236,11 +253,7 @@ export default {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        if (this.searchText.length !== 0) {
-          this.getOrdersByNumber(page);
-        } else {
-          this.getOrders(1);
-        }
+        this.manageRequest(page);
       }, 1000);
     },
 

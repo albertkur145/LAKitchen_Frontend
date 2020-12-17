@@ -4389,6 +4389,22 @@ export default [
     },
   },
   {
+    url: `${API}/admin/order`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      orderNumber: '123495302572',
+      orderStatusId: 3,
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/admin/order/unprocessed`,
     method: 'GET',
     status: 200,
@@ -5339,7 +5355,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5353,7 +5369,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5367,7 +5383,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5381,7 +5397,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5395,7 +5411,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5448,7 +5464,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5669,6 +5685,20 @@ export default [
         employees: [
           {
             id: 1,
+            name: 'Albert Kurniawan',
+            email: 'albert@gmail.com',
+            phoneNumber: '081392290882',
+            province: 'Sumatra Selatan',
+            city: 'Palembang',
+            address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
+            status: {
+              id: 2,
+              name: 'Diblokir',
+            },
+            registerAt: '15/05/2019',
+          },
+          {
+            id: 2,
             name: 'Albert Kurniawan',
             email: 'albert@gmail.com',
             phoneNumber: '081392290882',

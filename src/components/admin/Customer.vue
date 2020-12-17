@@ -38,30 +38,40 @@
               <b-td class="value">{{ val.city }}</b-td>
               <b-td class="value">{{ val.registerAt }}</b-td>
               <b-td class="value">
-                {{ val.status.name }}
-                <font-awesome-icon icon="pen" class="ml-2 edit-icon"
-                @click="setParamSelected(val.id, val.status.id)" v-b-modal.modal-update-status/>
+                <span :class="`chip-la ${val.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+                  {{ val.status.name }}
+                </span>
               </b-td>
               <b-td class="value">
-                <div class="btn-more" @click="userModal(val.id)" v-b-modal.modal-detail-user>
-                  Lihat
-                </div>
+                <b-dropdown size="xs" variant="link"
+                toggle-class="p-0 text-decoration-none" no-caret>
+                  <template #button-content>
+                    <div class="point">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </template>
+
+                  <b-dropdown-item @click="userModal(val.id)" v-b-modal.modal-detail-user>
+                    Lihat
+                  </b-dropdown-item>
+
+                  <b-dropdown-item v-if="val.status.id !== 1"
+                  @click="confirmAction(val.id, 1, 'mengaktifkan')">
+                    Aktifkan Akun
+                  </b-dropdown-item>
+
+                  <b-dropdown-item v-else @click="confirmAction(val.id, 2, 'memblokir')">
+                    Blokir Akun
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-td>
             </b-tr>
           </template>
         </TemplateUserTable>
       </template>
     </TemplateContent>
-
-    <b-modal id="modal-update-status" ref="modal"
-    title="Akun customer" @ok="handleSubmit">
-      <b-form-select v-model="selectedUpdateStatus">
-        <option v-for="val in status"
-        :key="val.id" :value="val.id">
-          {{ val.name }}
-        </option>
-      </b-form-select>
-    </b-modal>
 
     <b-modal id="modal-detail-user" ref="modal"
     title="Akun customer" ok-only v-if="userDetail !== null">
@@ -73,7 +83,11 @@
 
         <b-col cols="12" md="6" class="mb-4">
           <div class="title">Status</div>
-          <div class="value">{{ userDetail.status.name }}</div>
+          <div class="value">
+            <span :class="`chip-la ${userDetail.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+              {{ userDetail.status.name }}
+            </span>
+          </div>
         </b-col>
 
         <b-col cols="12" md="6" class="mb-4">
@@ -115,7 +129,35 @@
 <style lang="scss" scoped>
 
   // global css
+  .chip-la {
+    border-radius: 0.25rem !important;
+    padding: 0.125rem 0.375rem !important;
+    color: #FFF !important;
+  }
+
+  .danger-la {
+    background-color: #EF525B !important;
+  }
+
+  .primary-la {
+    background-color: #53ABEB !important;
+  }
+
+  .point {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 100rem;
+      background-color: #444;
+      margin-bottom: 0.125rem;
+    }
+  }
+
   .table-la {
+
     .title {
       color: #444;
       font-weight: 600;
@@ -127,12 +169,6 @@
       color: #555;
       white-space: nowrap;
       font-size: 0.875em;
-    }
-
-    .edit-icon {
-      outline: none;
-      cursor: pointer;
-      color: #24DB83;
     }
 
     .btn-more {
@@ -263,11 +299,7 @@ export default {
       status: null,
 
       searchText: '',
-
       selectedStatus: '',
-      selectedUpdateStatus: null,
-      selectedUpdateStatusOri: null,
-
       timeout: null,
     };
   },
@@ -336,21 +368,33 @@ export default {
       this.setData(code, data, paging, page);
     },
 
-    async updateStatusUser() {
+    async updateStatusUser(userId, statusId) {
       this.loader = true;
 
       const { code } = await this.$func.promiseAPI(this.activationAccount, {
-        id: this.selectedUpdateStatusOri.userId,
-        userStatusId: this.selectedUpdateStatus,
+        id: userId,
+        userStatusId: statusId,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getCustomer(this.activePage);
+        this.manageRequest(this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil mengubah status customer');
       } else {
         this.$func.popupConnectionError(false);
+      }
+    },
+
+    async confirmAction(userId, statusId, action) {
+      const res = await this.$func.popupConfirmAction(
+        `Ingin ${action} akun ini?`,
+        'Ya',
+        'Tidak',
+      );
+
+      if (res) {
+        this.updateStatusUser(userId, statusId);
       }
     },
 
@@ -368,20 +412,6 @@ export default {
       }
     },
 
-    setParamSelected(id, statusId) {
-      this.selectedUpdateStatus = statusId;
-      this.selectedUpdateStatusOri = {
-        userId: id,
-        userStatusId: statusId,
-      };
-    },
-
-    handleSubmit() {
-      if (this.selectedUpdateStatus !== this.selectedUpdateStatusOri.userStatusId) {
-        this.updateStatusUser();
-      }
-    },
-
     userModal(id) {
       this.userDetail = this.dataTable.find((val) => val.id === id);
     },
@@ -390,11 +420,7 @@ export default {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        if (this.searchText.length !== 0) {
-          this.getCustomerByName(page);
-        } else {
-          this.getCustomer(1);
-        }
+        this.manageRequest(page);
       }, 1000);
     },
 

@@ -171,12 +171,6 @@
       font-size: 0.875em;
     }
 
-    .edit-icon {
-      outline: none;
-      cursor: pointer;
-      color: #24DB83;
-    }
-
     .btn-more {
       outline: none;
       cursor: pointer;
@@ -389,7 +383,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.manageRequestWithSearch(this.activePage, this.activePage);
+        this.manageRequest(this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil mengubah status pegawai');
       } else {
         this.$func.popupConnectionError(false);
@@ -426,16 +420,8 @@ export default {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        this.manageRequestWithSearch(page, 1);
+        this.manageRequest(page);
       }, 1000);
-    },
-
-    manageRequestWithSearch(pageSearch, pageGetAll) {
-      if (this.searchText.length !== 0) {
-        this.getEmployeeByName(pageSearch);
-      } else {
-        this.getEmployee(pageGetAll);
-      }
     },
 
     searchKeyUp(keyword) {

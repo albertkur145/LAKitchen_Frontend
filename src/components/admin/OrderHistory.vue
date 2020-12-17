@@ -31,16 +31,27 @@
               <b-td class="value">{{ val.totalPayment | currency }}</b-td>
 
               <b-td class="value">
-                <span :class="`${val.status.name === 'Selesai'}
-								? ' bg-danger' : ''`">
-									{{ val.status.name }}
-								</span>
+                <span :class="`chip-la ${val.status.name === 'Selesai'
+                ? 'primary-la' : 'danger-la'}`">
+                  {{ val.status.name }}
+                </span>
               </b-td>
 
               <b-td class="value">
-                <div class="btn-more" @click="redirectDetail(val.orderNumber)">
-                  Lihat
-                </div>
+                <b-dropdown size="xs" variant="link"
+                toggle-class="p-0 text-decoration-none" no-caret>
+                  <template #button-content>
+                    <div class="point">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </template>
+
+                  <b-dropdown-item @click="redirectDetail(val.orderNumber)">
+                    Lihat
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-td>
             </b-tr>
           </template>
@@ -55,6 +66,33 @@
 <style lang="scss" scoped>
 
   // global css
+  .chip-la {
+    border-radius: 0.25rem !important;
+    padding: 0.125rem 0.375rem !important;
+    color: #FFF !important;
+  }
+
+  .danger-la {
+    background-color: #EF525B !important;
+  }
+
+  .primary-la {
+    background-color: #53ABEB !important;
+  }
+
+  .point {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 100rem;
+      background-color: #444;
+      margin-bottom: 0.125rem;
+    }
+  }
+
   .title {
     color: #444;
     font-weight: 600;
@@ -66,12 +104,6 @@
     color: #555;
     white-space: nowrap;
     font-size: 0.875em;
-  }
-
-  .edit-icon {
-    outline: none;
-    cursor: pointer;
-    color: #24DB83;
   }
 
   .btn-more {
