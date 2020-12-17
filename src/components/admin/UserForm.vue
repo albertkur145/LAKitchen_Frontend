@@ -10,7 +10,7 @@
           <font-awesome-icon icon="chevron-right" class="chev-icon"/>
         </span>
 
-        <span>Tambah Pegawai</span>
+        <span>{{ title }}</span>
       </template>
 
       <template v-slot:content>
@@ -62,7 +62,7 @@
                 </b-col>
               </b-row>
 
-              <b-row class="input-group-la">
+              <b-row class="input-group-la" v-if="!paramId">
                 <b-col cols="12">
                   <label>Alamat</label>
                 </b-col>
@@ -79,6 +79,21 @@
             </b-col>
 
             <b-col cols="12" md="5">
+              <b-row class="input-group-la" v-if="paramId">
+                <b-col cols="12">
+                  <label>Alamat</label>
+                </b-col>
+
+                <b-col cols="12">
+                  <b-form-textarea class="input-text" @keyup="validateAddress"
+                  v-model="form.address" placeholder="Tulis alamat lengkap" rows="5" max-rows="7"/>
+
+                  <b-form-text :class="`warning-text${validateForm.address ? ' d-none' : ''}`">
+                    Karakter (min: 15 / max: 255)
+                  </b-form-text>
+                </b-col>
+              </b-row>
+
               <b-row class="input-group-la">
                 <b-col cols="12">
                   <label>Provinsi</label>
@@ -120,7 +135,7 @@
                 </b-col>
               </b-row>
 
-              <b-row class="input-group-la">
+              <b-row class="input-group-la" v-if="!paramId">
                 <b-col cols="12">
                   <label>Kata sandi</label>
                 </b-col>
@@ -139,7 +154,7 @@
                 </b-col>
               </b-row>
 
-              <b-row class="input-group-la">
+              <b-row class="input-group-la" v-if="!paramId">
                 <b-col cols="12">
                   <label>Konfirmasi kata sandi</label>
                 </b-col>
@@ -160,7 +175,7 @@
               </b-row>
 
               <div class="d-flex flex-wrap">
-                <button class="btn-save">Simpan</button>
+                <button class="btn-save" @click="validationForm">Simpan</button>
               </div>
             </b-col>
           </b-row>
@@ -384,6 +399,7 @@
 
 <script>
 
+import { mapGetters, mapActions } from 'vuex';
 import Loader from '../Loader.vue';
 import TemplateContent from './TemplateContent.vue';
 
@@ -397,6 +413,7 @@ export default {
   data() {
     return {
       loader: false,
+      paramId: null,
       confirmPassword: '',
 
       typePassword: 'password',
@@ -443,10 +460,22 @@ export default {
   },
 
   computed: {
+    ...mapGetters('adUser', [
+      'employeeDetail',
+    ]),
 
+    title() {
+      return this.paramId ? 'Ubah Pegawai' : 'Tambah Pegawai';
+    },
   },
 
   methods: {
+    ...mapActions('adUser', [
+      'createEmployee',
+      'updateEmployee',
+      'getEmployeeById',
+    ]),
+
     fillCity({ target }) {
       this.form.city = '';
 
@@ -803,6 +832,74 @@ export default {
       }
     },
 
+    async getEmployeeDetail() {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.getEmployeeById, {
+        id: parseInt(this.paramId, 10),
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.setForm(this.employeeDetail.employee);
+      } else {
+        this.$func.popupConnectionError();
+      }
+    },
+
+    async reqApi(action) {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(action, this.form);
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.$func.popupSuccess('Berhasil simpan data', this.$router, '/admin/employee');
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
+    setForm(data) {
+      this.fillCity({ target: { value: data.province } });
+
+      this.form = {
+        name: data.name,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        province: data.province,
+        city: data.city,
+      };
+    },
+
+    apiHandler() {
+      let action = this.createEmployee;
+
+      if (this.paramId) {
+        delete this.form.password;
+        this.form.id = parseInt(this.paramId, 10);
+
+        action = this.updateEmployee;
+      }
+
+      this.reqApi(action);
+    },
+
+    validationForm() {
+      if (this.validateName() && this.validateEmail()
+      && this.validatePhoneNumber() && this.validateAddress()
+      && this.validateProvince() && this.validateCity()) {
+        if (this.paramId) {
+          this.apiHandler();
+        } else if (this.validatePassword() && this.validateConfirmPassword()) {
+          this.apiHandler();
+        }
+      }
+    },
+
     validateName() {
       if (this.form.name.length === 0) {
         this.validateForm.name = false;
@@ -914,6 +1011,14 @@ export default {
       this.typeConfirmPassword = type.typePassword;
       this.typeConfirmIcon = type.typeIcon;
     },
+  },
+
+  created() {
+    this.paramId = this.$route.params.id;
+
+    if (this.paramId) {
+      this.getEmployeeDetail();
+    }
   },
 
 };

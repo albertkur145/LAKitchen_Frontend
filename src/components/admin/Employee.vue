@@ -34,14 +34,39 @@
               <b-td class="value">{{ val.email }}</b-td>
               <b-td class="value">{{ val.phoneNumber }}</b-td>
               <b-td class="value">
-                {{ val.status.name }}
-                <font-awesome-icon icon="pen" class="ml-2 edit-icon"
-                @click="setParamSelected(val.id, val.status.id)" v-b-modal.modal-update-status/>
+                <span :class="`chip-la ${val.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+                  {{ val.status.name }}
+                </span>
               </b-td>
               <b-td class="value">
-                <div class="btn-more" @click="userModal(val.id)" v-b-modal.modal-detail-user>
-                  Lihat
-                </div>
+                <b-dropdown size="xs" variant="link"
+                toggle-class="p-0 text-decoration-none" no-caret>
+                  <template #button-content>
+                    <div class="point">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </template>
+
+                  <b-dropdown-item @click="userModal(val.id)" v-b-modal.modal-detail-user>
+                    Lihat
+                  </b-dropdown-item>
+
+                  <b-dropdown-item @click="redirect({ name: 'AdminUserForm',
+                  params: { id: val.id } })">
+                    Ubah Data
+                  </b-dropdown-item>
+
+                  <b-dropdown-item v-if="val.status.id !== 1"
+                  @click="confirmAction(val.id, 1, 'mengaktifkan')">
+                    Aktifkan Akun
+                  </b-dropdown-item>
+
+                  <b-dropdown-item v-else @click="confirmAction(val.id, 2, 'memblokir')">
+                    Blokir Akun
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-td>
             </b-tr>
           </template>
@@ -49,18 +74,8 @@
       </template>
     </TemplateContent>
 
-    <b-modal id="modal-update-status" ref="modal"
-    title="Akun pegawai" @ok="handleSubmit">
-      <b-form-select v-model="selectedUpdateStatus">
-        <option v-for="val in status"
-        :key="val.id" :value="val.id">
-          {{ val.name }}
-        </option>
-      </b-form-select>
-    </b-modal>
-
     <b-modal id="modal-detail-user" ref="modal"
-    title="Akun pegawai" ok-only v-if="userDetail !== null">
+    title="Akun customer" ok-only v-if="userDetail !== null">
       <b-row class="modal-detail">
         <b-col cols="12" md="6" class="mb-4">
           <div class="title">Nama lengkap</div>
@@ -69,7 +84,11 @@
 
         <b-col cols="12" md="6" class="mb-4">
           <div class="title">Status</div>
-          <div class="value">{{ userDetail.status.name }}</div>
+          <div class="value">
+            <span :class="`chip-la ${userDetail.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+              {{ userDetail.status.name }}
+            </span>
+          </div>
         </b-col>
 
         <b-col cols="12" md="6" class="mb-4">
@@ -111,6 +130,33 @@
 <style lang="scss" scoped>
 
   // global css
+  .chip-la {
+    border-radius: 0.25rem !important;
+    padding: 0.125rem 0.375rem !important;
+    color: #FFF !important;
+  }
+
+  .danger-la {
+    background-color: #EF525B !important;
+  }
+
+  .primary-la {
+    background-color: #53ABEB !important;
+  }
+
+  .point {
+    display: flex;
+    flex-direction: column;
+
+    span {
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 100rem;
+      background-color: #444;
+      margin-bottom: 0.125rem;
+    }
+  }
+
   .table-la {
     .title {
       color: #444;
@@ -202,6 +248,7 @@
       }
 
       .btn-more {
+        padding: 0.375rem 0.125rem;
         font-size: 0.8125em;
       }
     }
@@ -223,6 +270,7 @@
       }
 
       .btn-more {
+        padding: 0.375rem 0.125rem;
         font-size: 0.8125em;
       }
     }
@@ -261,8 +309,6 @@ export default {
       searchText: '',
 
       selectedStatus: '',
-      selectedUpdateStatus: null,
-      selectedUpdateStatusOri: null,
 
       timeout: null,
     };
@@ -332,21 +378,33 @@ export default {
       this.setData(code, data, paging, page);
     },
 
-    async updateStatusUser() {
+    async updateStatusUser(userId, statusId) {
       this.loader = true;
 
       const { code } = await this.$func.promiseAPI(this.activationAccount, {
-        id: this.selectedUpdateStatusOri.userId,
-        userStatusId: this.selectedUpdateStatus,
+        id: userId,
+        userStatusId: statusId,
       });
 
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.getEmployee(this.activePage);
+        this.manageRequestWithSearch(this.activePage, this.activePage);
         this.$func.popupSuccessNoRoute('Berhasil mengubah status pegawai');
       } else {
         this.$func.popupConnectionError(false);
+      }
+    },
+
+    async confirmAction(userId, statusId, action) {
+      const res = await this.$func.popupConfirmAction(
+        `Ingin ${action} akun ini?`,
+        'Ya',
+        'Tidak',
+      );
+
+      if (res) {
+        this.updateStatusUser(userId, statusId);
       }
     },
 
@@ -364,34 +422,20 @@ export default {
       }
     },
 
-    setParamSelected(id, statusId) {
-      this.selectedUpdateStatus = statusId;
-      this.selectedUpdateStatusOri = {
-        userId: id,
-        userStatusId: statusId,
-      };
-    },
-
-    handleSubmit() {
-      if (this.selectedUpdateStatus !== this.selectedUpdateStatusOri.userStatusId) {
-        this.updateStatusUser();
-      }
-    },
-
-    userModal(id) {
-      this.userDetail = this.dataTable.find((val) => val.id === id);
-    },
-
     search(page) {
       clearTimeout(this.timeout);
 
       this.timeout = setTimeout(() => {
-        if (this.searchText.length !== 0) {
-          this.getEmployeeByName(page);
-        } else {
-          this.getEmployee(1);
-        }
+        this.manageRequestWithSearch(page, 1);
       }, 1000);
+    },
+
+    manageRequestWithSearch(pageSearch, pageGetAll) {
+      if (this.searchText.length !== 0) {
+        this.getEmployeeByName(pageSearch);
+      } else {
+        this.getEmployee(pageGetAll);
+      }
     },
 
     searchKeyUp(keyword) {
@@ -410,6 +454,10 @@ export default {
       } else {
         this.getEmployeeByName(page);
       }
+    },
+
+    userModal(id) {
+      this.userDetail = this.dataTable.find((val) => val.id === id);
     },
 
     redirect(route) {

@@ -4951,7 +4951,7 @@ export default [
     method: 'PUT',
     status: 200,
     params: {
-      id: 3,
+      id: 5,
       userStatusId: 1,
     },
     response: {
@@ -5729,7 +5729,7 @@ export default [
             city: 'Palembang',
             address: 'JL Mayor Salim Batubara Komplek PU No 609 RT 11 RW 04',
             status: {
-              id: 1,
+              id: 2,
               name: 'Diblokir',
             },
             registerAt: '15/05/2019',
@@ -5755,6 +5755,74 @@ export default [
         count: 3,
         view: 10,
       },
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/employee/id`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        id: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        employee: {
+          name: 'Albert Kurniawan',
+          email: 'albert@gmail.com',
+          phoneNumber: '081392290882',
+          address: 'Jalan May Sabara',
+          province: 'Sumatra Selatan',
+          city: 'Kota Palembang',
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/employee`,
+    method: 'POST',
+    status: 200,
+    params: {
+      name: 'Albert',
+      email: 'albert@gmail.com',
+      phoneNumber: '081392290882',
+      address: 'Jalan May Sabara',
+      province: 'Sumatra Selatan',
+      city: 'Kota Palembang',
+      password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/employee`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
+      name: 'Albert',
+      email: 'albert@gmail.com',
+      phoneNumber: '081392290882',
+      address: 'Jalan May Sabara',
+      province: 'Sumatra Selatan',
+      city: 'Kota Palembang',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
       errors: null,
     },
   },
