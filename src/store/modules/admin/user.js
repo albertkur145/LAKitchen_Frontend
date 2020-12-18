@@ -226,6 +226,21 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  resetPassword({ commit }, payload) {
+    return axios({
+      method: 'put',
+      url: '/admin/user/reset',
+      data: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

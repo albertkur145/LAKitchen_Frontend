@@ -356,8 +356,8 @@ export default {
             {
               name: 'Pendapatan',
               route: {
-                name: 'Login',
-                path: '/cpanel',
+                name: 'AdminReportIncome',
+                path: '/admin/report/income',
               },
             },
           ],
@@ -420,6 +420,10 @@ export default {
 
           case 'AdminEmployee':
             this.parentRoute = 'AdminCustomer';
+            break;
+
+          case 'AdminReportIncome':
+            this.parentRoute = 'AdminReport';
             break;
 
           default:

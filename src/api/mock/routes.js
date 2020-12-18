@@ -3032,6 +3032,127 @@ export default [
     },
   },
   {
+    url: `${API}/admin/report/income/monthly`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        year: 2020,
+        month: 12,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        report: [
+          {
+            date: '15/12/2020',
+            income: 137500,
+          },
+          {
+            date: '16/12/2020',
+            income: 265300,
+          },
+          {
+            date: '17/12/2020',
+            income: 520000,
+          },
+          {
+            date: '20/12/2020',
+            income: 223792,
+          },
+          {
+            date: '24/12/2020',
+            income: 140000,
+          },
+          {
+            date: '27/12/2020',
+            income: 60000,
+          },
+          {
+            date: '28/12/2020',
+            income: 95000,
+          },
+          {
+            date: '31/12/2020',
+            income: 345600,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/report/income/annual`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        year: 2020,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        report: [
+          {
+            month: 'Jan',
+            income: 137500,
+          },
+          {
+            month: 'Feb',
+            income: 265300,
+          },
+          {
+            month: 'Mar',
+            income: 520000,
+          },
+          {
+            month: 'Apr',
+            income: 223792,
+          },
+          {
+            month: 'Mei',
+            income: 140000,
+          },
+          {
+            month: 'Jun',
+            income: 60000,
+          },
+          {
+            month: 'Jul',
+            income: 95000,
+          },
+          {
+            month: 'Aug',
+            income: 345600,
+          },
+          {
+            month: 'Sep',
+            income: 225300,
+          },
+          {
+            month: 'Okt',
+            income: 295000,
+          },
+          {
+            month: 'Nov',
+            income: 127800,
+          },
+          {
+            month: 'Dec',
+            income: 1209500,
+          },
+        ],
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/admin/product`,
     method: 'POST',
     status: 200,
@@ -5847,6 +5968,21 @@ export default [
       address: 'Jalan May Sabara',
       province: 'Sumatra Selatan',
       city: 'Kota Palembang',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: null,
+      paging: null,
+      errors: null,
+    },
+  },
+  {
+    url: `${API}/admin/user/reset`,
+    method: 'PUT',
+    status: 200,
+    params: {
+      id: 1,
     },
     response: {
       code: 200,

@@ -58,6 +58,10 @@
                     Ubah Data
                   </b-dropdown-item>
 
+                  <b-dropdown-item @click="confirmReset(val.id)">
+                    Reset Password
+                  </b-dropdown-item>
+
                   <b-dropdown-item v-if="val.status.id !== 1"
                   @click="confirmAction(val.id, 1, 'mengaktifkan')">
                     Aktifkan Akun
@@ -320,6 +324,7 @@ export default {
       'getAllEmployeeByStatus',
       'getAllEmployeeByName',
       'activationAccount',
+      'resetPassword',
     ]),
 
     ...mapActions('adUserStatus', [
@@ -387,6 +392,34 @@ export default {
         this.$func.popupSuccessNoRoute('Berhasil mengubah status pegawai');
       } else {
         this.$func.popupConnectionError(false);
+      }
+    },
+
+    async resetPasswordUser(userId) {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.resetPassword, {
+        id: userId,
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.$func.popupSuccessNoRoute('Password di reset menjadi 12345');
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
+    async confirmReset(userId) {
+      const res = await this.$func.popupConfirmAction(
+        'Yakin ingin mereset password akun ini?',
+        'Ya',
+        'Tidak',
+      );
+
+      if (res) {
+        this.resetPasswordUser(userId);
       }
     },
 
