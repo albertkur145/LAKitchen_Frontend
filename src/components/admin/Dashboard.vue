@@ -64,9 +64,9 @@
             </div>
           </div>
 
-          <div class="graph" v-if="weeklyReport !== undefined">
-            <line-chart prefix="Rp. " thousands="." :data="weeklyReport"
-            :messages="{ empty: 'Belum ada pendapatan' }"/>
+          <div class="graph">
+            <apexchart width="98.9%" height="420"
+            :options="chartOptions.options" :series="chartOptions.series"/>
           </div>
         </div>
       </template>
@@ -309,7 +309,29 @@ export default {
       orders: undefined,
       sales: undefined,
       others: undefined,
-      weeklyReport: undefined,
+
+      chartOptions: {
+        options: {
+          chart: {
+            type: 'area',
+            toolbar: { show: false },
+            zoom: false,
+          },
+
+          markers: { size: 3 },
+          dataLabels: { enabled: false },
+          stroke: { curve: 'smooth', width: 2 },
+          noData: { text: 'Belum ada pendapatan' },
+
+          yaxis: {
+            labels: {
+              formatter: (val) => `Rp. ${this.formatPrice(val)}`,
+            },
+          },
+        },
+
+        series: [],
+      },
     };
   },
 
@@ -395,7 +417,7 @@ export default {
         this.orders = orders;
         this.sales = sales;
         this.others = others;
-        this.weeklyReport = this.dashboardData.weeklyReport;
+        this.dataGraphFormat(this.dashboardData.weeklyReport, 'date', 'income');
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -403,6 +425,19 @@ export default {
 
     redirect(route) {
       this.$router.push(route);
+    },
+
+    formatPrice(value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+
+    dataGraphFormat(series, x, y) {
+      this.chartOptions.series = [
+        {
+          name: 'Pendapatan',
+          data: series.map((val) => ({ x: val[x], y: val[y] })),
+        },
+      ];
     },
   },
 

@@ -55,9 +55,8 @@
           <div class="title">Pendapatan</div>
           <div class="value">{{ totalSales | currency }}</div>
 
-          <pie-chart :data="dataChart" prefix="Rp. " thousands="."
-          :messages="{ empty: 'Belum ada pendapatan' }"
-          :pieSliceText="`value`"/>
+          <apexchart width="100%" height="300"
+          :options="chartOptions.options" :series="chartOptions.series"/>
         </div>
       </template>
     </TemplateContent>
@@ -318,6 +317,20 @@ export default {
       activePage: null,
 
       dataTable: null,
+
+      chartOptions: {
+        options: {
+          chart: { type: 'donut' },
+          yaxis: {
+            labels: {
+              formatter: (val) => `Rp. ${this.formatPrice(val)}`,
+            },
+          },
+          fill: { type: 'gradient' },
+          dataLabels: { enabled: false },
+          legend: { position: 'bottom' },
+        },
+      },
     };
   },
 
@@ -328,17 +341,6 @@ export default {
       }
 
       return 0;
-    },
-
-    dataChart() {
-      if (this.dataTable !== null) {
-        return this.dataTable.reduce((arr, item) => {
-          arr.push([item.name, (item.price * item.sold)]);
-          return arr;
-        }, []);
-      }
-
-      return null;
     },
   },
 
@@ -360,9 +362,27 @@ export default {
         this.dataTable = data.products;
         this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
+
+        this.dataGraphFormat(this.dataTable);
       } else {
         this.$func.popupConnectionError(false);
       }
+    },
+
+    dataGraphFormat(data) {
+      const series = data.map((val) => val.price * val.sold);
+      const labels = data.map((val) => val.name);
+
+      this.chartOptions = {
+        options: {
+          labels,
+        },
+        series,
+      };
+    },
+
+    formatPrice(value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     },
   },
 
