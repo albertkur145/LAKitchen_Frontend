@@ -1686,6 +1686,36 @@ export default [
     },
   },
   {
+    url: `${API}/auth/login`,
+    method: 'POST',
+    status: 200,
+    params: {
+      email: 'indah@gmail.com',
+      password: '123',
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        token: 'eJhbGciJIzUxMiJ9yJyb2xlIjpbIlJPTEfVVNFUiJdLCJIi',
+        user: {
+          id: 1,
+          name: 'Indah Permata',
+          email: 'indah@gmail.com',
+          phoneNumber: '081595320052',
+          address: 'Jalan Semboyan Rias No 44C',
+          province: 'Sulawesi Tengah',
+          city: 'Palu',
+          registerAt: 'Mar 2020',
+          status: 'Active',
+          role: 'ROLE_CS',
+        },
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/user`,
     method: 'POST',
     status: 200,

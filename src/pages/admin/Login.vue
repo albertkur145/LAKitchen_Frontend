@@ -331,26 +331,41 @@ export default {
     },
 
     checkRole() {
-      if (this.userData.user.role !== 'ROLE_ADMIN') {
-        this.$func.popupError('Kode / password salah!', 'Coba lagi');
-      } else {
+      if (this.userData.user.role === 'ROLE_ADMIN' || this.userData.user.role === 'ROLE_CS') {
+        let user;
+        let route;
+
+        if (this.userData.user.role === 'ROLE_ADMIN') {
+          user = 'admin';
+          route = '/admin';
+        } else {
+          user = 'cs';
+          route = '/cs';
+        }
+
         this.$cookies.set('token', this.userData.token, '1y');
-        this.$cookies.set('admin', this.userData.user, '1y');
-        this.$router.push('/admin');
+        this.$cookies.set(user, this.userData.user, '1y');
+        this.$router.push(route);
+      } else {
+        this.$func.popupError('Kode / password salah!', 'Coba lagi');
       }
     },
 
-    popupLogoutFirst() {
+    popupLogoutFirst(route) {
       this.$func.popupInfo('Silahkan logout terlebih dahulu')
         .then(() => {
-          this.$router.push('/admin');
+          this.$router.push(route);
         });
     },
   },
 
   created() {
-    if (this.$cookies.get('token') && this.$cookies.get('admin')) {
-      this.popupLogoutFirst();
+    if (this.$cookies.get('token')) {
+      if (this.$cookies.get('admin')) {
+        this.popupLogoutFirst('/admin');
+      } else if (this.$cookies.get('cs')) {
+        this.popupLogoutFirst('/cs');
+      }
     }
   },
 

@@ -1,0 +1,142 @@
+<template>
+  <div class="messenger">
+    <div class="head">
+      <div class="username">Kevin Lusari</div>
+      <font-awesome-icon icon="phone-slash" class="phone-icon"/>
+    </div>
+
+    <div class="chat-message">
+      <div class="text-right mb-4">
+        <span class="text me">
+          Selamat siang, saya dengan Indah Permata. Dengan siapa saya berbicara?
+        </span>
+      </div>
+
+      <div class="text-left mb-2">
+        <span class="text they">
+          Selamat siang. Anda bisa memanggil saya Kevin.
+        </span>
+      </div>
+
+      <div class="text-left mb-4">
+        <span class="text they">
+          Selamat siang. Anda bisa memanggil saya Kevin.
+        </span>
+      </div>
+    </div>
+
+    <div class="type-chat">
+      <b-form-textarea class="input-text" rows="3"
+      placeholder="Kirim pesan disini..."/>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+
+  // global css
+  .messenger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .head {
+      display: flex;
+      align-items: center;
+      background-color: #FFF;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+
+      .username {
+        color: #3F3F3F;
+        font-weight: 500;
+        font-size: 1.125em;
+      }
+
+      .phone-icon {
+        cursor: pointer;
+        color: #FF505A;
+        font-size: 1em;
+      }
+    }
+
+    .chat-message {
+      height: 100%;
+      overflow-y: auto;
+      background-color: #EFEFEF;
+      padding: 1.5rem 2.5rem;
+
+      .text {
+        text-align: left;
+        word-wrap: break-word;
+        display: inline-block;
+        border-radius: 0.5rem;
+        max-width: 35rem;
+        font-size: 0.9375em;
+        padding: 0.75rem 1.5rem;
+      }
+
+      .me {
+        color: #000;
+        background-color: rgba($color: #0AEF58, $alpha: 0.3);
+      }
+
+      .they {
+        color: #222;
+        background-color: #FFF;
+      }
+    }
+
+    .type-chat {
+      padding: 1rem;
+      background-color: #FFF;
+
+      .input-text {
+        color: #333;
+        box-shadow: 0 0;
+        transition: border .1s linear;
+        border: 0.0625rem solid #BBB;
+        padding: 0.625rem 0.9375rem;
+        font-size: 0.9375em;
+
+        &::placeholder {
+          color: #888;
+        }
+
+        &:focus {
+          border: 0.0625rem solid #777;
+        }
+
+        &:focus::placeholder {
+          color: #555;
+        }
+      }
+    }
+  }
+  // global css
+
+  // #Device = Mobiles
+  @media (min-width: 320px) and (max-width: 480px) {
+
+  }
+  // #Device = Mobiles
+
+  // #Device = Low Resolution Tablets
+  @media (min-width: 481px) and (max-width: 767px) {
+
+  }
+  // #Device = Low Resolution Tablets
+
+  // #Device = Tablets, Ipads
+  @media (min-width: 768px) and (max-width: 1024px) {
+
+  }
+  // #Device = Tablets, Ipads
+
+  // #Device = Laptops, Desktops
+  @media (min-width: 1025px) {
+
+  }
+  // #Device = Laptops, Desktops
+
+</style>
