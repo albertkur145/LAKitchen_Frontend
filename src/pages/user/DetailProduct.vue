@@ -31,13 +31,19 @@
       <b-row class="product-detail">
         <b-col md="4" cols="12" class="left">
           <div class="desktop">
-            <img :src="require(`@/assets/images/${imgBinding}.webp`)"
-            alt="image" class="main-image">
+            <transition name="fade">
+              <div v-if="imgBinding" class="position-relative">
+                <!-- <div class="img-lens" id="lens"/> -->
+                <img :src="require(`@/assets/images/${imgBinding}.webp`)"
+                alt="image" class="main-image" id="img-zoom">
+              </div>
+            </transition>
 
             <div class="image-list">
               <img v-for="val in product.photo_links" :key="val.id"
               :src="require(`@/assets/images/${val.link}.webp`)"
-              alt="image" class="alt-image" @click="changeMainImage(`${val.link}`)">
+              alt="image" :class="`alt-image${imgBinding === val.link ? ' active-image' : ''}`"
+              @click="changeMainImage(`${val.link}`)">
             </div>
           </div>
 
@@ -148,6 +154,13 @@
 <style lang="scss" scoped>
 
   // global css
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+
   #app {
 
     .bg-all {
@@ -226,6 +239,16 @@
             display: block;
           }
 
+          .img-lens {
+            z-index: 1;
+            width: 9rem;
+            height: 9rem;
+            // cursor: none;
+            position: absolute;
+            background-repeat: no-repeat;
+            border: 0.0625rem solid #000;
+          }
+
           .main-image {
             border-radius: 0.5rem;
             border: 0.0625rem solid #BBB;
@@ -236,13 +259,14 @@
             max-width: 100%;
 
             .alt-image {
+              opacity: 0.7;
               cursor: pointer;
               border-radius: 0.375rem;
               border: 0.0625rem solid #CCC;
             }
 
             .active-image {
-              border: 0.0625rem solid #FF7A00;
+              opacity: 1;
             }
           }
         }
@@ -1291,7 +1315,13 @@ export default {
     },
 
     changeMainImage(url) {
-      this.imgBinding = url;
+      if (this.imgBinding !== url) {
+        this.imgBinding = null;
+
+        setTimeout(() => {
+          this.imgBinding = url;
+        }, 50);
+      }
     },
 
     manipulateQuantity(act) {
@@ -1324,6 +1354,59 @@ export default {
 
     back() {
       this.$router.go(-1);
+    },
+
+    imgZoom() {
+      const img = document.querySelector('#img-zoom');
+      const lens = document.getElementById('lens');
+      const ratio = 2;
+
+      lens.style.backgroundImage = `url(${img.src}`;
+      lens.style.backgroundSize = `${img.width * ratio}px ${img.height * ratio}px`;
+
+      this.moveLens();
+    },
+
+    moveLens() {
+      const img = document.querySelector('#img-zoom');
+      const lens = document.getElementById('lens');
+      const pos = this.getCursor();
+      const ratio = 2;
+
+      let posLeft = pos.x - (lens.offsetWidth / 2);
+      let posTop = pos.y - (lens.offsetHeight / 2);
+
+      if (posLeft < 0) {
+        posLeft = 0;
+      }
+
+      if (posTop < 0) {
+        posTop = 0;
+      }
+
+      if (posLeft > (img.width - lens.offsetWidth)) {
+        posLeft = (img.width - lens.offsetWidth);
+      }
+
+      if (posTop > (img.height - lens.offsetHeight)) {
+        posTop = (img.height - lens.offsetHeight);
+      }
+
+      lens.style.left = `${posLeft}px`;
+      lens.style.top = `${posTop}px`;
+
+      lens.style.backgroundPosition = `-${pos.x * ratio}px -${pos.y * ratio}px`;
+    },
+
+    getCursor() {
+      const img = document.querySelector('#img-zoom');
+      const bounds = img.getBoundingClientRect();
+      const e = window.event;
+
+      const x = e.pageX - bounds.left;
+      const y = e.pageY - bounds.top;
+
+      return { x, y };
     },
   },
 
