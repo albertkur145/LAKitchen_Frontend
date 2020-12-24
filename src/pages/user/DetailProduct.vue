@@ -33,9 +33,10 @@
           <div class="desktop">
             <transition name="fade">
               <div v-if="imgBinding" class="position-relative">
-                <!-- <div class="img-lens" id="lens"/> -->
                 <img :src="require(`@/assets/images/${imgBinding}.webp`)"
-                alt="image" class="main-image" id="img-zoom">
+                alt="image" class="main-image" id="img-zoom" @mousemove="moveLens">
+                <div class="img-lens" id="lens" @mousemove="moveLens"/>
+                <div class="img-copy" id="copy-lens"></div>
               </div>
             </transition>
 
@@ -239,20 +240,18 @@
             display: block;
           }
 
-          .img-lens {
-            z-index: 1;
-            width: 9rem;
-            height: 9rem;
-            // cursor: none;
-            position: absolute;
-            background-repeat: no-repeat;
-            border: 0.0625rem solid #000;
-          }
-
           .main-image {
             border-radius: 0.5rem;
             border: 0.0625rem solid #BBB;
             width: 100%;
+          }
+
+          .img-lens {
+            display: none;
+          }
+
+          .img-copy {
+            display: none;
           }
 
           .image-list {
@@ -1010,6 +1009,48 @@
               display: none;
             }
 
+            .main-image {
+              cursor: crosshair;
+
+              &:hover + .img-lens {
+                display: block;
+              }
+            }
+
+            .img-lens {
+              z-index: 1;
+              width: 11rem;
+              height: 11rem;
+              display: none;
+              cursor: crosshair;
+              position: absolute;
+              border-radius: 0.5rem;
+              background-repeat: no-repeat;
+              background-color: rgba($color: #000000, $alpha: 0.2);
+
+              &:hover {
+                display: block;
+              }
+
+              &:hover + .img-copy {
+                display: block;
+              }
+            }
+
+            .img-copy {
+              top: 0;
+              z-index: 1;
+              width: 22rem;
+              height: 22rem;
+              right: -24rem;
+              display: none;
+              position: absolute;
+              background-color: #FFF;
+              background-repeat: no-repeat;
+              border: 0.0625rem solid #AAA;
+              box-shadow: 0.125rem 0.125rem 0.25rem 0.0625rem rgba($color: #000000, $alpha: 0.3);
+            }
+
             .image-list {
 
               .alt-image {
@@ -1235,6 +1276,10 @@ export default {
         this.product = this.productDetail.product;
         [this.imgBinding] = this.product.photo_links;
         this.imgBinding = this.imgBinding.link;
+
+        setTimeout(() => {
+          this.imgZoom();
+        }, 1);
       } else {
         this.$func.popupConnectionError();
       }
@@ -1357,21 +1402,14 @@ export default {
     },
 
     imgZoom() {
-      const img = document.querySelector('#img-zoom');
-      const lens = document.getElementById('lens');
-      const ratio = 2;
-
-      lens.style.backgroundImage = `url(${img.src}`;
-      lens.style.backgroundSize = `${img.width * ratio}px ${img.height * ratio}px`;
-
       this.moveLens();
     },
 
     moveLens() {
       const img = document.querySelector('#img-zoom');
-      const lens = document.getElementById('lens');
+      const lens = document.querySelector('#lens');
+      const copyLens = document.querySelector('#copy-lens');
       const pos = this.getCursor();
-      const ratio = 2;
 
       let posLeft = pos.x - (lens.offsetWidth / 2);
       let posTop = pos.y - (lens.offsetHeight / 2);
@@ -1392,10 +1430,12 @@ export default {
         posTop = (img.height - lens.offsetHeight);
       }
 
-      lens.style.left = `${posLeft}px`;
       lens.style.top = `${posTop}px`;
+      lens.style.left = `${posLeft}px`;
 
-      lens.style.backgroundPosition = `-${pos.x * ratio}px -${pos.y * ratio}px`;
+      copyLens.style.backgroundImage = `url(${img.src})`;
+      copyLens.style.backgroundSize = `${img.width * 2}px ${img.height * 2}px`;
+      copyLens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
     },
 
     getCursor() {
