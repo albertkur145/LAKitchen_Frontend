@@ -6,11 +6,16 @@ const token = cookies.get('token');
 const data = {
   temp: {},
   cart: {},
+  count: {},
 };
 
 const getters = {
   userCart(state) {
     return state.cart;
+  },
+
+  countUserCart(state) {
+    return state.count;
   },
 };
 
@@ -21,6 +26,10 @@ const mutations = {
 
   setCart(state, value) {
     state.cart = value;
+  },
+
+  setCount(state, value) {
+    state.count = value;
   },
 };
 
@@ -37,6 +46,25 @@ const actions = {
     })
       .then((res) => {
         commit('setCart', res.data.data);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  countCart({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/cart/count',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        commit('setCount', res.data.data);
         payload.resolve({ code: res.data.code });
       })
       .catch((err) => {

@@ -2,7 +2,8 @@
   <div>
     <div class="products-container" v-if="products.length !== 0">
       <Product class="product" :product="val" :remove="true"
-      @del="removeProduct" v-for="val in products" :key="val.id"/>
+      @del="removeProduct" @cartredirect="addRedirectCart"
+      v-for="val in products" :key="val.id" :showCart="true"/>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
       <div class="empty-fill"></div>
@@ -675,6 +676,10 @@ export default {
       if (result) {
         this.$emit('del', id);
       }
+    },
+
+    addRedirectCart(id) {
+      this.$emit('cartredirect', id);
     },
   },
 

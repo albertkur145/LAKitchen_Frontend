@@ -2171,6 +2171,25 @@ export default [
     },
   },
   {
+    url: `${API}/cart/count`,
+    method: 'GET',
+    status: 200,
+    params: {
+      params: {
+        userId: 1,
+      },
+    },
+    response: {
+      code: 200,
+      status: 'OK',
+      data: {
+        productSum: 2,
+      },
+      paging: null,
+      errors: null,
+    },
+  },
+  {
     url: `${API}/cart`,
     method: 'DELETE',
     status: 200,

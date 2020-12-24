@@ -1019,8 +1019,6 @@
 
             .img-lens {
               z-index: 1;
-              width: 11rem;
-              height: 11rem;
               display: none;
               cursor: crosshair;
               position: absolute;
@@ -1040,9 +1038,6 @@
             .img-copy {
               top: 0;
               z-index: 1;
-              width: 22rem;
-              height: 22rem;
-              right: -24rem;
               display: none;
               position: absolute;
               background-color: #FFF;
@@ -1430,12 +1425,17 @@ export default {
         posTop = (img.height - lens.offsetHeight);
       }
 
+      lens.style.width = `${img.offsetWidth / 2}px`;
+      lens.style.height = `${img.offsetHeight / 2}px`;
       lens.style.top = `${posTop}px`;
       lens.style.left = `${posLeft}px`;
 
+      copyLens.style.right = `-${img.offsetWidth + 32}px`;
+      copyLens.style.width = `${img.offsetWidth}px`;
+      copyLens.style.height = `${img.offsetHeight}px`;
       copyLens.style.backgroundImage = `url(${img.src})`;
-      copyLens.style.backgroundSize = `${img.width * 2}px ${img.height * 2}px`;
-      copyLens.style.backgroundPosition = `-${pos.x}px -${pos.y}px`;
+      copyLens.style.backgroundSize = `${img.offsetWidth * 2}px ${img.offsetHeight * 2}px`;
+      copyLens.style.backgroundPosition = `-${posLeft * 2}px -${posTop * 2}px`;
     },
 
     getCursor() {

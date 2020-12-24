@@ -1,7 +1,8 @@
 <template>
   <div id="header">
     <div class="title">LA' Kitchen - Messenger</div>
-    <font-awesome-icon icon="power-off" class="logout-icon"/>
+    <font-awesome-icon @click="logout"
+    icon="power-off" class="logout-icon"/>
   </div>
 </template>
 
@@ -91,3 +92,19 @@
   // #Device = Laptops, Desktops
 
 </style>
+
+<script>
+
+export default {
+
+  methods: {
+    logout() {
+      this.$cookies.remove('token');
+      this.$cookies.remove('cs');
+      this.$router.push('/cpanel');
+    },
+  },
+
+};
+
+</script>

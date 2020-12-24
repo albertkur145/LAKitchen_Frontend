@@ -1,23 +1,28 @@
 <template>
   <div class="position-relative">
-    <router-link :to="`/product/${product.id}`"
-    class="product-container">
-      <div class="img-container">
-        <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
-      </div>
-
-      <div class="description">
-        <div class="name">{{ productName }}</div>
-        <div class="price">{{ product.price | currency }}</div>
-
-        <div class="rating">
-          <font-awesome-icon v-for="i in 5" :key="i" icon="star"
-          :class="`star-icon${ i <= rating ? ' fill-color' : '' }`"/>
-          <span class="evaluator">({{ product.evaluators }})</span>
+    <div class="product-container">
+      <div @click="redirect('DetailProduct', { id: product.id })">
+        <div class="img-container">
+          <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
         </div>
 
+        <div class="description">
+          <div class="name">{{ productName }}</div>
+          <div class="price">{{ product.price | currency }}</div>
+
+          <div class="rating">
+            <font-awesome-icon v-for="i in 5" :key="i" icon="star"
+            :class="`star-icon${ i <= rating ? ' fill-color' : '' }`"/>
+            <span class="evaluator">({{ product.evaluators }})</span>
+          </div>
+        </div>
       </div>
-    </router-link>
+
+      <div v-if="showCart" class="cart"
+      @click="$emit('cartredirect', product.id)">
+        <div class="btn-cart">Beli</div>
+      </div>
+    </div>
 
     <span class="remove" v-if="remove" @click="$emit('del', product.id)">
       <font-awesome-icon icon="times" class="times-icon"/>
@@ -87,6 +92,21 @@
           margin-left: 0.25rem;
           font-size: 0.625em;
         }
+      }
+    }
+
+    .cart {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+
+      .btn-cart {
+        color: #FFF;
+        font-weight: 500;
+        text-align: center;
+        border-radius: 0.5rem;
+        background-color: #FF8A00;
+        padding: 0.5rem;
+        font-size: 0.8125em;
       }
     }
   }
@@ -233,6 +253,14 @@
           }
         }
       }
+
+      .cart {
+
+        .btn-cart {
+          padding: 0.5rem;
+          font-size: 0.875em;
+        }
+      }
     }
   }
   // #Device = Tablets, Ipads
@@ -275,6 +303,14 @@
           }
         }
       }
+
+      .cart {
+
+        .btn-cart {
+          padding: 0.5rem;
+          font-size: 0.875em;
+        }
+      }
     }
   }
   // #Device = Laptops, Desktops
@@ -291,6 +327,10 @@ export default {
       required: true,
     },
     remove: {
+      type: Boolean,
+      default: false,
+    },
+    showCart: {
       type: Boolean,
       default: false,
     },
@@ -331,6 +371,13 @@ export default {
   methods: {
     getWindowWidth() {
       this.windowWidth = window.innerWidth;
+    },
+
+    redirect(name, params) {
+      this.$router.push({
+        name,
+        params,
+      });
     },
   },
 

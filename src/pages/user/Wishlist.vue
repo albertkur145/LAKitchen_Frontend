@@ -6,7 +6,8 @@
     <div class="content">
       <UserPathContainer title="Wishlist" active="Wishlist">
         <template v-slot:content>
-          <WishlistBody :products="products" @del="removeProduct"/>
+          <WishlistBody :products="products" @del="removeProduct"
+          @cartredirect="addToCart"/>
         </template>
       </UserPathContainer>
     </div>
@@ -124,6 +125,10 @@ export default {
       'remove',
     ]),
 
+    ...mapActions('cart', [
+      'addCart',
+    ]),
+
     async getWishlist() {
       this.loader = true;
 
@@ -152,6 +157,25 @@ export default {
 
       if (code >= 200 && code < 300) {
         this.popProductArray(productId);
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
+    async addToCart(productId) {
+      this.loader = true;
+
+      const { code } = await this.$func.promiseAPI(this.addCart, {
+        userId: this.$cookies.get('user').id,
+        productId,
+        quantity: 1,
+        note: '',
+      });
+
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.$router.push('/cart');
       } else {
         this.$func.popupConnectionError(false);
       }

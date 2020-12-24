@@ -15,6 +15,7 @@
 
       <div class="info">
         <div class="cart" @click="$router.push('/cart')">
+          <span class="num-cart" v-if="isLogin">{{ totalCart }}</span>
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
@@ -472,12 +473,25 @@
           align-items: center;
 
           .cart {
-            cursor: pointer;
             color: #777;
+            cursor: pointer;
+            position: relative;
             border-radius: 0.5rem;
             margin-left: 1rem;
             font-size: 1.25em;
             padding: 0.25rem 0.625rem;
+
+            .num-cart {
+              top: -0.4375rem;
+              right: -0.4375rem;
+              color: #FFF;
+              font-weight: 500;
+              position: absolute;
+              border-radius: 100rem;
+              background-color: #FF5823;
+              padding: 0.1875rem 0.5rem 0.125rem;
+              font-size: 0.625em;
+            }
 
             &:hover {
               background-color: #F6F6F6;
@@ -640,12 +654,17 @@ export default {
       isLogin: false,
       loader: false,
       user: null,
+      totalCart: null,
     };
   },
 
   computed: {
     ...mapGetters('categories', [
       'categoryList',
+    ]),
+
+    ...mapGetters('cart', [
+      'countUserCart',
     ]),
 
     profilePath() {
@@ -673,6 +692,24 @@ export default {
     ...mapActions('categories', [
       'getCategories',
     ]),
+
+    ...mapActions('cart', [
+      'countCart',
+    ]),
+
+    async getTotalCart() {
+      this.loader = true;
+      const { code } = await this.$func.promiseAPI(this.countCart, {
+        userId: this.$cookies.get('user').id,
+      });
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
+        this.totalCart = this.countUserCart.productSum;
+      } else {
+        this.popupConnectionError();
+      }
+    },
 
     async getCategoryList() {
       this.loader = true;
@@ -758,6 +795,10 @@ export default {
     this.getCategoryList();
 
     this.user = this.$cookies.get('user');
+
+    if (this.user) {
+      this.getTotalCart();
+    }
   },
 
 };
