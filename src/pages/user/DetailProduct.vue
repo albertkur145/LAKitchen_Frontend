@@ -13,7 +13,7 @@
         </router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
 
-        <router-link :to="`/product/subCategory/${path.category.id}`" class="link">
+        <router-link :to="`/product/subCategory/${path.subCategory.id}`" class="link">
           {{ path.subCategory.name }}
         </router-link>
         <font-awesome-icon icon="chevron-right" class="chev-icon"/>
@@ -33,7 +33,7 @@
           <div class="desktop">
             <transition name="fade">
               <div v-if="imgBinding" class="position-relative">
-                <img :src="require(`@/assets/images/${imgBinding}.webp`)"
+                <img :src="imgBinding"
                 alt="image" class="main-image" id="img-zoom" @mousemove="moveLens">
                 <div class="img-lens" id="lens" @mousemove="moveLens"/>
                 <div class="img-copy" id="copy-lens"></div>
@@ -42,7 +42,7 @@
 
             <div class="image-list">
               <img v-for="val in product.photo_links" :key="val.id"
-              :src="require(`@/assets/images/${val.link}.webp`)"
+              :src="val.link"
               alt="image" :class="`alt-image${imgBinding === val.link ? ' active-image' : ''}`"
               @click="changeMainImage(`${val.link}`)">
             </div>
@@ -52,7 +52,7 @@
             <swiper class="swiper" :options="swiperOption">
               <swiper-slide v-for="val in product.photo_links" :key="val.id"
               class="slider-container">
-                <img :src="require(`@/assets/images/${val.link}.webp`)"
+                <img :src="val.link"
                 alt="image" class="main-image">
               </swiper-slide>
               <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
@@ -1255,6 +1255,7 @@ export default {
 
     ...mapActions('cart', [
       'addCart',
+      'countCart',
     ]),
 
     async getProductDetail() {
@@ -1289,7 +1290,7 @@ export default {
     async addToWishlist() {
       if (this.checkUser()) {
         this.loader = true;
-        const { code } = await this.$func.promiseAPI(this.saveProduct, {
+        const { code, errors } = await this.$func.promiseAPI(this.saveProduct, {
           userId: this.$cookies.get('user').id,
           productId: this.product.id,
         });
@@ -1298,13 +1299,19 @@ export default {
         if (code >= 200 && code < 300) {
           this.$func.popupSuccessNoRoute('Berhasil ditambahkan ke wishlist');
         } else {
-          this.$func.popupConnectionError(false);
+          this.$func.popupError(errors, 'Oke');
         }
       } else {
         this.$func.popupLoginFirst(
           'Silahkan login terlebih dahulu <a href="/login">disini</a>',
         );
       }
+    },
+
+    async getTotalCart() {
+      await this.$func.promiseAPI(this.countCart, {
+        userId: this.$cookies.get('user').id,
+      });
     },
 
     async addToCart(isNow) {
@@ -1319,6 +1326,7 @@ export default {
         this.loader = false;
 
         if (code >= 200 && code < 300) {
+          this.getTotalCart();
           if (isNow) {
             this.$router.push('/cart');
           } else {

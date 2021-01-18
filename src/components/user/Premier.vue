@@ -28,7 +28,7 @@
       </b-col>
     </b-row>
 
-    <div class="categories">
+    <!-- <div class="categories">
       <div class="title">Kategori Pilihan</div>
 
       <div class="item-container">
@@ -37,7 +37,7 @@
           <span class="text">{{ item.name }}</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>

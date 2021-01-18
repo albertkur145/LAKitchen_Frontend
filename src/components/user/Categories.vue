@@ -3,20 +3,20 @@
     <div class="menu-list">
       <b-row>
         <b-col lg="3" md="4" class="left d-block">
-          <div v-for="(category) in categories" :key="category.id"
+          <div v-for="(category, i) in categories" :key="category.id"
           :class="`category-text category-${category.id}
-          ${category.id == 1 ? 'active-color' : ''}`"
+          ${i == 0 ? 'active-color' : ''}`"
           @mouseover="showSubCategories(`${category.id}`)">
             <span>{{ category.name }}</span>
             <font-awesome-icon icon="chevron-right"
-            :class="`chev-icon ${category.id == 1 ? 'active-color active-icon' : ''}`"/>
+            :class="`chev-icon ${i == 0 ? 'active-color active-icon' : ''}`"/>
           </div>
         </b-col>
 
         <b-col lg="9" md="8" class="right">
-          <div v-for="(category) in categories" :key="category.id"
+          <div v-for="(category, i) in categories" :key="category.id"
           :class="`sub-category category-${category.id}
-          ${category.id == 1 ? '' : 'd-none'}`">
+          ${i == 0 ? '' : 'd-none'}`">
             <div class="title" @click="redirectProductSearch('category', category.id)">
               {{ category.name }}
             </div>

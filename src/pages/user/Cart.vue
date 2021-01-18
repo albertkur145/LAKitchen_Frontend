@@ -28,7 +28,7 @@
                   <span class="checkbox-la"></span>
                 </label>
 
-                <img :src="require(`@/assets/images/${val.photo_link}.webp`)"
+                <img :src="val.photo_link"
                 @click="redirectDetailProduct(val.id)" alt="img">
 
                 <div class="description">
@@ -768,11 +768,18 @@ export default {
       'getAll',
       'remove',
       'update',
+      'countCart',
     ]),
 
     ...mapActions('wishlist', [
       'saveProduct',
     ]),
+
+    async getTotalCart() {
+      await this.$func.promiseAPI(this.countCart, {
+        userId: this.$cookies.get('user').id,
+      });
+    },
 
     async getUserCart() {
       this.loader = true;
@@ -834,6 +841,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
+        this.getTotalCart();
         this.$func.popupSuccessNoRoute('Berhasil menghapus produk');
         this.popProductArray(id);
       } else {
@@ -844,7 +852,7 @@ export default {
     async addToWishlist(id) {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.saveProduct, {
+      const { code, errors } = await this.$func.promiseAPI(this.saveProduct, {
         userId: this.$cookies.get('user').id,
         productId: id,
       });
@@ -854,7 +862,7 @@ export default {
       if (code >= 200 && code < 300) {
         this.$func.popupSuccessNoRoute('Berhasil ditambahkan ke wishlist');
       } else {
-        this.$func.popupConnectionError(false);
+        this.$func.popupError(errors, 'Oke');
       }
     },
 

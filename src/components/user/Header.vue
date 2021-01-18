@@ -15,7 +15,7 @@
 
       <div class="info">
         <div class="cart" @click="$router.push('/cart')">
-          <span class="num-cart" v-if="isLogin">{{ totalCart }}</span>
+          <span class="num-cart" v-if="isLogin && totalCart">{{ totalCart }}</span>
           <font-awesome-icon icon="shopping-cart"/>
         </div>
 
@@ -28,7 +28,7 @@
         :class="`profile${isLogin ? '' : ' d-none'}`" v-if="user !== null">
           <b-avatar class="avatar">{{ getInitial() }}</b-avatar>
           <span class="username ml-3">
-            Hi, {{ user.name.length === 0 ? 'User' : username }}
+            Hi, {{ user.name === null ? 'User' : username }}
           </span>
 
           <div class="profile-path">
@@ -654,7 +654,6 @@ export default {
       isLogin: false,
       loader: false,
       user: null,
-      totalCart: null,
     };
   },
 
@@ -678,6 +677,10 @@ export default {
 
       return this.user.name;
     },
+
+    totalCart() {
+      return this.countUserCart.productSum;
+    },
   },
 
   mounted() {
@@ -698,17 +701,9 @@ export default {
     ]),
 
     async getTotalCart() {
-      this.loader = true;
-      const { code } = await this.$func.promiseAPI(this.countCart, {
+      await this.$func.promiseAPI(this.countCart, {
         userId: this.$cookies.get('user').id,
       });
-      this.loader = false;
-
-      if (code >= 200 && code < 300) {
-        this.totalCart = this.countUserCart.productSum;
-      } else {
-        this.popupConnectionError();
-      }
     },
 
     async getCategoryList() {
@@ -719,7 +714,7 @@ export default {
       if (code >= 200 && code < 300) {
         this.categories = this.categoryList.categories;
       } else {
-        this.popupConnectionError();
+        this.$func.popupConnectionError();
       }
     },
 
@@ -761,7 +756,7 @@ export default {
     },
 
     getInitial() {
-      if (this.user.name.length === 0) {
+      if (this.user.name === null) {
         return 'U';
       }
 

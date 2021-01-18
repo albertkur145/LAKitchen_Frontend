@@ -191,7 +191,7 @@ export default {
     async validate() {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.login, {
+      const { code, errors } = await this.$func.promiseAPI(this.login, {
         email: this.form.email,
         password: this.form.password,
       });
@@ -201,7 +201,7 @@ export default {
       if (code >= 200 && code < 300) {
         this.checkRole();
       } else {
-        this.$func.popupError('Email / password salah!', 'Coba lagi');
+        this.$func.popupError(errors, 'Coba lagi');
       }
     },
 

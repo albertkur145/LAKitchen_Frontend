@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-wrap">
-    <img :src="require(`@/assets/images/${data.product.photo_link}.webp`)" alt="image">
+    <img :src="data.product.photo_link" alt="image">
 
     <div class="description">
       <div class="order d-flex flex-wrap">

@@ -851,7 +851,7 @@ export default {
     getInitial() {
       let { name } = this.$cookies.get('user');
 
-      if (name.length === 0) {
+      if (name === null) {
         return '';
       }
 

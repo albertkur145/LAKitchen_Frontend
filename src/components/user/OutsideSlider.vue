@@ -299,7 +299,7 @@ export default {
         price: 0,
         rating: 0,
         evaluators: 0,
-        photo_link: 'hakau',
+        photo_link: '',
       },
     };
   },
@@ -319,7 +319,7 @@ export default {
         this.products = data.products;
         this.title = data.title;
       } else {
-        this.$func.popupConnectionError();
+        this.$func.popupConnectionError(false);
       }
     },
 

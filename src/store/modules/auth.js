@@ -30,7 +30,10 @@ const actions = {
     })
       .then((res) => {
         commit('setUser', res.data.data);
-        payload.resolve({ code: res.data.code });
+        payload.resolve({
+          code: res.data.code,
+          errors: res.data.errors,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });

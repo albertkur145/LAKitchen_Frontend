@@ -3,7 +3,7 @@
     <div class="product-container">
       <div @click="redirect('DetailProduct', { id: product.id })">
         <div class="img-container">
-          <img :src="require(`@/assets/images/${product.photo_link}.webp`)" alt="product">
+          <img :src="product.photo_link" alt="product">
         </div>
 
         <div class="description">

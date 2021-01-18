@@ -119,8 +119,8 @@ export default {
     async reqChangePassword(params) {
       this.loader = true;
 
-      const { code } = await this.$func.promiseAPI(this.changePassword, {
-        userId: this.$cookies.get('user').id,
+      const { code, errors } = await this.$func.promiseAPI(this.changePassword, {
+        id: this.$cookies.get('user').id,
         oldPassword: params.oldPassword,
         newPassword: params.newPassword,
       });
@@ -139,7 +139,7 @@ export default {
           '/login',
         );
       } else {
-        this.$func.popupConnectionError(false);
+        this.$func.popupError(errors, 'Kembali');
       }
     },
 

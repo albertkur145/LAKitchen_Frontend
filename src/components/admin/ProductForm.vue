@@ -109,7 +109,7 @@
               <b-row class="input-group-la">
                 <b-col cols="12">
                   <label>
-                    <input type="file" class="d-none" @change="readImage">
+                    <input type="file" ref="imgInput" class="d-none" @change="readImage">
                     <div class="input-file">TAMBAH GAMBAR</div>
                   </label>
                 </b-col>
@@ -762,6 +762,7 @@ export default {
           };
 
           reader.readAsDataURL(target.files[0]);
+          this.resetInputImgFile();
         } else {
           this.$func.popupError('Format gambar tidak didukung', 'OK');
         }
@@ -781,6 +782,12 @@ export default {
       }
 
       return rand;
+    },
+
+    resetInputImgFile() {
+      const input = this.$refs.imgInput;
+      input.type = 'text';
+      input.type = 'file';
     },
   },
 

@@ -25,7 +25,7 @@
     <div class="list">
       <div class="product" v-for="val in products" :key="val.id">
         <div class="d-flex">
-          <img :src="require(`@/assets/images/${val.photo_link}.webp`)">
+          <img :src="val.photo_link">
 
           <div class="description">
             <div class="name">{{ val.name }}</div>

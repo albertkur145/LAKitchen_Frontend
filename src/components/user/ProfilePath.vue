@@ -6,7 +6,7 @@
 
         <div class="user">
           <div class="username">
-            {{ user.name.length === 0 ? 'User' : username }}
+            {{ user.name === null ? 'User' : username }}
           </div>
           <div class="register-at">Terdaftar sejak {{ user.registerAt }}</div>
         </div>
@@ -318,7 +318,7 @@ export default {
 
   methods: {
     getInitial() {
-      if (this.user.name.length === 0) {
+      if (this.user.name === null) {
         return 'U';
       }
 

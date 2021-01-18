@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import '@/api/mock';
+// import '@/api/mock';
 import auth from './modules/auth';
 import categories from './modules/user/categories';
 import products from './modules/user/products';

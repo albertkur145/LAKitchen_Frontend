@@ -8,23 +8,23 @@
 
       <b-row class="mt-md-5 mt-4">
         <b-col cols="12">
-          <InsideSlider type="subCategory" :params="1"/>
+          <InsideSlider type="subCategory" :params="473"/>
         </b-col>
       </b-row>
 
       <b-row>
         <b-col class="mt-md-5 mt-4" md="6" sm="12">
-          <OutsideSlider type="subCategory" :params="2"/>
+          <OutsideSlider type="subCategory" :params="525"/>
         </b-col>
 
         <b-col class="mt-md-5 mt-4" md="6" sm="12">
-          <OutsideSlider type="subCategory" :params="3"/>
+          <OutsideSlider type="subCategory" :params="474"/>
         </b-col>
       </b-row>
 
       <b-row class="mt-md-5 mt-4">
         <b-col cols="12">
-          <ProductsContainer type="subCategory" :params="1"/>
+          <ProductsContainer type="subCategory" :params="481"/>
         </b-col>
       </b-row>
     </div>
