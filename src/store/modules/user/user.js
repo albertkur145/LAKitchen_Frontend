@@ -26,7 +26,10 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
-        payload.resolve({ code: res.data.code });
+        payload.resolve({
+          code: res.data.code,
+          errors: res.data.errors,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });

@@ -209,7 +209,7 @@ export default {
 
     async registerUser() {
       this.loader = true;
-      const { code } = await this.$func.promiseAPI(this.register, {
+      const { code, errors } = await this.$func.promiseAPI(this.register, {
         email: this.form.email,
         phoneNumber: this.form.hp,
         password: this.form.password,
@@ -223,7 +223,7 @@ export default {
           '/',
         );
       } else {
-        this.$func.popupConnectionError(false);
+        this.$func.popupError(errors, 'OK');
       }
     },
 

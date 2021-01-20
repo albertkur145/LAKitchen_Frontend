@@ -125,8 +125,9 @@
 
       <b-row class="assessment">
         <b-col class="head" cols="12">
-          <span class="title">Penilaian Produk ({{ product.evaluators }})</span>
-          <span @click="redirectAssessment" class="more">Lihat Semua</span>
+          <span class="title">Ulasan ({{ product.evaluators }})</span>
+          <span v-if="product.evaluators > 0"
+          @click="redirectAssessment" class="more">Lihat Semua</span>
         </b-col>
 
         <b-col cols="12">

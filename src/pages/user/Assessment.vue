@@ -7,7 +7,7 @@
       <span @click="back" class="path-back">Kembali</span>
       <b-row class="assessment">
         <b-col class="head" cols="12">
-          <span class="title">Penilaian Produk ({{ assessment.length }})</span>
+          <span class="title">Ulasan ({{ assessment.length }})</span>
         </b-col>
 
         <b-col cols="12">
