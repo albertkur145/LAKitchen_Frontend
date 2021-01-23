@@ -493,6 +493,7 @@ export default {
       'nonActiveProduct',
       'productActivation',
       'getById',
+      'uploadPhotos',
     ]),
 
     async getAllCategories() {
@@ -526,13 +527,27 @@ export default {
       }
     },
 
-    async uploadImage() {
+    async uploadImage(productId) {
       this.loader = true;
 
-      setTimeout(() => {
-        this.loader = false;
+      const formData = new FormData();
+      formData.append('productId', parseInt(productId, 10));
+
+      /* eslint-disable no-await-in-loop */
+      for (let i = 0; i < this.images.length; i += 1) {
+        const temp = await this.convertToImageFile(this.images[i].link);
+        formData.append('images', temp);
+      }
+      /* eslint-disable no-await-in-loop */
+
+      const { code } = await this.$func.promiseAPI(this.uploadPhotos, formData);
+      this.loader = false;
+
+      if (code >= 200 && code < 300) {
         this.$func.popupSuccess('Berhasil simpan produk', this.$router, '/admin/product');
-      }, 2000);
+      } else {
+        this.$func.popupConnectionError(false);
+      }
     },
 
     async reqApi(params, action) {
@@ -543,7 +558,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.uploadImage(data.product.id);
+        this.uploadImage(this.paramsId || data.productId);
       } else {
         this.$func.popupConnectionError(false);
       }
@@ -627,6 +642,12 @@ export default {
       };
 
       this.images = product.photo_links;
+    },
+
+    convertToImageFile(dataUrl) {
+      return fetch(dataUrl)
+        .then((res) => res.blob())
+        .then((blob) => new File([blob], `filename.${blob.type.split('/')[1]}`, { type: blob.type }));
     },
 
     fillSubCategory({ target }) {

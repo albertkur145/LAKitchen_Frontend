@@ -19,7 +19,7 @@
           <div class="head">
             <div class="position-relative">
               <select @change="selectChange" v-model="selectedCategory"
-              class="select-la bg-white" v-if="categories !== null">
+              class="select-la bg-white" v-if="categories.length > 0">
                 <option v-for="val in categories"
                 :key="val.id" :value="val.id">
                   {{ val.name }}

@@ -19,7 +19,7 @@
       </div>
 
       <div v-if="showCart" class="cart"
-      @click="$emit('cartredirect', product.id)">
+      @click="cartRedirect">
         <div class="btn-cart">Beli</div>
       </div>
     </div>
@@ -378,6 +378,16 @@ export default {
         name,
         params,
       });
+    },
+
+    cartRedirect() {
+      if (this.product.isActive) {
+        this.$emit('cartredirect', this.product.id);
+      } else {
+        this.$func.popupInfo(
+          'Mohon maaf produk ini dalam status nonaktif',
+        );
+      }
     },
   },
 

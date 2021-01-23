@@ -23,8 +23,7 @@
               </div>
 
               <div class="position-relative">
-                <input type="text" v-model="searchText"
-                @keyup="search(1)" @keyup.enter="getProductsByName(1)"
+                <input type="text" v-model="searchText" @keyup="search(1)"
                 class="input-text" placeholder="Apa yang sedang kamu cari?">
                 <font-awesome-icon icon="search" class="search-icon"/>
               </div>
@@ -49,7 +48,7 @@
               </b-tr>
             </b-thead>
 
-            <b-tbody v-if="dataTable !== null">
+            <b-tbody v-if="dataTable">
               <b-tr v-for="val in dataTable" :key="val.id">
                 <b-td class="value">
                   <router-link :to="`/product/${val.id}`" target="_blank">
@@ -60,7 +59,7 @@
                 <b-td class="value">{{ val.category }}</b-td>
                 <b-td class="value">{{ val.subCategory }}</b-td>
                 <b-td class="value text-center">{{ val.popularity }}</b-td>
-                <b-td class="value text-center">{{ val.rating }}</b-td>
+                <b-td class="value text-center">{{ val.rating || '-' }}</b-td>
                 <b-td class="value text-center">{{ val.sold }}</b-td>
                 <b-td class="value">
                   {{ val.isActive ? 'Aktif' : 'Nonaktif' }}
@@ -76,7 +75,7 @@
             </b-tbody>
           </b-table-simple>
 
-          <div v-if="dataTable === null" class="is-empty text-center">
+          <div v-if="dataTable.length === 0" class="is-empty text-center">
             Data tidak ditemukan.
           </div>
 
@@ -439,7 +438,7 @@ export default {
       activePage: null,
       isPageActive: true,
 
-      dataTable: null,
+      dataTable: [],
       categories: null,
 
       searchText: '',
@@ -520,7 +519,7 @@ export default {
         this.isPageActive = true;
       } else if (code === 404) {
         this.isPageActive = false;
-        this.dataTable = null;
+        this.dataTable = [];
       } else {
         this.$func.popupConnectionError(false);
       }

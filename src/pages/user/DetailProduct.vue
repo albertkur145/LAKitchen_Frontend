@@ -1269,6 +1269,13 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
+        if (!this.isActiveProduct()) {
+          this.$func.popupInfoWithBack(
+            'Mohon maaf produk ini dalam status nonaktif',
+            this.$router,
+          );
+        }
+
         this.path = this.productDetail.path;
         this.product = this.productDetail.product;
         [this.imgBinding] = this.product.photo_links;
@@ -1277,6 +1284,7 @@ export default {
         setTimeout(() => {
           this.imgZoom();
         }, 1);
+        this.postIncrementSeen();
       } else {
         this.$func.popupConnectionError();
       }
@@ -1289,7 +1297,7 @@ export default {
     },
 
     async addToWishlist() {
-      if (this.checkUser()) {
+      if (this.checkUser() && this.isActiveProduct()) {
         this.loader = true;
         const { code, errors } = await this.$func.promiseAPI(this.saveProduct, {
           userId: this.$cookies.get('user').id,
@@ -1302,6 +1310,10 @@ export default {
         } else {
           this.$func.popupError(errors, 'Oke');
         }
+      } else if (!this.isActiveProduct()) {
+        this.$func.popupInfo(
+          'Mohon maaf produk ini dalam status nonaktif',
+        );
       } else {
         this.$func.popupLoginFirst(
           'Silahkan login terlebih dahulu <a href="/login">disini</a>',
@@ -1316,7 +1328,7 @@ export default {
     },
 
     async addToCart(isNow) {
-      if (this.checkUser()) {
+      if (this.checkUser() && this.isActiveProduct()) {
         this.loader = true;
         const { code } = await this.$func.promiseAPI(this.addCart, {
           userId: this.$cookies.get('user').id,
@@ -1336,6 +1348,10 @@ export default {
         } else {
           this.$func.popupConnectionError(false);
         }
+      } else if (!this.isActiveProduct()) {
+        this.$func.popupInfo(
+          'Mohon maaf produk ini dalam status nonaktif',
+        );
       } else {
         this.$func.popupLoginFirst(
           'Silahkan login terlebih dahulu <a href="/login">disini</a>',
@@ -1361,6 +1377,13 @@ export default {
       const el = document.querySelector('.bg-all');
       el.style.opacity = '0';
       el.style.height = '0';
+    },
+
+    isActiveProduct() {
+      if (this.productDetail.product.isActive) {
+        return true;
+      }
+      return false;
     },
 
     changeMainImage(url) {
@@ -1461,7 +1484,6 @@ export default {
 
   created() {
     this.paramId = parseInt(this.$route.params.id, 10);
-    this.postIncrementSeen();
     this.getProductDetail();
   },
 

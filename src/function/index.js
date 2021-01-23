@@ -161,4 +161,16 @@ export default {
       confirmButtonText: 'OK',
     });
   },
+
+  popupInfoWithBack(text, router) {
+    return Swal.fire({
+      icon: 'info',
+      html: text,
+      timer: 5000,
+      showCloseButton: true,
+      confirmButtonText: 'OK',
+    }).then(() => {
+      router.go(-1);
+    });
+  },
 };

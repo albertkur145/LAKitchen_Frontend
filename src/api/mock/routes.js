@@ -3358,7 +3358,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3423,7 +3423,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3493,7 +3493,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3548,7 +3548,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Beras Radja Rasa',
@@ -3598,7 +3598,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3668,7 +3668,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3723,7 +3723,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Beras Radja Rasa',
@@ -3773,7 +3773,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3843,7 +3843,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Kue Talan Pandan',
@@ -3908,7 +3908,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        product: [
+        products: [
           {
             id: 1,
             name: 'Beras Radja Rasa',

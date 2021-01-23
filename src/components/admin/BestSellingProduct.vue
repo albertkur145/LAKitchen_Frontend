@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Template v-if="categories !== null"
+    <Template v-if="categories.length > 0"
     headerTitle="Produk Terlaris"
     title="Produk Terlaris (TOP 10)"
     :chartOptions="chartOptions"
@@ -15,7 +15,7 @@
         </b-tr>
       </template>
 
-      <template v-slot:tbody v-if="dataTable !== null">
+      <template v-slot:tbody v-if="dataTable.length > 0">
         <b-tr v-for="val in dataTable" :key="val.id">
           <b-td class="value">
             <router-link :to="`/product/${val.id}`" target="_blank">
@@ -29,7 +29,7 @@
       </template>
 
       <template v-slot:is-empty>
-        <div v-if="dataTable === null" class="is-empty text-center">
+        <div v-if="dataTable.length === 0" class="is-empty text-center">
           Data tidak ditemukan.
         </div>
       </template>
@@ -140,9 +140,9 @@ export default {
     return {
       loader: false,
 
-      dataGraph: null,
-      dataTable: null,
-      categories: null,
+      dataGraph: [],
+      dataTable: [],
+      categories: [],
 
       selectedCategory: null,
 
@@ -199,7 +199,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.dataGraph = data.product;
+        this.dataGraph = data.products;
         this.dataGraphFormat();
       } else {
         this.$func.popupConnectionError(false);
@@ -216,7 +216,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.dataTable = data.product;
+        this.dataTable = data.products;
       } else {
         this.$func.popupConnectionError(false);
       }

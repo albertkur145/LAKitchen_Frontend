@@ -317,6 +317,24 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  uploadPhotos({ commit }, payload) {
+    return axios({
+      method: 'post',
+      url: 'admin/product/upload',
+      data: payload.params,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {
