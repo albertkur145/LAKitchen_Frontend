@@ -139,7 +139,7 @@
 
                 <b-col cols="7" sm="9" md="8">
                   <div class="value text-size">
-                    {{ order.totalPayment | currency }}
+                    {{ order.totalPayment + 15000 | currency }}
                   </div>
                 </b-col>
               </b-row>

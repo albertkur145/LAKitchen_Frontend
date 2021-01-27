@@ -36,7 +36,7 @@
 
             <div class="md-only">
               <div class="title">Total Pembayaran</div>
-              <div class="value payment">{{ val.totalPayment | currency }}</div>
+              <div class="value payment">{{ val.totalPayment + 15000 | currency }}</div>
             </div>
           </div>
 

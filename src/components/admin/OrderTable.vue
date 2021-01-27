@@ -5,7 +5,7 @@
         <div class="d-flex flex-wrap">
           <div class="position-relative" v-if="isShowStatus">
             <select @change="$emit('status-select', selectedStatus)"
-            v-if="status !== null" v-model="selectedStatus" class="select-la bg-white">
+            v-if="status" v-model="selectedStatus" class="select-la bg-white">
               <option value="">Semua Pesanan</option>
               <option v-for="val in status"
               :key="val.id" :value="val.id">
@@ -19,7 +19,6 @@
           <div class="position-relative">
             <input type="text" v-model="searchText"
             @keyup="$emit('search-key-up', searchText)"
-            @keyup.enter="$emit('search-key-enter')"
             class="input-text" placeholder="Cari nomor pesanan...">
             <font-awesome-icon icon="search" class="search-icon"/>
           </div>
@@ -36,7 +35,7 @@
         </b-tbody>
       </b-table-simple>
 
-      <div v-if="dataTable === null" class="is-empty text-center">
+      <div v-if="dataTable.length === 0" class="is-empty text-center">
         Data tidak ditemukan.
       </div>
 

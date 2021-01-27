@@ -23,11 +23,11 @@
             </b-tr>
           </template>
 
-          <template v-slot:tbody v-if="dataTable !== null">
+          <template v-slot:tbody v-if="dataTable.length > 0">
             <b-tr v-for="(val, i) in dataTable" :key="i">
               <b-td class="value">{{ val.orderNumber }}</b-td>
               <b-td class="value">{{ val.date }}</b-td>
-              <b-td class="value">{{ val.totalPayment | currency }}</b-td>
+              <b-td class="value">{{ val.totalPayment + 15000 | currency }}</b-td>
 
               <b-td class="value">
                 {{ val.status.name }}
@@ -162,7 +162,7 @@ export default {
       activePage: null,
       isPageActive: true,
 
-      dataTable: null,
+      dataTable: [],
       searchText: '',
 
       timeout: null,

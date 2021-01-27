@@ -13,7 +13,7 @@
 
       <div class="mb-4 mr-sm-3 mr-5">
         <div class="title">Total Pembayaran</div>
-        <div class="value payment">{{ order.totalPayment | currency }}</div>
+        <div class="value payment">{{ order.totalPayment + 15000 | currency }}</div>
       </div>
 
       <div class="mb-4 mr-sm-3 mr-5">
