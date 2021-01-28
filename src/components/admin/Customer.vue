@@ -295,7 +295,7 @@ export default {
       isPageActive: true,
 
       userDetail: null,
-      dataTable: null,
+      dataTable: [],
       status: null,
 
       searchText: '',
@@ -400,7 +400,7 @@ export default {
 
     setData(code, data, paging, page) {
       if (code >= 200 && code < 300) {
-        this.dataTable = data.customers;
+        this.dataTable = data.users;
         this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
         this.isPageActive = true;

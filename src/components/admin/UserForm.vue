@@ -842,7 +842,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.setForm(this.employeeDetail.employee);
+        this.setForm(this.employeeDetail.user);
       } else {
         this.$func.popupConnectionError();
       }

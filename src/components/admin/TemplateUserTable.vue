@@ -18,7 +18,6 @@
         <div class="position-relative">
           <input type="text" v-model="searchText"
           @keyup="$emit('search-key-up', searchText)"
-          @keyup.enter="$emit('search-key-enter')"
           class="input-text" placeholder="Cari nama pengguna...">
           <font-awesome-icon icon="search" class="search-icon"/>
         </div>
@@ -38,7 +37,7 @@
       </b-tbody>
     </b-table-simple>
 
-    <div v-if="dataTable === null" class="is-empty text-center">
+    <div v-if="dataTable.length === 0" class="is-empty text-center">
       Data tidak ditemukan.
     </div>
 

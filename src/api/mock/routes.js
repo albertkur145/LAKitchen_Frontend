@@ -5182,7 +5182,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        customers: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5346,7 +5346,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        customers: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5441,7 +5441,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        customers: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5536,7 +5536,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        customers: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5631,7 +5631,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        customers: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5697,7 +5697,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        employees: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5792,7 +5792,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        employees: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5873,7 +5873,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        employees: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5926,7 +5926,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        employees: [
+        users: [
           {
             id: 1,
             name: 'Albert Kurniawan',
@@ -5992,7 +5992,7 @@ export default [
       code: 200,
       status: 'OK',
       data: {
-        employee: {
+        user: {
           name: 'Albert Kurniawan',
           email: 'albert@gmail.com',
           phoneNumber: '081392290882',

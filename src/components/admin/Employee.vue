@@ -40,7 +40,7 @@
               </b-td>
               <b-td class="value">
                 <b-dropdown size="xs" variant="link"
-                toggle-class="p-0 text-decoration-none" no-caret>
+                toggle-class="px-0 text-decoration-none" no-caret>
                   <template #button-content>
                     <div class="point">
                       <span></span>
@@ -301,7 +301,7 @@ export default {
       isPageActive: true,
 
       userDetail: null,
-      dataTable: null,
+      dataTable: [],
       status: null,
 
       searchText: '',
@@ -437,7 +437,7 @@ export default {
 
     setData(code, data, paging, page) {
       if (code >= 200 && code < 300) {
-        this.dataTable = data.employees;
+        this.dataTable = data.users;
         this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
         this.isPageActive = true;
