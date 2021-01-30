@@ -14,7 +14,9 @@
       </template>
 
       <template v-slot:content>
-        <div class="container-la">
+        <div class="container-la report-container">
+          <div class="title">Pendapatan</div>
+          <div class="value">{{ totalSales | currency }}</div>
           <b-table-simple responsive class="table-la">
             <b-thead>
               <b-tr>
@@ -25,7 +27,7 @@
               </b-tr>
             </b-thead>
 
-            <b-tbody v-if="dataTable !== null">
+            <b-tbody v-if="dataTable.length > 0">
               <b-tr v-for="val in dataTable" :key="val.id">
                 <b-td class="value">
                   <router-link :to="`/product/${val.id}`" target="_blank">
@@ -39,7 +41,7 @@
             </b-tbody>
           </b-table-simple>
 
-          <div v-if="dataTable === null" class="is-empty text-center">
+          <div v-if="dataTable.length === 0" class="is-empty text-center">
             Belum ada yang terjual hari ini. Semangat !!
           </div>
 
@@ -51,13 +53,13 @@
           </div>
         </div>
 
-        <div class="container-la report-container">
+        <!-- <div class="container-la report-container">
           <div class="title">Pendapatan</div>
           <div class="value">{{ totalSales | currency }}</div>
 
           <apexchart width="100%" height="300"
           :options="chartOptions.options" :series="chartOptions.series"/>
-        </div>
+        </div> -->
       </template>
     </TemplateContent>
 
@@ -129,7 +131,6 @@
   }
 
   .report-container {
-    margin: 1rem 0;
 
     .title {
       color: #996BBC;
@@ -316,7 +317,7 @@ export default {
       paging: null,
       activePage: null,
 
-      dataTable: null,
+      dataTable: [],
 
       chartOptions: {
         options: {
@@ -352,7 +353,7 @@ export default {
     async getSales(page) {
       this.loader = true;
 
-      const { code, data, paging } = await this.$func.promiseAPI(this.getSalesToday, {
+      const { code, data } = await this.$func.promiseAPI(this.getSalesToday, {
         page,
       });
 
@@ -360,7 +361,7 @@ export default {
 
       if (code >= 200 && code < 300) {
         this.dataTable = data.products;
-        this.paging = Math.ceil(paging.count / paging.view);
+        // this.paging = Math.ceil(paging.count / paging.view);
         this.activePage = page;
 
         this.dataGraphFormat(this.dataTable);

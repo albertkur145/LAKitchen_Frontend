@@ -7,13 +7,15 @@
 
       <template v-slot:content>
         <div class="report-container">
-          <div class="title">Pesanan</div>
+          <div class="title">
+            <div class="text">Pesanan</div>
+          </div>
 
           <div class="report-body" v-if="orders !== undefined">
             <div class="item" v-for="(val, i) in orderItems" :key="i">
               <div class="item-title">{{ val.title }}</div>
               <div class="item-value">{{ val.value }}</div>
-              <button class="btn-more">Lihat</button>
+              <!-- <button class="btn-more">Lihat</button> -->
             </div>
           </div>
         </div>
@@ -21,7 +23,12 @@
         <b-row>
           <b-col cols="12" md="6">
             <div class="report-container">
-              <div class="title">Penjualan hari ini</div>
+              <div class="title">
+                <div class="text">Penjualan hari ini</div>
+                <router-link :to="{ name: 'AdminSalesToday' }" class="more">
+                  Lihat <font-awesome-icon icon="chevron-right" class="more-icon"/>
+                </router-link>
+              </div>
 
               <div class="report-body" v-if="sales !== undefined">
                 <div class="item" v-for="(val, i) in salesItems" :key="i">
@@ -34,7 +41,7 @@
 
                   <div class="item-value" v-else>{{ val.value }}</div>
 
-                  <button class="btn-more" @click="redirect(val.route)">Lihat</button>
+                  <!-- <button class="btn-more">Lihat</button> -->
                 </div>
               </div>
             </div>
@@ -42,13 +49,15 @@
 
           <b-col cols="12" md="6">
             <div class="report-container">
-              <div class="title">Lainnya</div>
+              <div class="title">
+                <div class="text">Pengguna</div>
+              </div>
 
               <div class="report-body" v-if="others !== undefined">
                 <div class="item" v-for="(val, i) in otherItems" :key="i">
                   <div class="item-title">{{ val.title }}</div>
                   <div class="item-value">{{ val.value }}</div>
-                  <button class="btn-more">Lihat</button>
+                  <!-- <button class="btn-more">Lihat</button> -->
                 </div>
               </div>
             </div>
@@ -56,7 +65,9 @@
         </b-row>
 
         <div class="report-container weekly-income">
-          <div class="title">Pendapatan (1 minggu terakhir)</div>
+          <div class="title">
+            <div class="text">Pendapatan (1 minggu terakhir)</div>
+          </div>
 
           <div class="report-body" v-if="sales !== undefined">
             <div class="item">
@@ -85,11 +96,27 @@
     margin-bottom: 1rem;
 
     .title {
-      color: #996BBC;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       border-bottom: 0.125rem solid #EEEEEE;
       padding: 0.8125rem 1.25rem;
-      font-size: 0.875em;
+
+      .text {
+        color: #996BBC;
+        font-weight: 600;
+        font-size: 0.875em;
+      }
+
+      .more {
+        text-decoration: none;
+        font-size: 0.8125em;
+
+        .more-icon {
+          margin-left: 0.125rem;
+          font-size: 0.75em;
+        }
+      }
     }
 
     .report-body {
@@ -101,6 +128,7 @@
 
       .item {
         margin: 0.5rem 0;
+        min-width: 7rem;
 
         .item-title {
           color: #444;
@@ -169,7 +197,18 @@
 
       .title {
         padding: 0.8125rem 1.25rem;
-        font-size: 0.9375em;
+
+        .text {
+          font-size: 0.9375em;
+        }
+
+        .more {
+          font-size: 0.875em;
+
+          .more-icon {
+            font-size: 0.8125em;
+          }
+        }
       }
 
       .report-body {
@@ -209,7 +248,18 @@
 
       .title {
         padding: 1rem 1.5rem;
-        font-size: 1em;
+
+        .text {
+          font-size: 1em;
+        }
+
+        .more {
+          font-size: 0.9375em;
+
+          .more-icon {
+            font-size: 0.875em;
+          }
+        }
       }
 
       .report-body {
@@ -250,7 +300,18 @@
 
       .title {
         padding: 1.25rem 1.75rem;
-        font-size: 1.0625em;
+
+        .text {
+          font-size: 1.0625em;
+        }
+
+        .more {
+          font-size: 1em;
+
+          .more-icon {
+            font-size: 0.75em;
+          }
+        }
       }
 
       .report-body {

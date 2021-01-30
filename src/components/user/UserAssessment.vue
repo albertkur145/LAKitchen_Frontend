@@ -17,7 +17,9 @@
             :class="`star-icon${ i <= assessment.rate ? ' fill-color' : '' }`"/>
           </div>
 
-          <div class="comment">{{ assessment.comment }}</div>
+          <div class="comment" v-if="assessment.deletedAt == null">
+            {{ assessment.comment }}
+          </div>
         </b-col>
       </b-row>
     </b-col>

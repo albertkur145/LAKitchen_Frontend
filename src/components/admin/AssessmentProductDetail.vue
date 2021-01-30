@@ -25,19 +25,19 @@
             </div>
 
             <div class="mt-4">
-              <div class="text-val">Total penilaian : {{ assessment.totalAssessment }}</div>
+              <div class="text-val">Total penilaian : {{ assessment.totalAssessment || 0 }}</div>
               <div class="text-val">Jumlah penilai : {{ assessment.evaluators }}</div>
             </div>
           </div>
 
-          <div class="rating">Rating : {{ assessment.rating }}</div>
+          <div class="rating">Rating : {{ assessment.rating || 0 }}</div>
         </div>
 
         <div v-if="assessment !== null"
         class="container-la comment-container">
-          <div class="title">Komentar ({{ assessment.totalComments }})</div>
+          <div class="title">Ulasan ({{ assessment.evaluators }})</div>
 
-          <div class="mt-4" v-if="commentsProduct !== null">
+          <div class="mt-4" v-if="commentsProduct.length > 0">
             <b-row v-for="val in commentsProduct" :key="val.id"
             class="comment">
               <b-col md="1" cols="2" class="avatar">
@@ -55,7 +55,9 @@
                     <font-awesome-icon v-for="i in 5" :key="i" icon="star"
                     :class="`star-icon${i <= val.rate ? ' fill-color' : ''}`"/>
 
-                    <div class="message">{{ val.comment }}</div>
+                    <div class="message" v-if="val.deletedAt == null">
+                      {{ val.comment }}
+                    </div>
                   </b-col>
                 </b-row>
               </b-col>
@@ -518,7 +520,7 @@ export default {
       activePage: null,
 
       assessment: null,
-      commentsProduct: null,
+      commentsProduct: [],
 
       rateLoop: [
         {

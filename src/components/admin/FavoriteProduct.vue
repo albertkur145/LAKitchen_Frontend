@@ -149,7 +149,7 @@ export default {
       chartOptions: {
         options: {
           theme: { palette: 'palette8' },
-          chart: { type: 'bar' },
+          chart: { type: 'bar', toolbar: { show: false } },
           dataLabels: { enabled: false },
           xaxis: { labels: { show: false } },
           plotOptions: { bar: { distributed: true } },
