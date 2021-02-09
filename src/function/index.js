@@ -38,8 +38,8 @@ export default {
   removeStorages(cookies) {
     cookies.remove('token');
     cookies.remove('user');
-    localStorage.removeItem('isStartConversation');
     localStorage.removeItem('cart');
+    localStorage.removeItem('callId');
   },
 
   isLoggedIn(cookies, redirect = true, router = null, path = '/login', role = 'user') {

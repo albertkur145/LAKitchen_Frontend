@@ -1,33 +1,29 @@
 <template>
   <div class="messenger">
     <div class="head">
-      <div class="username">Kevin Lusari</div>
+      <div class="username">{{ contact.name }}</div>
       <font-awesome-icon icon="phone-slash" class="phone-icon"/>
     </div>
 
     <div class="chat-message">
-      <div class="text-right mb-4">
-        <span class="text me">
-          Selamat siang, saya dengan Indah Permata. Dengan siapa saya berbicara?
-        </span>
-      </div>
-
-      <div class="text-left mb-2">
-        <span class="text they">
-          Selamat siang. Anda bisa memanggil saya Kevin.
-        </span>
-      </div>
-
-      <div class="text-left mb-4">
-        <span class="text they">
-          Selamat siang. Anda bisa memanggil saya Kevin.
-        </span>
+      <div v-for="(message, i) in messages" :key="message.id"
+      :class="`${message.from === contact.userId ? 'text-left ' : 'text-right '}
+      ${messages[i+1] !== undefined ?
+      `${messages[i].from === messages[i+1].from ?
+      'mb-2' : 'mb-4' }` : ''}`">
+        <div class="message">
+          <span class="time mr-2" v-if="message.from !== contact.userId">{{ message.time }}</span>
+          <span :class="`text ${message.from === contact.userId ? 'they' : 'me'}`">
+            {{ message.message }}
+          </span>
+          <span class="time ml-2" v-if="message.from === contact.userId">{{ message.time }}</span>
+        </div>
       </div>
     </div>
 
     <div class="type-chat">
-      <b-form-textarea class="input-text" rows="3"
-      placeholder="Kirim pesan disini..."/>
+      <b-form-textarea class="input-text" v-model="message"
+      @keyup.enter="sendMessage" rows="3" placeholder="Kirim pesan disini..."/>
     </div>
   </div>
 </template>
@@ -65,6 +61,17 @@
       overflow-y: auto;
       background-color: #EFEFEF;
       padding: 1.5rem 2.5rem;
+
+      .message {
+        display: inline-flex;
+      }
+
+      .time {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 0.25rem;
+        font-size: 0.6875em;
+      }
 
       .text {
         text-align: left;
@@ -140,3 +147,52 @@
   // #Device = Laptops, Desktops
 
 </style>
+
+<script>
+
+export default {
+
+  props: {
+    contact: {
+      type: Object,
+      required: true,
+    },
+    messages: {
+      type: Array,
+      required: true,
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  watch: {
+    messages() {
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
+    },
+  },
+
+  data() {
+    return {
+      message: '',
+    };
+  },
+
+  methods: {
+    scrollToBottom() {
+      const el = document.querySelector('.messenger .chat-message');
+      el.scrollTop = el.scrollHeight;
+    },
+
+    sendMessage() {
+      this.$emit('send', { callId: this.contact.callId, message: this.message });
+      this.message = '';
+    },
+  },
+
+};
+
+</script>

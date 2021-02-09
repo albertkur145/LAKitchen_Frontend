@@ -4,11 +4,21 @@
 
     <div class="body">
       <div class="contact">
-        <Contact v-for="i in 10" :key="i"/>
+        <Contact v-for="val in csContact" :key="val.callId"
+        :data="val" @selected="setSelectedContact"
+        :class="`${ val === selectedContact ? 'active-contact' : ''}`"/>
       </div>
 
-      <Messenger/>
+      <Messenger v-if="selectedContact" :contact="selectedContact"
+      :messages="messages" :user="user" @send="sendMessage"/>
     </div>
+
+    <div class="call">
+      <Call v-for="val in usersCall" :key="val.id"
+      :data="val" @receivecall="receive"/>
+    </div>
+
+    <Loader :class="`${loader ? '' : 'd-none'}`"/>
   </div>
 </template>
 
@@ -25,12 +35,24 @@
       .contact {
         overflow-y: auto;
         background-color: #EAF7FF;
-        min-width: 23rem;
+        min-width: 18rem;
+
+        .active-contact {
+          background-color: #D1EEFF;
+        }
       }
 
       .messenger {
         width: 100%;
       }
+    }
+
+    .call {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 0.75rem;
+      right: 5rem;
     }
   }
   // global css
@@ -49,13 +71,35 @@
 
   // #Device = Tablets, Ipads
   @media (min-width: 768px) and (max-width: 1024px) {
+    #app {
 
+      .body {
+        .contact {
+          min-width: 20rem;
+        }
+
+        .messenger {
+          width: 100%;
+        }
+      }
+    }
   }
   // #Device = Tablets, Ipads
 
   // #Device = Laptops, Desktops
   @media (min-width: 1025px) {
+    #app {
 
+      .body {
+        .contact {
+          min-width: 23rem;
+        }
+
+        .messenger {
+          width: 100%;
+        }
+      }
+    }
   }
   // #Device = Laptops, Desktops
 
@@ -63,9 +107,14 @@
 
 <script>
 
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
 import Header from '@/components/cs/Header.vue';
 import Contact from '@/components/cs/Contact.vue';
 import Messenger from '@/components/cs/Messenger.vue';
+import Call from '@/components/cs/Call.vue';
+import Loader from '@/components/Loader.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
 
@@ -73,23 +122,145 @@ export default {
     Header,
     Contact,
     Messenger,
+    Call,
+    Loader,
   },
 
   data() {
     return {
-      isShow: true,
+      isShow: false,
+      loader: false,
       windowWidth: null,
       isLogin: false,
+
+      socket: null,
+      stompClient: null,
+
+      user: null,
+      selectedContact: null,
+      usersCall: [],
+      csContact: [],
+      messages: [],
     };
   },
 
+  computed: {
+    ...mapGetters('csChat', [
+      'callList',
+      'contactList',
+      'messageList',
+    ]),
+  },
+
   mounted() {
-    if (this.windowWidth < 1025) {
-      this.isShow = false;
-    }
+    window.addEventListener('resize', this.getWindowWidth);
+    if (this.windowWidth < 1025) this.isShow = true;
+
+    this.stompClient.connect({}, () => {
+      const subsCall = this.subscribeCall();
+      const subsCall2 = this.subscribeCallReceived();
+      const subsChat = [];
+      this.csContact.forEach((val) => {
+        subsChat.push(this.subscribeChatMessage(val.callId));
+      });
+
+      if (subsCall && subsCall2 && subsChat.length === this.csContact.length) {
+        this.loader = false;
+      }
+    });
   },
 
   methods: {
+    ...mapActions('csChat', [
+      'receiveCall',
+      'getUnreceivedCall',
+      'getAllContact',
+      'postMessage',
+      'getAllMessage',
+    ]),
+
+    async sendMessage(param) {
+      await this.$func.promiseAPI(this.postMessage, {
+        callId: param.callId,
+        from: this.user.id,
+        message: param.message,
+      });
+    },
+
+    async getCalls() {
+      const { code } = await this.$func.promiseAPI(this.getUnreceivedCall);
+      if (code === 200) {
+        this.usersCall = [...this.usersCall, ...this.callList.calls];
+      }
+    },
+
+    async getMessage(callId) {
+      this.loader = true;
+      const { code } = await this.$func.promiseAPI(this.getAllMessage, { callId });
+      if (code === 200) {
+        this.loader = false;
+        this.messages = [...this.messageList.messages];
+      }
+    },
+
+    async getContacts() {
+      const { code } = await this.$func.promiseAPI(this.getAllContact, { csId: this.user.id });
+
+      if (code === 200) {
+        this.csContact = [...this.csContact, ...this.contactList.contacts];
+      }
+    },
+
+    async receive(id) {
+      this.loader = true;
+      const { code, data } = await this.$func.promiseAPI(this.receiveCall, {
+        id,
+        csId: this.user.id,
+      });
+
+      if (code === 200) {
+        const incoming = {
+          userId: data.contact.userId,
+          name: data.contact.name,
+          email: data.contact.email,
+          callId: data.contact.callId,
+          unreadMessages: data.contact.unreadMessages,
+        };
+        this.csContact = [incoming, ...this.csContact];
+        const subsChat = this.subscribeChatMessage(data.contact.callId);
+
+        if (subsChat) {
+          this.loader = false;
+        }
+      }
+    },
+
+    connection() {
+      this.socket = new SockJS('http://localhost:8081/chat');
+      this.stompClient = Stomp.over(this.socket);
+    },
+
+    subscribeCallReceived() {
+      return this.stompClient.subscribe('/call/received', (res) => {
+        this.usersCall = JSON.parse(res.body).calls;
+      });
+    },
+
+    subscribeCall() {
+      return this.stompClient.subscribe('/call', (res) => {
+        this.usersCall.push(JSON.parse(res.body));
+      });
+    },
+
+    subscribeChatMessage(callId) {
+      return this.stompClient.subscribe(`/message/${callId}`, (res) => {
+        const incomingMessage = JSON.parse(res.body);
+        if (this.selectedContact && this.selectedContact.callId === incomingMessage.callId) {
+          this.pushMessage(incomingMessage);
+        }
+      });
+    },
+
     toggleSidebar() {
       this.isShow = !this.isShow;
     },
@@ -97,12 +268,41 @@ export default {
     getWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
+
+    init() {
+      this.user = this.$cookies.get('cs');
+      this.isLogin = true;
+
+      this.getWindowWidth();
+      this.connection();
+      this.getCalls();
+      this.getContacts();
+    },
+
+    setSelectedContact(contact) {
+      if (this.selectedContact === contact) return;
+      this.messages = [];
+      this.getMessage(contact.callId);
+      this.selectedContact = contact;
+    },
+
+    pushMessage(data) {
+      this.messages.push({
+        id: data.id,
+        from: data.from,
+        to: data.to,
+        callId: data.callId,
+        message: data.message,
+        isRead: data.isRead,
+        time: data.time,
+      });
+    },
   },
 
   created() {
+    this.loader = true;
     if (this.$cookies.get('token') && this.$cookies.get('cs')) {
-      this.getWindowWidth();
-      this.isLogin = true;
+      this.init();
     } else {
       this.$router.go(-1);
     }

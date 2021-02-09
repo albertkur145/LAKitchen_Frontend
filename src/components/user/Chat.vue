@@ -17,11 +17,15 @@
         </div>
 
         <div class="content padding-chat">
-          <div class="start-conversation" v-if="!isStart">
+          <div class="start-conversation" v-if="!isStart && !onProgress">
             <div class="text" @click="startConversation">Mulai Percakapan</div>
           </div>
 
-          <div class="message-container" v-else>
+          <div class="waiting" v-if="onProgress">
+            <div class="text">{{ callMessage }}</div>
+          </div>
+
+          <div class="message-container" v-if="isStart && !onProgress">
             <div v-for="(val, i) in messages" :key="i"
             :class="`message${ val.from === user.id ? ' user-message' : ''}
             ${ messages[i+1] != undefined ?
@@ -157,6 +161,16 @@
           &:hover {
             background-color: #FF5C00;
           }
+        }
+      }
+
+      .waiting {
+        text-align: center;
+
+        .text {
+          display: inline-block;
+          margin-top: 25vh;
+          font-size: 0.8125em;
         }
       }
 
@@ -308,6 +322,13 @@
           }
         }
 
+        .waiting {
+
+          .text {
+            font-size: 0.875em;
+          }
+        }
+
         .message-container {
 
           .message {
@@ -348,121 +369,228 @@
 
 <script>
 
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client';
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
 
   data() {
     return {
+      socket: null,
+      stompClient: null,
+      stomp: {
+        call: null,
+        chat: null,
+      },
+
       isShow: false,
       isStart: false,
+      onProgress: false,
+
       user: null,
       message: '',
+      callId: null,
+      callMessage: 'Menyambungkan...',
 
-      messages: [
-        {
-          id: 1,
-          from: 2,
-          to: 1,
-          callId: 1,
-          message: 'Halo, perkenalkan saya Indah. Dengan siapakah Indah berbicara?',
-          isRead: 0,
-          time: '10.32',
-        },
-        {
-          id: 2,
-          from: 1,
-          to: 2,
-          callId: 1,
-          message: 'Albert',
-          isRead: 0,
-          time: '10.33',
-        },
-        {
-          id: 3,
-          from: 2,
-          to: 1,
-          callId: 1,
-          message: 'Apakah ada yang bisa Indah bantu untuk Kak Albert?',
-          isRead: 0,
-          time: '10.33',
-        },
-        {
-          id: 4,
-          from: 1,
-          to: 2,
-          callId: 1,
-          message: 'Ini saya beli produk tapi lama sekali sampainya',
-          isRead: 0,
-          time: '10.35',
-        },
-        {
-          id: 5,
-          from: 1,
-          to: 2,
-          callId: 1,
-          message: 'Padahal ini sudah 3 minggu loh',
-          isRead: 0,
-          time: '10.35',
-        },
-        {
-          id: 6,
-          from: 2,
-          to: 1,
-          callId: 1,
-          message: 'Baik, akan Indah bantu pengecekan nomor pesanan',
-          isRead: 0,
-          time: '10.36',
-        },
-        {
-          id: 7,
-          from: 2,
-          to: 1,
-          callId: 1,
-          message: 'Boleh dikirim disini nomor pesanannya Kak Albert',
-          isRead: 0,
-          time: '10.37',
-        },
-      ],
+      messages: [],
     };
   },
 
-  methods: {
-    toggleChatContainer(bool) {
-      this.isShow = bool;
+  computed: {
+    ...mapGetters('chat', [
+      'userCurrentCall',
+      'messageList',
+    ]),
+
+    currentCallId() {
+      return this.callId;
     },
 
-    startConversation() {
-      this.isStart = true;
-      localStorage.setItem('isStartConversation', true);
+    isStarted() {
+      return this.isStart;
+    },
+  },
+
+  methods: {
+    ...mapActions('chat', [
+      'calling',
+      'postMessage',
+      'getCurrentCall',
+      'getMessages',
+    ]),
+
+    async getCurrentMessages() {
+      this.connectToChatMessage();
+      const { code } = await this.$func.promiseAPI(this.getMessages, {
+        callId: this.currentCallId,
+      });
+
+      if (code === 200) {
+        this.messages = [...this.messageList.messages];
+      }
+    },
+
+    async getCall() {
+      const { code } = await this.$func.promiseAPI(this.getCurrentCall, {
+        callId: this.currentCallId,
+      });
+
+      if (code === 200) {
+        if (this.userCurrentCall.isReceived) {
+          this.callId = this.userCurrentCall.callId;
+          this.handleExistCall();
+        } else {
+          this.callMessage = 'Menunggu customer service...';
+          this.connectToCallAccepted(true);
+        }
+      } else {
+        this.connectToCallAccepted();
+        this.handleUnexistCall();
+      }
     },
 
     async sendMessage() {
-      const params = {
-        id: 8,
-        from: 1,
-        to: 2,
-        callId: 1,
+      const { code } = await this.$func.promiseAPI(this.postMessage, {
+        callId: this.currentCallId,
+        from: this.user.id,
         message: this.message,
-        isRead: 0,
-        time: '10.39',
-      };
+      });
 
+      if (code === 200) {
+        this.reset();
+      }
+    },
+
+    async callCS() {
+      const { code, data } = await this.$func.promiseAPI(this.calling, {
+        userId: this.user.id,
+      });
+
+      if (code === 200) {
+        this.callId = data.id;
+        localStorage.setItem('callId', this.currentCallId);
+      }
+    },
+
+    reset() {
       this.message = '';
-      await this.messages.push(params);
+    },
 
-      this.scrollToBottom();
+    connection() {
+      this.socket = new SockJS('http://localhost:8081/chat');
+      this.stompClient = Stomp.over(this.socket);
+    },
+
+    connectToCallAccepted(isExistCall = false) {
+      this.stompClient.connect({}, () => {
+        this.subscribeCallAccepted(isExistCall);
+      }, (err) => {
+        console.log(`Error: ${err.reason}`);
+      });
+    },
+
+    connectToChatMessage() {
+      this.stompClient.connect({}, () => {
+        this.subscribeChatMessage();
+      }, (err) => {
+        console.log(`Error: ${err.reason}`);
+      });
+    },
+
+    subscribeChatMessage() {
+      this.onProgress = true;
+      this.isStart = false;
+      const subsCh = this.stompClient.subscribe(`/message/${this.currentCallId}`, (res) => {
+        this.pushMessage(JSON.parse(res.body));
+      });
+
+      if (subsCh) {
+        this.onProgress = false;
+        this.isStart = true;
+      }
+    },
+
+    subscribeCallAccepted(isExistCall) {
+      const subsCh = this.stompClient.subscribe('/call/accepted', (res) => {
+        this.callId = JSON.parse(res.body).contact.callId;
+        localStorage.setItem('callId', this.currentCallId);
+
+        // after call accepted, then subs chat message
+        this.subscribeChatMessage();
+        setTimeout(() => {
+          this.isCallReceived();
+        }, 1000);
+      });
+
+      if (!isExistCall && subsCh) {
+        this.onProgress = false;
+      }
+    },
+
+    toggleChatContainer(bool) {
+      this.isShow = bool;
+      if (this.isShow) {
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 0);
+      }
+    },
+
+    isCallReceived() {
+      this.onProgress = false;
+      this.isStart = true;
+    },
+
+    startConversation() {
+      this.callCS();
+      this.onProgress = true;
+      this.callMessage = 'Menunggu customer service...';
     },
 
     scrollToBottom() {
       const el = document.querySelector('#chat-app .content');
       el.scrollTop = el.scrollHeight;
     },
+
+    handleExistCall() {
+      this.getCurrentMessages();
+    },
+
+    handleUnexistCall() {
+      localStorage.removeItem('callId');
+      this.onProgress = false;
+      this.isStart = false;
+      this.callId = null;
+    },
+
+    pushMessage(data) {
+      this.messages.push({
+        id: data.id,
+        from: data.from,
+        to: data.to,
+        callId: data.callId,
+        message: data.message,
+        isRead: data.isRead,
+        time: data.time,
+      });
+
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
+    },
   },
 
   created() {
+    this.onProgress = true;
     this.user = this.$cookies.get('user');
+    this.connection();
 
-    if (localStorage.getItem('isStartConversation')) {
-      this.isStart = true;
+    if (localStorage.getItem('callId')) {
+      this.callId = localStorage.getItem('callId');
+      this.getCall();
+    } else {
+      this.connectToCallAccepted();
     }
   },
 

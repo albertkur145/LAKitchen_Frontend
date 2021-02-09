@@ -1,10 +1,10 @@
 <template>
-	<div class="user-contact">
+	<div class="user-contact" @click="$emit('selected', data)">
 		<div class="avatar"><font-awesome-icon icon="user"/></div>
 
     <div class="user-info">
-      <div class="name">Kevin Lusari</div>
-      <div class="email">kevinlusari12@gmail.com</div>
+      <div class="name">{{ data.name }}</div>
+      <div class="email">{{ data.email }}</div>
     </div>
 	</div>
 </template>
@@ -39,14 +39,31 @@
     .name {
       color: #3F3F3F;
       font-weight: 500;
+      word-break: break-all;
       font-size: 1em;
     }
 
     .email {
       color: #AAA;
+      word-break: break-all;
       font-size: 0.875em;
     }
   }
   // global css
 
 </style>
+
+<script>
+
+export default {
+
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
+
+};
+
+</script>

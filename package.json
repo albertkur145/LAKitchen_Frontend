@@ -21,6 +21,7 @@
     "bootstrap-vue": "^2.17.3",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
+    "sockjs-client": "^1.5.0",
     "sweetalert2": "^10.9.1",
     "swiper": "^5.4.5",
     "vue": "^2.6.11",
@@ -30,9 +31,12 @@
     "vue-cookies": "^1.7.4",
     "vue-currency-filter": "^5.2.0",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
+    "@types/sockjs": "^0.3.32",
+    "@types/stompjs": "^2.3.4",
     "@vue/cli-plugin-babel": "^4.5.0",
     "@vue/cli-plugin-eslint": "^4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.0",

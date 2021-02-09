@@ -42,6 +42,8 @@ import {
   faCheckCircle,
   faPowerOff,
   faPhoneSlash,
+  faTimesCircle,
+  faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faCopyright } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -82,7 +84,7 @@ library.add(faSearch, faShoppingCart, faBars, faCogs,
   faCopyright, faHome, faCommentDots, faPaperPlane,
   faRocket, faChevronUp, faHamburger, faFunnelDollar,
   faMoneyBillWave, faUser, faChartLine, faPen, faCheckCircle,
-  faPowerOff, faPhoneSlash);
+  faPowerOff, faPhoneSlash, faTimesCircle, faChevronLeft);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
