@@ -26,7 +26,7 @@
         </b-col>
 
         <b-col cols="12">
-          <input type="text" class="input-text" v-model="form.email"
+          <input type="text" class="input-text" v-model="form.email" disabled
           @keyup="validateEmail" placeholder="Masukkan email" autocomplete="off">
 
           <b-form-text :class="`warning-text${validateForm.email ? ' d-none' : ''}`">

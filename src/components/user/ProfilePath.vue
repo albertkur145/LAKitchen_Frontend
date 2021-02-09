@@ -294,6 +294,8 @@
 
 <script>
 
+import { mapActions } from 'vuex';
+
 export default {
 
   data() {
@@ -317,6 +319,13 @@ export default {
   },
 
   methods: {
+    ...mapActions('csChat', ['terminateCall']),
+
+    async terminateCallWhenLogout() {
+      const callId = localStorage.getItem('callId');
+      await this.$func.promiseAPI(this.terminateCall, { callId });
+    },
+
     getInitial() {
       if (this.user.name === null) {
         return 'U';
@@ -338,6 +347,7 @@ export default {
     },
 
     logout() {
+      this.terminateCallWhenLogout();
       this.$func.removeStorages(this.$cookies);
       window.location.reload();
     },

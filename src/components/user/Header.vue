@@ -700,6 +700,13 @@ export default {
       'countCart',
     ]),
 
+    ...mapActions('csChat', ['terminateCall']),
+
+    async terminateCallWhenLogout() {
+      const callId = localStorage.getItem('callId');
+      await this.$func.promiseAPI(this.terminateCall, { callId });
+    },
+
     async getTotalCart() {
       await this.$func.promiseAPI(this.countCart, {
         userId: this.$cookies.get('user').id,
@@ -776,6 +783,7 @@ export default {
     },
 
     logout() {
+      this.terminateCallWhenLogout();
       this.$func.removeStorages(this.$cookies);
       window.location.reload();
     },

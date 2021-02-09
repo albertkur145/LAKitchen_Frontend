@@ -41,7 +41,7 @@
 
         <div class="blank-space"></div>
 
-        <div class="bottom" v-if="isStart">
+        <div class="bottom" v-if="isStart && !onProgress">
           <b-form-textarea v-model="message" class="input-text" @keyup.enter="sendMessage"
           placeholder="Tulis pesan..." rows="2" max-rows="6"/>
 
@@ -184,7 +184,7 @@
             color: #000;
             text-align: left;
             max-width: 16rem;
-            word-wrap: break-word;
+            word-break: break-all;
             display: inline-block;
             border-radius: 0.5rem;
             background-color: #F0F0F0;
@@ -438,14 +438,12 @@ export default {
 
       if (code === 200) {
         if (this.userCurrentCall.isReceived) {
-          this.callId = this.userCurrentCall.callId;
           this.handleExistCall();
         } else {
           this.callMessage = 'Menunggu customer service...';
-          this.connectToCallAccepted(true);
+          this.connectToCallAccepted();
         }
       } else {
-        this.connectToCallAccepted();
         this.handleUnexistCall();
       }
     },
@@ -469,7 +467,12 @@ export default {
 
       if (code === 200) {
         this.callId = data.id;
+        this.connection();
+        this.connectToCallAccepted();
         localStorage.setItem('callId', this.currentCallId);
+      } else {
+        this.onProgress = false;
+        this.callMessage = 'Error, silahkan coba kembali';
       }
     },
 
@@ -482,9 +485,9 @@ export default {
       this.stompClient = Stomp.over(this.socket);
     },
 
-    connectToCallAccepted(isExistCall = false) {
+    connectToCallAccepted() {
       this.stompClient.connect({}, () => {
-        this.subscribeCallAccepted(isExistCall);
+        this.subscribeCallAccepted();
       }, (err) => {
         console.log(`Error: ${err.reason}`);
       });
@@ -511,21 +514,29 @@ export default {
       }
     },
 
-    subscribeCallAccepted(isExistCall) {
-      const subsCh = this.stompClient.subscribe('/call/accepted', (res) => {
+    subscribeCallTerminated() {
+      this.stompClient.subscribe(`/call/ended/${this.currentCallId}`, () => {
+        this.onProgress = true;
+        this.callMessage = 'Panggilan telah berakhir';
+        setTimeout(() => {
+          this.handleUnexistCall();
+        }, 3000);
+      });
+    },
+
+    subscribeCallAccepted() {
+      this.stompClient.subscribe(`/call/accepted/${this.currentCallId}`, (res) => {
+        this.onProgress = false;
         this.callId = JSON.parse(res.body).contact.callId;
         localStorage.setItem('callId', this.currentCallId);
 
-        // after call accepted, then subs chat message
+        // after call accepted, then subs chat message & terminated call
         this.subscribeChatMessage();
+        this.subscribeCallTerminated();
         setTimeout(() => {
           this.isCallReceived();
         }, 1000);
       });
-
-      if (!isExistCall && subsCh) {
-        this.onProgress = false;
-      }
     },
 
     toggleChatContainer(bool) {
@@ -582,15 +593,13 @@ export default {
   },
 
   created() {
-    this.onProgress = true;
     this.user = this.$cookies.get('user');
-    this.connection();
 
     if (localStorage.getItem('callId')) {
+      this.onProgress = true;
       this.callId = localStorage.getItem('callId');
+      this.connection();
       this.getCall();
-    } else {
-      this.connectToCallAccepted();
     }
   },
 

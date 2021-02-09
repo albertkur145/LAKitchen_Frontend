@@ -119,6 +119,22 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  terminateCall({ commit }, payload) {
+    return axios({
+      method: 'delete',
+      url: '/chat/call',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

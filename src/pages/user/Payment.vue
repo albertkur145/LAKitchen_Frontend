@@ -12,11 +12,11 @@
             <div class="title">Alamat Pengiriman</div>
             <hr>
 
-            <div class="name value">Budi Utomo</div>
-            <div class="phone value">081392290882</div>
+            <div class="name value">{{ user.name }}</div>
+            <div class="phone value">{{ user.phoneNumber }}</div>
             <div class="value address">
-              <div>Jalan Mayor Salim Batubara Komplek P.U No. 609 RT 11</div>
-              <div>Sumatra Selatan, Palembang</div>
+              <div>{{ user.address }}</div>
+              <div>{{ user.province }}, {{ user.city }}</div>
             </div>
           </div>
 
@@ -768,6 +768,7 @@ export default {
       cart: undefined,
       loader: false,
       postage: 15000,
+      user: null,
     };
   },
 
@@ -810,21 +811,19 @@ export default {
     },
 
     isProfileComplete() {
-      const user = this.$cookies.get('user');
-
-      if (user.name === null) {
+      if (this.user.name === null) {
         return false;
       }
 
-      if (user.province === null) {
+      if (this.user.province === null) {
         return false;
       }
 
-      if (user.city === null) {
+      if (this.user.city === null) {
         return false;
       }
 
-      if (user.address === null) {
+      if (this.user.address === null) {
         return false;
       }
 
@@ -848,6 +847,7 @@ export default {
   created() {
     this.$func.isLoggedIn(this.$cookies, true, this.$router);
     this.cart = JSON.parse(localStorage.getItem('cart'));
+    this.user = this.$cookies.get('user');
 
     if (!this.cart) {
       this.$router.go(-1);

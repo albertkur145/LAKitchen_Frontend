@@ -2,7 +2,8 @@
   <div class="messenger">
     <div class="head">
       <div class="username">{{ contact.name }}</div>
-      <font-awesome-icon icon="phone-slash" class="phone-icon"/>
+      <font-awesome-icon @click="$emit('terminate', contact.callId)"
+      icon="phone-slash" class="phone-icon"/>
     </div>
 
     <div class="chat-message">
@@ -172,6 +173,10 @@ export default {
       setTimeout(() => {
         this.scrollToBottom();
       }, 0);
+    },
+
+    contact() {
+      console.log(this.contact);
     },
   },
 

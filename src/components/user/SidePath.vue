@@ -92,6 +92,8 @@
 
 <script>
 
+import { mapActions } from 'vuex';
+
 export default {
 
   props: {
@@ -107,11 +109,19 @@ export default {
   },
 
   methods: {
+    ...mapActions('csChat', ['terminateCall']),
+
+    async terminateCallWhenLogout() {
+      const callId = localStorage.getItem('callId');
+      await this.$func.promiseAPI(this.terminateCall, { callId });
+    },
+
     redirect(route) {
       this.$router.push(route);
     },
 
     logout() {
+      this.terminateCallWhenLogout();
       this.$func.removeStorages(this.$cookies);
       this.$router.push('/');
     },

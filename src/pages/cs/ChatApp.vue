@@ -10,7 +10,7 @@
       </div>
 
       <Messenger v-if="selectedContact" :contact="selectedContact"
-      :messages="messages" :user="user" @send="sendMessage"/>
+      :messages="messages" :user="user" @send="sendMessage" @terminate="terminate"/>
     </div>
 
     <div class="call">
@@ -160,11 +160,14 @@ export default {
       const subsCall = this.subscribeCall();
       const subsCall2 = this.subscribeCallReceived();
       const subsChat = [];
+      const subsCall3 = [];
       this.csContact.forEach((val) => {
         subsChat.push(this.subscribeChatMessage(val.callId));
+        subsCall3.push(this.subscribeCallTerminated(val.callId));
       });
 
-      if (subsCall && subsCall2 && subsChat.length === this.csContact.length) {
+      if (subsCall && subsCall2 && subsChat.length === this.csContact.length
+      && subsCall3.length === this.csContact.length) {
         this.loader = false;
       }
     });
@@ -177,7 +180,16 @@ export default {
       'getAllContact',
       'postMessage',
       'getAllMessage',
+      'terminateCall',
     ]),
+
+    async terminate(callId) {
+      const { code } = await this.$func.promiseAPI(this.terminateCall, { callId });
+      if (code === 200) {
+        this.csContact = this.csContact.filter((val) => val.callId !== callId);
+        this.selectedContact = null;
+      }
+    },
 
     async sendMessage(param) {
       await this.$func.promiseAPI(this.postMessage, {
@@ -228,8 +240,9 @@ export default {
         };
         this.csContact = [incoming, ...this.csContact];
         const subsChat = this.subscribeChatMessage(data.contact.callId);
+        const subsCallEnded = this.subscribeCallTerminated(data.contact.callId);
 
-        if (subsChat) {
+        if (subsChat && subsCallEnded) {
           this.loader = false;
         }
       }
@@ -248,7 +261,9 @@ export default {
 
     subscribeCall() {
       return this.stompClient.subscribe('/call', (res) => {
-        this.usersCall.push(JSON.parse(res.body));
+        setTimeout(() => {
+          this.usersCall.push(JSON.parse(res.body));
+        }, 4000);
       });
     },
 
@@ -257,6 +272,16 @@ export default {
         const incomingMessage = JSON.parse(res.body);
         if (this.selectedContact && this.selectedContact.callId === incomingMessage.callId) {
           this.pushMessage(incomingMessage);
+        }
+      });
+    },
+
+    subscribeCallTerminated(callId) {
+      return this.stompClient.subscribe(`/call/ended/${callId}`, (res) => {
+        const { id } = JSON.parse(res.body);
+        this.csContact = this.csContact.filter((val) => val.callId !== id);
+        if (this.selectedContact && this.selectedContact.callId === id) {
+          this.selectedContact = null;
         }
       });
     },
