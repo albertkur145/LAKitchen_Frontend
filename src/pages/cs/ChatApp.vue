@@ -141,6 +141,10 @@ export default {
       usersCall: [],
       csContact: [],
       messages: [],
+
+      /* eslint-disable global-require */
+      incCallRingtone: require('@/assets/audio/call.mp3'),
+      /* eslint-disable global-require */
     };
   },
 
@@ -181,7 +185,15 @@ export default {
       'postMessage',
       'getAllMessage',
       'terminateCall',
+      'readMessage',
     ]),
+
+    async readUnreadMessage() {
+      await this.$func.promiseAPI(this.readMessage, {
+        callId: this.selectedContact.callId,
+        userFrom: this.selectedContact.userId,
+      });
+    },
 
     async terminate(callId) {
       const { code } = await this.$func.promiseAPI(this.terminateCall, { callId });
@@ -262,6 +274,7 @@ export default {
     subscribeCall() {
       return this.stompClient.subscribe('/call', (res) => {
         setTimeout(() => {
+          this.playAudio();
           this.usersCall.push(JSON.parse(res.body));
         }, 4000);
       });
@@ -272,6 +285,11 @@ export default {
         const incomingMessage = JSON.parse(res.body);
         if (this.selectedContact && this.selectedContact.callId === incomingMessage.callId) {
           this.pushMessage(incomingMessage);
+          this.readUnreadMessage();
+        } else {
+          const index = this.csContact.findIndex((val) => val.callId === incomingMessage.callId);
+          this.csContact[index].unreadMessages += 1;
+          this.orderContact(incomingMessage.callId);
         }
       });
     },
@@ -284,6 +302,17 @@ export default {
           this.selectedContact = null;
         }
       });
+    },
+
+    orderContact(callId) {
+      const topContact = this.csContact.find((val) => val.callId === callId);
+      const contacts = this.csContact.filter((val) => val.callId !== callId);
+      this.csContact = [topContact, ...contacts];
+    },
+
+    playAudio() {
+      const sound = new Audio(this.incCallRingtone);
+      sound.play();
     },
 
     toggleSidebar() {
@@ -307,8 +336,15 @@ export default {
     setSelectedContact(contact) {
       if (this.selectedContact === contact) return;
       this.messages = [];
-      this.getMessage(contact.callId);
       this.selectedContact = contact;
+      this.readUnreadMessage();
+      this.resetUnreadMessages();
+      this.getMessage(contact.callId);
+    },
+
+    resetUnreadMessages() {
+      const index = this.csContact.findIndex((val) => val.callId === this.selectedContact.callId);
+      this.csContact[index].unreadMessages = 0;
     },
 
     pushMessage(data) {

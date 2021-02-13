@@ -1,6 +1,6 @@
 <template>
   <div class="side">
-    <div class="username">Albert Kurniawan</div>
+    <div class="username">{{ username }}</div>
 
     <b-row :class="`text-path${val.name === active ? ' active' : ''}`"
     v-for="(val, index) in profilePath" :key="index" @click="redirect(val.route)">
@@ -102,9 +102,19 @@ export default {
     },
   },
 
+  data() {
+    return {
+      user: null,
+    };
+  },
+
   computed: {
     profilePath() {
       return this.$func.pathUser();
+    },
+
+    username() {
+      return this.user.name;
     },
   },
 
@@ -125,6 +135,10 @@ export default {
       this.$func.removeStorages(this.$cookies);
       this.$router.push('/');
     },
+  },
+
+  created() {
+    this.user = this.$cookies.get('user');
   },
 
 };

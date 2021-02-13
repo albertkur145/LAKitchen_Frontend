@@ -174,10 +174,6 @@ export default {
         this.scrollToBottom();
       }, 0);
     },
-
-    contact() {
-      console.log(this.contact);
-    },
   },
 
   data() {

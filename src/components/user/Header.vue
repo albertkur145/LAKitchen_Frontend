@@ -70,7 +70,7 @@
 
         <div class="line-spacer">|</div>
 
-        <div class="sort-text" @click="redirectSearch('rating', '-')">Rating Teratas</div>
+        <!-- <div class="sort-text" @click="redirectSearch('rating', '-')">Rating Teratas</div> -->
         <div class="sort-text" @click="redirectSearch('price', 'lowest')">Harga Terendah</div>
         <div class="sort-text" @click="redirectSearch('price', 'highest')">Harga Tertinggi</div>
       </div>

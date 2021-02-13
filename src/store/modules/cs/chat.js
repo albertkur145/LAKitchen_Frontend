@@ -135,6 +135,21 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  readMessage({ commit }, payload) {
+    return axios({
+      method: 'post',
+      url: '/chat/message',
+      data: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

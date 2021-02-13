@@ -44,14 +44,13 @@ import {
   faPhoneSlash,
   faTimesCircle,
   faChevronLeft,
+  faExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart, faCopyright } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueCurrencyFilter from 'vue-currency-filter';
 import func from '@/function';
 import cookies from 'vue-cookies';
-import Chartkick from 'vue-chartkick';
-import Chart from 'chart.js';
 import VueApexCharts from 'vue-apexcharts';
 import App from './App.vue';
 import router from './router';
@@ -70,7 +69,6 @@ Vue.use(VueCurrencyFilter, {
   symbolPosition: 'front',
 });
 Vue.use(cookies);
-Vue.use(Chartkick.use(Chart));
 Vue.use(VueApexCharts);
 
 Vue.component('apexchart', VueApexCharts);
@@ -84,7 +82,8 @@ library.add(faSearch, faShoppingCart, faBars, faCogs,
   faCopyright, faHome, faCommentDots, faPaperPlane,
   faRocket, faChevronUp, faHamburger, faFunnelDollar,
   faMoneyBillWave, faUser, faChartLine, faPen, faCheckCircle,
-  faPowerOff, faPhoneSlash, faTimesCircle, faChevronLeft);
+  faPowerOff, faPhoneSlash, faTimesCircle, faChevronLeft,
+  faExclamation);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

@@ -6,6 +6,10 @@
       <div class="name">{{ data.name }}</div>
       <div class="email">{{ data.email }}</div>
     </div>
+
+    <div class="unread-messages" v-if="data.unreadMessages">
+      {{ data.unreadMessages }}
+    </div>
 	</div>
 </template>
 
@@ -15,6 +19,7 @@
   .user-contact {
     display: flex;
     cursor: pointer;
+    position: relative;
     align-items: center;
     transition: background-color .1s ease-out;
     padding: 1rem 1.5rem;
@@ -48,6 +53,18 @@
       word-break: break-all;
       font-size: 0.875em;
     }
+  }
+
+  .unread-messages {
+    top: 25%;
+    right: 1rem;
+    color: #FFF;
+    font-weight: 500;
+    position: absolute;
+    border-radius: 100rem;
+    background-color: #FF3D48;
+    font-size: 0.8125em;
+    padding: 0rem 0.375rem;
   }
   // global css
 

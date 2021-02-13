@@ -4,7 +4,12 @@
       <div v-if="!isShow" @click="toggleChatContainer(true)"
       class="chat-btn fixed-position">
         <font-awesome-icon icon="comment-dots" class="chat-icon"/>
-        <span class="text">Chat</span>
+        <span class="text">
+          Chat
+          <span v-if="unreadMessages">
+            <font-awesome-icon icon="exclamation" class="unread-icon"/>
+          </span>
+        </span>
       </div>
     </transition>
 
@@ -99,8 +104,17 @@
     }
 
     .text {
+      position: relative;
       margin-left: 0.5rem;
       font-size: 0.9375em;
+
+      .unread-icon {
+        top: -0.0625rem;
+        right: -0.375rem;
+        color: #FF3D48;
+        position: absolute;
+        font-size: 0.75em;
+      }
     }
   }
 
@@ -289,6 +303,12 @@
 
       .text {
         font-size: 1.125em;
+
+        .unread-icon {
+          top: -0.125rem;
+          right: -0.5875rem;
+          font-size: 0.8125em;
+        }
       }
     }
 
@@ -394,6 +414,11 @@ export default {
       callMessage: 'Menyambungkan...',
 
       messages: [],
+      unreadMessages: false,
+
+      /* eslint-disable global-require */
+      incMsgRingtone: require('@/assets/audio/incoming-message.mp3'),
+      /* eslint-disable global-require */
     };
   },
 
@@ -410,6 +435,17 @@ export default {
     isStarted() {
       return this.isStart;
     },
+
+    countUnreadMessages() {
+      return this.messages.filter((val) => val.isRead === 0 && val.from !== this.user.id).length;
+    },
+
+    currentCSId() {
+      if (this.messages.length) {
+        return this.messages.find((val) => val.from !== this.user.id).from;
+      }
+      return null;
+    },
   },
 
   methods: {
@@ -420,6 +456,18 @@ export default {
       'getMessages',
     ]),
 
+    ...mapActions('csChat', [
+      'readMessage',
+    ]),
+
+    async readUnreadMessage() {
+      await this.$func.promiseAPI(this.readMessage, {
+        callId: this.currentCallId,
+        userFrom: this.currentCSId,
+      });
+      this.unreadMessages = false;
+    },
+
     async getCurrentMessages() {
       this.connectToChatMessage();
       const { code } = await this.$func.promiseAPI(this.getMessages, {
@@ -428,6 +476,9 @@ export default {
 
       if (code === 200) {
         this.messages = [...this.messageList.messages];
+        if (this.countUnreadMessages && !this.isShow) {
+          this.unreadMessages = true;
+        }
       }
     },
 
@@ -449,13 +500,15 @@ export default {
     },
 
     async sendMessage() {
-      const { code } = await this.$func.promiseAPI(this.postMessage, {
-        callId: this.currentCallId,
-        from: this.user.id,
-        message: this.message,
-      });
-
-      if (code === 200) {
+      if (this.message !== '\n') {
+        const text = this.message;
+        this.reset();
+        await this.$func.promiseAPI(this.postMessage, {
+          callId: this.currentCallId,
+          from: this.user.id,
+          message: text,
+        });
+      } else {
         this.reset();
       }
     },
@@ -496,6 +549,7 @@ export default {
     connectToChatMessage() {
       this.stompClient.connect({}, () => {
         this.subscribeChatMessage();
+        this.subscribeCallTerminated();
       }, (err) => {
         console.log(`Error: ${err.reason}`);
       });
@@ -505,13 +559,35 @@ export default {
       this.onProgress = true;
       this.isStart = false;
       const subsCh = this.stompClient.subscribe(`/message/${this.currentCallId}`, (res) => {
-        this.pushMessage(JSON.parse(res.body));
+        const data = JSON.parse(res.body);
+        this.pushMessage(data);
+
+        if (data.from !== this.user.id) {
+          this.playAudio();
+        }
+
+        if (this.isShow && data.from !== this.user.id) {
+          this.readUnreadMessage();
+        }
+
+        if (!this.isShow && data.from !== this.user.id) {
+          this.unreadMessages = true;
+        }
       });
 
       if (subsCh) {
         this.onProgress = false;
         this.isStart = true;
+
+        if (this.isShow) {
+          this.readUnreadMessage();
+        }
       }
+    },
+
+    playAudio() {
+      const sound = new Audio(this.incMsgRingtone);
+      sound.play();
     },
 
     subscribeCallTerminated() {
@@ -545,6 +621,10 @@ export default {
         setTimeout(() => {
           this.scrollToBottom();
         }, 0);
+
+        if (this.isStart && !this.onProgress && this.unreadMessages) {
+          this.readUnreadMessage();
+        }
       }
     },
 
@@ -573,6 +653,8 @@ export default {
       this.onProgress = false;
       this.isStart = false;
       this.callId = null;
+      this.unreadMessages = false;
+      this.messages = [];
     },
 
     pushMessage(data) {
@@ -586,9 +668,11 @@ export default {
         time: data.time,
       });
 
-      setTimeout(() => {
-        this.scrollToBottom();
-      }, 0);
+      if (this.isShow) {
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 0);
+      }
     },
   },
 
