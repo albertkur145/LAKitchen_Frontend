@@ -775,7 +775,7 @@ export default {
         if (limit > 1) {
           break;
         }
-        initial += `${name[i][0]}`;
+        initial += `${name[i][0] || ''}`;
         limit += 1;
       }
 

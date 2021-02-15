@@ -4,10 +4,11 @@
     <div class="bg-all"></div>
 
     <div class="content">
-      <ProductsContainer :type="paramType" :params="paramValue"/>
+      <ProductsContainer :type="paramType" :params="paramValue"
+      @finished="showFooter"/>
     </div>
 
-    <Footer/>
+    <Footer v-if="isShowFooter"/>
   </div>
 </template>
 
@@ -103,6 +104,7 @@ export default {
       paramValue: null,
       textTemp: null,
       isNull: false,
+      isShowFooter: false,
     };
   },
 
@@ -122,6 +124,12 @@ export default {
     setParams() {
       this.paramType = this.$route.params.type;
       this.paramValue = this.$route.params.value;
+    },
+
+    showFooter() {
+      setTimeout(() => {
+        this.isShowFooter = true;
+      }, 10);
     },
   },
 

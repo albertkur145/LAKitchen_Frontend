@@ -153,6 +153,7 @@ export default {
         password: '',
       },
       loader: false,
+      windowWidth: null,
     };
   },
 
@@ -160,6 +161,10 @@ export default {
     ...mapGetters('auth', [
       'userData',
     ]),
+  },
+
+  mounted() {
+    window.addEventListener('resize', this.getWindowWidth);
   },
 
   methods: {
@@ -196,13 +201,13 @@ export default {
         password: this.form.password,
       });
 
-      this.loader = false;
-
       if (code >= 200 && code < 300) {
         this.checkRole();
       } else {
         this.$func.popupError(errors, 'Coba lagi');
       }
+
+      this.loader = false;
     },
 
     checkRole() {
@@ -211,9 +216,22 @@ export default {
       } else {
         this.$cookies.set('token', this.userData.token, '1y');
         this.$cookies.set('user', this.userData.user, '1y');
-        window.location.reload();
+
+        if (this.windowWidth < 1025) {
+          window.location.reload();
+        } else {
+          this.$router.go(-1);
+        }
       }
     },
+
+    getWindowWidth() {
+      this.windowWidth = window.innerWidth;
+    },
+  },
+
+  created() {
+    this.getWindowWidth();
   },
 
 };

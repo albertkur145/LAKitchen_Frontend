@@ -9,7 +9,7 @@
         <span class="ml-3">Keranjang Belanja</span>
       </div>
 
-      <b-row class="cart-container" v-if="products !== undefined">
+      <b-row class="cart-container" v-if="products.length">
         <b-col cols="12" lg="8">
           <div class="top style-container">
             <label>
@@ -85,7 +85,7 @@
         </b-col>
       </b-row>
 
-      <div class="shop-summary-mobile">
+      <div class="shop-summary-mobile" v-if="products.length">
         <div>
           <div class="total-text">Total</div>
           <div class="total-value">{{ totalPrice | currency }}</div>
@@ -93,6 +93,13 @@
 
         <button :class="`${selectedProduct.length > 0 ? ' btn-active' : ' btn-disable'}
           btn-buy`" @click="checkout">Beli ({{ selectedProduct.length }})</button>
+      </div>
+
+      <div v-if="!products.length" class="mt-5 text-center">
+        <img src="@/assets/icons/empty_cart.svg" alt="icon" class="empty-cart">
+        <div class="mt-3 empty-text">
+          Yuk cari barang kesukaanmu <router-link to="/">disini</router-link>
+        </div>
       </div>
     </div>
 
@@ -132,6 +139,15 @@
         color: #8A7051;
         font-weight: 500;
         font-size: 1.0625em;
+      }
+
+      .empty-cart {
+        width: 95%;
+        height: 95%;
+      }
+
+      .empty-text {
+        font-size: 0.875em;
       }
 
       .cart-container {
@@ -425,6 +441,11 @@
       .content {
         padding: 8rem 1rem;
 
+        .empty-cart {
+          width: 70%;
+          height: 70%;
+        }
+
         .cart-container {
 
           .body {
@@ -452,6 +473,14 @@
 
         .style-container {
           padding: 0.8125rem 1rem 0;
+        }
+
+        .empty-cart {
+          width: 17rem;
+        }
+
+        .empty-text {
+          font-size: 0.9375em;
         }
 
         .cart-container {
@@ -506,6 +535,14 @@
 
         .title {
           font-size: 1.25em;
+        }
+
+        .empty-cart {
+          width: 18rem;
+        }
+
+        .empty-text {
+          font-size: 1em;
         }
 
         .cart-container {
@@ -623,6 +660,14 @@
 
         .title {
           font-size: 1.25em;
+        }
+
+        .empty-cart {
+          width: 20rem;
+        }
+
+        .empty-text {
+          font-size: 1em;
         }
 
         .cart-container {
@@ -794,6 +839,7 @@ export default {
         this.products = this.userCart.products;
         this.selectedProduct = this.products;
       } else {
+        this.products = [];
         this.$func.popupConnectionError();
       }
     },

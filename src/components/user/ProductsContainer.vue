@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="products.length !== 0">
+    <template v-if="products.length">
       <div class="title">{{ title }}</div>
       <div class="products-container">
         <Product class="product" :product="val" v-for="val in products" :key="val.id"/>
@@ -451,7 +451,7 @@ export default {
   data() {
     return {
       title: '',
-      products: [],
+      products: undefined,
       windowWidth: null,
       loader: false,
     };
@@ -469,7 +469,6 @@ export default {
     async getProducts(action, params) {
       this.loader = true;
       const { code, data } = await this.$func.promiseAPI(action, params);
-      this.loader = false;
 
       if (code >= 200 && code < 300) {
         this.products = data.products;
@@ -480,6 +479,12 @@ export default {
       } else {
         this.title = data.title;
       }
+      this.loader = false;
+      this.finished();
+    },
+
+    finished() {
+      this.$emit('finished');
     },
 
     selection() {

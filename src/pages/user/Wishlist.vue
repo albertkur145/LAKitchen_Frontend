@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       loader: false,
-      products: [],
+      products: undefined,
     };
   },
 
@@ -141,6 +141,7 @@ export default {
       if (code >= 200 && code < 300) {
         this.products = this.wishlist.products;
       } else {
+        this.products = [];
         this.$func.popupConnectionError();
       }
     },
