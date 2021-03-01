@@ -1,8 +1,6 @@
 import axios from '@/config/axios';
 import cookies from 'vue-cookies';
 
-const token = cookies.get('token');
-
 const data = {
   temp: {},
   employee: {},
@@ -32,7 +30,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -55,7 +53,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -78,7 +76,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -101,7 +99,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -124,7 +122,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -147,7 +145,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -170,7 +168,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -187,6 +185,9 @@ const actions = {
       method: 'POST',
       url: '/admin/employee',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -202,6 +203,9 @@ const actions = {
       method: 'PUT',
       url: '/admin/employee',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -217,6 +221,9 @@ const actions = {
       method: 'put',
       url: '/admin/user/activation',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -232,6 +239,9 @@ const actions = {
       method: 'put',
       url: '/admin/user/reset',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);

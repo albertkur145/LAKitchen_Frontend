@@ -1,8 +1,6 @@
 import axios from '@/config/axios';
 import cookies from 'vue-cookies';
 
-const token = cookies.get('token');
-
 const data = {
   temp: {},
   statusActive: {},
@@ -49,7 +47,7 @@ const actions = {
       url: '/admin/orderstatus/active',
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -67,7 +65,7 @@ const actions = {
       url: '/admin/orderstatus/history',
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -86,7 +84,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -109,7 +107,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -132,7 +130,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -156,7 +154,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -179,7 +177,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -202,7 +200,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -225,7 +223,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -247,7 +245,7 @@ const actions = {
       url: '/admin/order',
       data: payload.params,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -265,7 +263,7 @@ const actions = {
       url: '/admin/order/unprocessed',
       data: payload.params,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {
@@ -284,7 +282,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
       },
     })
       .then((res) => {

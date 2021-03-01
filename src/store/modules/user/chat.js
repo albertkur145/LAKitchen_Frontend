@@ -1,4 +1,5 @@
 import axios from '@/config/axios';
+import cookies from 'vue-cookies';
 
 const data = {
   temp: {},
@@ -36,6 +37,9 @@ const actions = {
       method: 'post',
       url: '/chat/call',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -55,6 +59,9 @@ const actions = {
       url: '/chat/call',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
     })
       .then((res) => {
         commit('setCurrentCall', res.data.data);
@@ -71,6 +78,9 @@ const actions = {
       url: '/chat/message',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
     })
       .then((res) => {
         commit('setMessages', res.data.data);
@@ -86,6 +96,46 @@ const actions = {
       method: 'post',
       url: '/chat',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  terminateCall({ commit }, payload) {
+    return axios({
+      method: 'delete',
+      url: '/chat/call',
+      params: payload.params,
+      data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  readMessage({ commit }, payload) {
+    return axios({
+      method: 'post',
+      url: '/chat/message',
+      data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);

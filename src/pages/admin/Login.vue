@@ -334,16 +334,19 @@ export default {
       if (this.userData.user.role === 'ROLE_ADMIN' || this.userData.user.role === 'ROLE_CS') {
         let user;
         let route;
+        let token;
 
         if (this.userData.user.role === 'ROLE_ADMIN') {
           user = 'admin';
           route = '/admin';
+          token = 'admin_token';
         } else {
           user = 'cs';
           route = '/cs';
+          token = 'cs_token';
         }
 
-        this.$cookies.set('token', this.userData.token, '1y');
+        this.$cookies.set(token, this.userData.token, '1y');
         this.$cookies.set(user, this.userData.user, '1y');
         this.$router.push(route);
       } else {
@@ -360,12 +363,10 @@ export default {
   },
 
   created() {
-    if (this.$cookies.get('token')) {
-      if (this.$cookies.get('admin')) {
-        this.popupLogoutFirst('/admin');
-      } else if (this.$cookies.get('cs')) {
-        this.popupLogoutFirst('/cs');
-      }
+    if (this.$cookies.get('admin')) {
+      this.popupLogoutFirst('/admin');
+    } else if (this.$cookies.get('cs')) {
+      this.popupLogoutFirst('/cs');
     }
   },
 

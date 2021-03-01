@@ -39,7 +39,8 @@
 
                 <b-col cols="12">
                   <input type="text" class="input-text" @keyup="validateEmail"
-                  v-model="form.email" placeholder="Masukkan email" autocomplete="off">
+                  v-model="form.email" placeholder="Masukkan email" autocomplete="off"
+                  :disabled="paramId">
 
                   <b-form-text :class="`warning-text${validateForm.email ? ' d-none' : ''}`">
                     Email tidak valid.

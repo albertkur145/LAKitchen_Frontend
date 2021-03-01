@@ -128,11 +128,7 @@ export default {
       this.loader = false;
 
       if (code >= 200 && code < 300) {
-        this.$cookies.remove('token');
-        this.$cookies.remove('user');
-        localStorage.removeItem('isStartConversation');
-        localStorage.removeItem('cart');
-
+        this.$func.removeStorages(this.$cookies);
         this.$func.popupSuccess(
           'Kata sandi berhasil diganti<br>Silahkan login kembali',
           this.$router,

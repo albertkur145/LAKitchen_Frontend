@@ -1,8 +1,6 @@
 import axios from '@/config/axios';
 import cookies from 'vue-cookies';
 
-const token = cookies.get('token');
-
 const data = {
   temp: {},
 };
@@ -42,7 +40,7 @@ const actions = {
       url: '/user',
       data: payload.params,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('user_token')}`,
       },
     })
       .then((res) => {
@@ -60,7 +58,7 @@ const actions = {
       url: '/user/changepassword',
       data: payload.params,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('user_token')}`,
       },
     })
       .then((res) => {

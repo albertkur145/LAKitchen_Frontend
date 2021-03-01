@@ -99,7 +99,7 @@ export default {
 
   methods: {
     logout() {
-      this.$cookies.remove('token');
+      this.$cookies.remove('cs_token');
       this.$cookies.remove('cs');
       this.$router.push('/cpanel');
     },

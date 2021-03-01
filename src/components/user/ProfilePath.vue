@@ -319,7 +319,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('csChat', ['terminateCall']),
+    ...mapActions('chat', ['terminateCall']),
 
     async terminateCallWhenLogout() {
       const callId = localStorage.getItem('callId');

@@ -36,14 +36,14 @@ export default {
   },
 
   removeStorages(cookies) {
-    cookies.remove('token');
+    cookies.remove('user_token');
     cookies.remove('user');
     localStorage.removeItem('cart');
     localStorage.removeItem('callId');
   },
 
   isLoggedIn(cookies, redirect = true, router = null, path = '/login', role = 'user') {
-    if (!cookies.get('token') || !cookies.get(role)) {
+    if (!cookies.get(role)) {
       if (redirect) {
         router.push(path);
       }

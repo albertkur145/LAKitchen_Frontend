@@ -1360,7 +1360,7 @@ export default {
     },
 
     checkUser() {
-      if (this.$cookies.get('user') && this.$cookies.get('token')) {
+      if (this.$cookies.get('user') && this.$cookies.get('user_token')) {
         return 1;
       }
 

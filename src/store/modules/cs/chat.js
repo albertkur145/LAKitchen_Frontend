@@ -1,4 +1,5 @@
 import axios from '@/config/axios';
+import cookies from 'vue-cookies';
 
 const data = {
   temp: {},
@@ -45,6 +46,9 @@ const actions = {
       method: 'post',
       url: '/cs/call',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -63,6 +67,9 @@ const actions = {
       method: 'get',
       url: '/cs/call',
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setCalls', res.data.data);
@@ -79,6 +86,9 @@ const actions = {
       url: '/cs/contact',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setContacts', res.data.data);
@@ -95,6 +105,9 @@ const actions = {
       url: '/cs/message',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setMessages', res.data.data);
@@ -110,6 +123,9 @@ const actions = {
       method: 'post',
       url: '/chat',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -126,6 +142,9 @@ const actions = {
       url: '/chat/call',
       params: payload.params,
       data: {},
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
@@ -141,6 +160,9 @@ const actions = {
       method: 'post',
       url: '/chat/message',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('cs_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);

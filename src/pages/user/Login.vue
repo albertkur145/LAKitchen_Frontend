@@ -164,7 +164,7 @@ export default {
   },
 
   created() {
-    if (this.$cookies.get('token') && this.$cookies.get('user')) {
+    if (this.$cookies.get('user_token') && this.$cookies.get('user')) {
       this.$router.go(-1);
     }
   },

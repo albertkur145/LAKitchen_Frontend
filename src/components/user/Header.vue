@@ -686,7 +686,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.getWindowWidth);
 
-    if (this.$cookies.get('token') && this.$cookies.get('user')) {
+    if (this.$cookies.get('user_token') && this.$cookies.get('user')) {
       this.isLogin = true;
     }
   },
@@ -700,7 +700,7 @@ export default {
       'countCart',
     ]),
 
-    ...mapActions('csChat', ['terminateCall']),
+    ...mapActions('chat', ['terminateCall']),
 
     async terminateCallWhenLogout() {
       const callId = localStorage.getItem('callId');

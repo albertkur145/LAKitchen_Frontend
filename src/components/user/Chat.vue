@@ -454,9 +454,6 @@ export default {
       'postMessage',
       'getCurrentCall',
       'getMessages',
-    ]),
-
-    ...mapActions('csChat', [
       'readMessage',
     ]),
 

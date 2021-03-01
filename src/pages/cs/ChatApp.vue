@@ -362,7 +362,7 @@ export default {
 
   created() {
     this.loader = true;
-    if (this.$cookies.get('token') && this.$cookies.get('cs')) {
+    if (this.$cookies.get('cs_token') && this.$cookies.get('cs')) {
       this.init();
     } else {
       this.$router.go(-1);

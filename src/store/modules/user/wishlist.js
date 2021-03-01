@@ -1,8 +1,6 @@
 import axios from '@/config/axios';
 import cookies from 'vue-cookies';
 
-const token = cookies.get('token');
-
 const data = {
   temp: {},
   wishlist: {},
@@ -32,7 +30,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('user_token')}`,
       },
     })
       .then((res) => {
@@ -50,7 +48,7 @@ const actions = {
       url: '/wishlist',
       data: payload.params,
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('user_token')}`,
       },
     })
       .then((res) => {
@@ -72,7 +70,7 @@ const actions = {
       params: payload.params,
       data: {},
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.get('user_token')}`,
       },
     })
       .then((res) => {

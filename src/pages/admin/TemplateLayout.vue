@@ -137,7 +137,7 @@ export default {
   },
 
   created() {
-    if (this.$cookies.get('token') && this.$cookies.get('admin')) {
+    if (this.$cookies.get('admin_token') && this.$cookies.get('admin')) {
       this.getWindowWidth();
       this.isLogin = true;
     } else {

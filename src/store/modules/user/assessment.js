@@ -1,4 +1,5 @@
 import axios from '@/config/axios';
+import cookies from 'vue-cookies';
 
 const data = {
   temp: {},
@@ -43,6 +44,9 @@ const actions = {
       method: 'post',
       url: '/assessment',
       data: payload.params,
+      headers: {
+        Authorization: `Bearer ${cookies.get('user_token')}`,
+      },
     })
       .then((res) => {
         commit('setTemporary', null);
