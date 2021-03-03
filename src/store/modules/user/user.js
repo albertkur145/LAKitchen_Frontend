@@ -72,6 +72,21 @@ const actions = {
         payload.resolve({ code: err.response.status });
       });
   },
+
+  activationAccount({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/user/activation',
+      params: payload.params,
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({ code: res.data.code });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
 };
 
 export default {

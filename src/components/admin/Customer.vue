@@ -38,7 +38,8 @@
               <b-td class="value">{{ val.city }}</b-td>
               <b-td class="value">{{ val.registerAt }}</b-td>
               <b-td class="value">
-                <span :class="`chip-la ${val.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+                <span :class="`chip-la ${val.status.id === 1 ? 'primary-la' :
+                val.status.id === 2 ? 'danger-la' : 'warning-la'}`">
                   {{ val.status.name }}
                 </span>
               </b-td>
@@ -84,7 +85,8 @@
         <b-col cols="12" md="6" class="mb-4">
           <div class="title">Status</div>
           <div class="value">
-            <span :class="`chip-la ${userDetail.status.id === 1 ? 'primary-la' : 'danger-la'}`">
+            <span :class="`chip-la ${userDetail.status.id === 1 ? 'primary-la' :
+            userDetail.status.id === 2 ? 'danger-la' : 'warning-la'}`">
               {{ userDetail.status.name }}
             </span>
           </div>
@@ -137,6 +139,10 @@
 
   .danger-la {
     background-color: #EF525B !important;
+  }
+
+  .warning-la {
+    background-color: #FF9900 !important;
   }
 
   .primary-la {

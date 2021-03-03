@@ -37,6 +37,7 @@ const AdEmployee = () => import(/* webpackChunkName: "c-adminEmployee" */ '../co
 const AdUserForm = () => import(/* webpackChunkName: "c-adminUserForm" */ '../components/admin/UserForm.vue');
 const AdReportIncome = () => import(/* webpackChunkName: "c-adminReportIncome" */ '../components/admin/ReportIncome.vue');
 const CSChatApp = () => import(/* webpackChunkName: "p-csChatApp" */ '../pages/cs/ChatApp.vue');
+const UserActivation = () => import(/* webpackChunkName: "p-userActivation" */ '../pages/UserActivation.vue');
 
 const routes = [
   {
@@ -210,6 +211,11 @@ const routes = [
     path: '/cs',
     name: 'CSChatApp',
     component: CSChatApp,
+  },
+  {
+    path: '/user/activation/:email/:password',
+    name: 'UserActivation',
+    component: UserActivation,
   },
 ];
 
