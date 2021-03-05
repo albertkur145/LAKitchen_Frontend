@@ -51,10 +51,48 @@ const actions = {
       });
   },
 
+  getByCategoryLimit({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/category/limit',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
   getBySubCategory({ commit }, payload) {
     return axios({
       method: 'get',
       url: '/product/subcategory',
+      params: payload.params,
+      data: {},
+    })
+      .then((res) => {
+        commit('setTemporary', null);
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
+      })
+      .catch((err) => {
+        payload.resolve({ code: err.response.status });
+      });
+  },
+
+  getBySubCategoryLimit({ commit }, payload) {
+    return axios({
+      method: 'get',
+      url: '/product/subcategory/limit',
       params: payload.params,
       data: {},
     })

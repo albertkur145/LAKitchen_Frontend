@@ -17,7 +17,7 @@
     right: 0;
     left: 0;
     z-index: 1500;
-    background-color: rgba($color: #000000, $alpha: 0.1);
+    background-color: rgba($color: #000000, $alpha: 0.1) !important;
 
     img {
       width: 7rem;

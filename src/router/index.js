@@ -213,7 +213,7 @@ const routes = [
     component: CSChatApp,
   },
   {
-    path: '/user/activation/:email/:password',
+    path: '/user/activation',
     name: 'UserActivation',
     component: UserActivation,
   },

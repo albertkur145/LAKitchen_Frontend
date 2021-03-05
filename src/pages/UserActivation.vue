@@ -28,8 +28,8 @@ export default {
       this.loader = true;
 
       const { code } = await this.$func.promiseAPI(this.activationAccount, {
-        st: this.$route.params.email,
-        nd: this.$route.params.password,
+        st: this.$route.query.st,
+        nd: this.$route.query.nd,
       });
 
       if (code >= 200 && code < 300) {
@@ -44,6 +44,8 @@ export default {
   },
 
   created() {
+    console.log(this.$route.query.st);
+    console.log(this.$route.query.nd);
     this.validate();
   },
 

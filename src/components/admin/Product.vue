@@ -39,7 +39,6 @@
                 <b-th class="title">Produk</b-th>
                 <b-th class="title">Harga</b-th>
                 <b-th class="title">Kategori</b-th>
-                <b-th class="title">Sub Kategori</b-th>
                 <b-th class="title text-center">Popularitas</b-th>
                 <b-th class="title text-center">Rating</b-th>
                 <b-th class="title text-center">Total Penjualan</b-th>
@@ -57,7 +56,6 @@
                 </b-td>
                 <b-td class="value">{{ val.price | currency }}</b-td>
                 <b-td class="value">{{ val.category }}</b-td>
-                <b-td class="value">{{ val.subCategory }}</b-td>
                 <b-td class="value text-center">{{ val.popularity }}</b-td>
                 <b-td class="value text-center">{{ val.rating || '-' }}</b-td>
                 <b-td class="value text-center">{{ val.sold }}</b-td>
@@ -189,6 +187,10 @@
         color: #555;
         white-space: nowrap;
         font-size: 0.875em;
+
+        a {
+          white-space: nowrap;
+        }
       }
 
       .edit-icon, .rate-icon {

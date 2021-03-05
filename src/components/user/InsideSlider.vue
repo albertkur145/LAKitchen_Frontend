@@ -189,6 +189,14 @@ export default {
     params: {
       required: true,
     },
+    isLimit: {
+      type: Boolean,
+      default: false,
+    },
+    limit: {
+      type: Number,
+      default: 12,
+    },
   },
 
   components: {
@@ -321,7 +329,9 @@ export default {
   methods: {
     ...mapActions('products', [
       'getByCategory',
+      'getByCategoryLimit',
       'getBySubCategory',
+      'getBySubCategoryLimit',
     ]),
 
     async getProducts(action, params) {
@@ -344,13 +354,23 @@ export default {
       switch (this.type) {
         case 'category': {
           params = { categoryId: this.params };
-          action = this.getByCategory;
+          if (this.isLimit) {
+            params.limit = this.limit;
+            action = this.getByCategoryLimit;
+          } else {
+            action = this.getByCategory;
+          }
           break;
         }
 
         case 'subCategory': {
           params = { subCategoryId: this.params };
-          action = this.getBySubCategory;
+          if (this.isLimit) {
+            params.limit = this.limit;
+            action = this.getBySubCategoryLimit;
+          } else {
+            action = this.getBySubCategory;
+          }
           break;
         }
 
