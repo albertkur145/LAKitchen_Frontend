@@ -391,6 +391,7 @@
 
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
+import api from '@/config/api';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -531,7 +532,7 @@ export default {
     },
 
     connection() {
-      this.socket = new SockJS('http://localhost:8081/chat');
+      this.socket = new SockJS(api.sockURL);
       this.stompClient = Stomp.over(this.socket);
     },
 

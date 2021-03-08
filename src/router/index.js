@@ -116,7 +116,7 @@ const routes = [
     component: Payment,
   },
   {
-    path: '/cpanel',
+    path: '/lakitpanel',
     name: 'AdminLogin',
     component: AdLogin,
   },

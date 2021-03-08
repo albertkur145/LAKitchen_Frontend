@@ -1,4 +1,5 @@
 import axios from '@/config/axios';
+import api from '@/config/api';
 import cookies from 'vue-cookies';
 
 const data = {
@@ -353,7 +354,7 @@ const actions = {
   uploadPhotosPHP({ commit }, payload) {
     return axios({
       method: 'post',
-      url: 'http://localhost:88/lakitchen/upload.php',
+      url: `${api.phpURL}/upload.php`,
       data: payload.params,
       headers: {
         'Content-Type': 'multipart/form-data',

@@ -101,7 +101,7 @@ export default {
     logout() {
       this.$cookies.remove('cs_token');
       this.$cookies.remove('cs');
-      this.$router.push('/cpanel');
+      this.$router.push({ name: 'AdminLogin' });
     },
   },
 

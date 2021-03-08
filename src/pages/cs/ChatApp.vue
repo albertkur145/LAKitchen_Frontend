@@ -114,6 +114,7 @@ import Contact from '@/components/cs/Contact.vue';
 import Messenger from '@/components/cs/Messenger.vue';
 import Call from '@/components/cs/Call.vue';
 import Loader from '@/components/Loader.vue';
+import api from '@/config/api';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -261,7 +262,7 @@ export default {
     },
 
     connection() {
-      this.socket = new SockJS('http://localhost:8081/chat');
+      this.socket = new SockJS(api.sockURL);
       this.stompClient = Stomp.over(this.socket);
     },
 
