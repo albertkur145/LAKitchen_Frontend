@@ -340,10 +340,32 @@ const actions = {
     })
       .then((res) => {
         commit('setTemporary', null);
-        payload.resolve({ code: res.data.code });
+        payload.resolve({
+          code: res.data.code,
+          data: res.data.data,
+        });
       })
       .catch((err) => {
         payload.resolve({ code: err.response.status });
+      });
+  },
+
+  uploadPhotosPHP({ commit }, payload) {
+    return axios({
+      method: 'post',
+      url: 'http://localhost:88/lakitchen/upload.php',
+      data: payload.params,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${cookies.get('admin_token')}`,
+      },
+    })
+      .then(() => {
+        commit('setTemporary', null);
+        payload.resolve({ code: 200 });
+      })
+      .catch((err) => {
+        payload.resolve(err);
       });
   },
 };

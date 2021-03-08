@@ -494,6 +494,7 @@ export default {
       'productActivation',
       'getById',
       'uploadPhotos',
+      'uploadPhotosPHP',
     ]),
 
     async getAllCategories() {
@@ -540,7 +541,27 @@ export default {
       }
       /* eslint-disable no-await-in-loop */
 
-      const { code } = await this.$func.promiseAPI(this.uploadPhotos, formData);
+      const { code, data } = await this.$func.promiseAPI(this.uploadPhotos, formData);
+
+      if (code >= 200 && code < 300) {
+        this.uploadImagePHP(data);
+      } else {
+        this.$func.popupConnectionError(false);
+      }
+    },
+
+    async uploadImagePHP(filenames) {
+      const formData = new FormData();
+
+      /* eslint-disable no-await-in-loop */
+      for (let i = 0; i < this.images.length; i += 1) {
+        const temp = await this.convertToImageFile(this.images[i].link);
+        formData.append('images[]', temp);
+        formData.append('filenames[]', filenames[i]);
+      }
+      /* eslint-disable no-await-in-loop */
+
+      const { code } = await this.$func.promiseAPI(this.uploadPhotosPHP, formData);
       this.loader = false;
 
       if (code >= 200 && code < 300) {
