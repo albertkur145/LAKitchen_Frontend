@@ -9,7 +9,7 @@
         <TemplateUserTable class="table-la"
         :showBtnCreate="true"
         statusOptionGeneral="Semua Pegawai"
-        :status="status"
+        :status="statusFiltered"
         :dataTable="dataTable"
         :paging="paging"
         :activePage="activePage"
@@ -302,7 +302,7 @@ export default {
 
       userDetail: null,
       dataTable: [],
-      status: null,
+      status: [],
 
       searchText: '',
 
@@ -316,6 +316,10 @@ export default {
     ...mapGetters('adUserStatus', [
       'userStatus',
     ]),
+
+    statusFiltered() {
+      return this.status.filter((item) => item.name !== 'Tidak Aktif');
+    },
   },
 
   methods: {
