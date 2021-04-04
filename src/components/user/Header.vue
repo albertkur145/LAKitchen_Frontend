@@ -77,8 +77,8 @@
 
       <div class="right">
         <div class="help">
-          <font-awesome-icon icon="question-circle"/>
-          <span class="ml-1">Bantuan</span>
+          <!-- <font-awesome-icon icon="question-circle"/>
+          <span class="ml-1">Bantuan</span> -->
         </div>
       </div>
     </div>

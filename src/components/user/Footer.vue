@@ -15,7 +15,7 @@
 
         <div class="mb-2">
           <font-awesome-icon icon="envelope" class="mr-1"/>
-          <span class="ml-2">lakitchencor@kitchen.co.id</span>
+          <span class="ml-2">lakitchenind@gmail.com</span>
         </div>
       </div>
     </b-col>
